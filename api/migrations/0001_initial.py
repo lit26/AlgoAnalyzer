@@ -7,19 +7,26 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='StockData',
+            name="StockData",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('ticker', models.CharField(max_length=8)),
-                ('timeframe', models.CharField(max_length=3)),
-                ('start_time', models.CharField(max_length=20)),
-                ('end_time', models.CharField(max_length=20)),
-                ('updated_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("ticker", models.CharField(max_length=8)),
+                ("timeframe", models.CharField(max_length=3)),
+                ("start_time", models.CharField(max_length=20)),
+                ("end_time", models.CharField(max_length=20)),
+                ("updated_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]
