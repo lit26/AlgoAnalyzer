@@ -1,0 +1,2 @@
+# AlgoAnalyzer
+Backtesting strategies platform
