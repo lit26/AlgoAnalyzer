@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .serializers import StockDataSerializer, SingleStockDataSerializer
 from .models import StockData
 from .stock_data.grab_data import *
+from .manager import *
 
 # Create your views here.
 def main_view(request):
@@ -68,3 +69,12 @@ class SingleStockDataView(views.APIView):
             except:
                 return Response({'Bad Request': 'Not exist...'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+STManager = StrategiesManager()
+
+class StrategyView(views.APIView):
+    def get(self, request, strategy):
+        params = STManager.get_strategy_detail(strategy)
+        if not params:
+            return Response({'Bad Request': 'Strategy not exist...'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'params': params}, status=status.HTTP_200_OK)
