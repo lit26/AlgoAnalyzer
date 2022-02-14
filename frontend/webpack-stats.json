@@ -1,0 +1,14 @@
+{
+  "status": "done",
+  "assets": {
+    "main.js": {
+      "name": "main.js",
+      "path": "/Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/static/frontend/main.js"
+    }
+  },
+  "chunks": {
+    "main": [
+      "main.js"
+    ]
+  }
+}
