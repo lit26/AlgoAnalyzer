@@ -1,5 +1,14 @@
-import React from "react";
-import { render } from "react-dom";
-import App from "./App";
+import { render } from 'react-dom';
+import App from './App';
+import './index.scss';
+import { SettingsProvider } from './context/SettingsContext';
+import { BacktestProvider } from './context/BacktestContext';
 
-render(<App />, document.getElementById("root"));
+render(
+    <SettingsProvider>
+        <BacktestProvider>
+            <App />
+        </BacktestProvider>
+    </SettingsProvider>,
+    document.getElementById('root'),
+);
