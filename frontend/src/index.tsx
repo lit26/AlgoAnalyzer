@@ -3,12 +3,15 @@ import App from './App';
 import './index.scss';
 import { SettingsProvider } from './context/SettingsContext';
 import { BacktestProvider } from './context/BacktestContext';
+import { NotificationProvider } from './context/NotificationContext';
 
 render(
     <SettingsProvider>
-        <BacktestProvider>
-            <App />
-        </BacktestProvider>
+        <NotificationProvider>
+            <BacktestProvider>
+                <App />
+            </BacktestProvider>
+        </NotificationProvider>
     </SettingsProvider>,
     document.getElementById('root'),
 );
