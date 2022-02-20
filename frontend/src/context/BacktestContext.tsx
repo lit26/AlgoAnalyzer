@@ -3,6 +3,10 @@ import { ProviderProps } from '../types/provider';
 import { StockDataInfo } from '../types/data';
 
 interface BacktestContextProps {
+    currentTicker: StockDataInfo | undefined;
+    setCurrentTicker: React.Dispatch<
+        React.SetStateAction<StockDataInfo | undefined>
+    >;
     stockDataList: StockDataInfo[];
     setStockDataList: React.Dispatch<React.SetStateAction<StockDataInfo[]>>;
     strategyList: string[];
@@ -24,6 +28,9 @@ export function useBacktest() {
 }
 
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
+    const [currentTicker, setCurrentTicker] = useState<
+        StockDataInfo | undefined
+    >(undefined);
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<string[]>([]);
 
@@ -44,6 +51,8 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     };
 
     const value = {
+        currentTicker,
+        setCurrentTicker,
         stockDataList,
         setStockDataList,
         strategyList,

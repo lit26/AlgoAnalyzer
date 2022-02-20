@@ -16,7 +16,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);
     const [timeframe, setTimeframe] = useState<string>('');
-    const [open, setOpen] = useState<boolean>(false);
+    const [stockDataManagerModalOpen, setStockDataManagerModalOpen] =
+        useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { stockDataList } = useBacktest();
 
@@ -44,11 +45,14 @@ const StockdataManager: React.FC = () => {
 
     return (
         <>
-            <CustomButton onClick={() => setOpen(!open)} text="Data" />
+            <CustomButton
+                onClick={() => setStockDataManagerModalOpen(!open)}
+                text="Data"
+            />
 
             <Modal
-                open={open}
-                onClose={() => setOpen(false)}
+                open={stockDataManagerModalOpen}
+                onClose={() => setStockDataManagerModalOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 closeAfterTransition
@@ -68,7 +72,9 @@ const StockdataManager: React.FC = () => {
                             <InputBase
                                 placeholder="Type to search or add"
                                 value={search}
-                                onChange={e => setSearch(e.target.value)}
+                                onChange={e =>
+                                    setSearch(e.target.value.toUpperCase())
+                                }
                             />
                         </div>
                         <div>
@@ -111,6 +117,7 @@ const StockdataManager: React.FC = () => {
                     <div className="StockdataManager__stockData">
                         {stockList.map(stock => (
                             <StockdataItems
+                                key={`stockDataItems_${stock}_${timeframe}`}
                                 stock={stock}
                                 timeframe={timeframe}
                             />

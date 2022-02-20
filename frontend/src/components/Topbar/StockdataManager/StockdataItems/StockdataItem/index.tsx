@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StockDataInfo } from '../../../../../types/data';
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import {
@@ -13,8 +14,13 @@ interface StockdataItemProps {
 }
 
 const StockdataItem: React.FC<StockdataItemProps> = ({ stockInfo }) => {
-    const { updateStockData, deleteStockData } = useBacktest();
+    const { updateStockData, deleteStockData, setCurrentTicker } =
+        useBacktest();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
+
+    const handleStockSelect = () => {
+        setCurrentTicker(stockInfo);
+    };
 
     const handleStockUpdate = () => {
         updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
@@ -39,10 +45,11 @@ const StockdataItem: React.FC<StockdataItemProps> = ({ stockInfo }) => {
                 <div>{stockInfo.endTime}</div>
             </div>
             <div className="StockdataItems__itemActions">
-                <RefreshIcon onClick={() => handleStockUpdate()} />
+                <KeyboardReturnIcon onClick={handleStockSelect} />
+                <RefreshIcon onClick={handleStockUpdate} />
                 <DeleteOutlineIcon
                     className="StockdataItems__itemDeleteIcon"
-                    onClick={() => handleStockDelete()}
+                    onClick={handleStockDelete}
                 />
             </div>
         </div>
