@@ -3,6 +3,7 @@ import './App.scss';
 import Layout from './components/Layout';
 import { getGeneralInfoRequest } from './apis/';
 import { useBacktest } from './context/BacktestContext';
+import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
     const { setStockDataList, setStrategyList } = useBacktest();
@@ -20,6 +21,7 @@ const App: React.FC = () => {
 
     return (
         <div className="App">
+            <Notifications />
             <Layout />
         </div>
     );
