@@ -12,6 +12,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { TIMEFRAMES } from '../../../constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { updateStockDataRequest } from '../../../apis/stockData';
 
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);
@@ -19,7 +21,8 @@ const StockdataManager: React.FC = () => {
     const [stockDataManagerModalOpen, setStockDataManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
-    const { stockDataList } = useBacktest();
+    const { currentTicker, stockDataList, addStockData } = useBacktest();
+    const [errorTimeframe, setErrorTimeframe] = useState<boolean>(false);
 
     useEffect(() => {
         setStockList([...new Set(stockDataList.map(stock => stock.ticker))]);
@@ -43,16 +46,36 @@ const StockdataManager: React.FC = () => {
         setTimeframe(e.target.value);
     };
 
+    const handleAddTicker = () => {
+        if (timeframe === '') {
+            setErrorTimeframe(true);
+            return;
+        } else if (timeframe !== '') {
+            setErrorTimeframe(false);
+        }
+        updateStockDataRequest(search, timeframe)
+            .then(res => addStockData(res))
+            .catch(err => console.log(err));
+    };
+
+    const handleDeleteTicker = () => {};
+
+    const handleCloseStockDataManager = () => {
+        setStockDataManagerModalOpen(false);
+    };
+
     return (
         <>
             <CustomButton
-                onClick={() => setStockDataManagerModalOpen(!open)}
-                text="Data"
+                onClick={() =>
+                    setStockDataManagerModalOpen(!stockDataManagerModalOpen)
+                }
+                text={currentTicker ? currentTicker.ticker : 'Data'}
             />
 
             <Modal
                 open={stockDataManagerModalOpen}
-                onClose={() => setStockDataManagerModalOpen(false)}
+                onClose={handleCloseStockDataManager}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 closeAfterTransition
@@ -86,7 +109,8 @@ const StockdataManager: React.FC = () => {
                                     border: '1px solid rgba(255, 255, 255, 0.1)',
                                     borderRadius: '10px',
                                     padding: '0 5px',
-                                }}>
+                                }}
+                                error={errorTimeframe && timeframe === ''}>
                                 <Select
                                     className="TimeframeSelect"
                                     labelId="demo-simple-select-standard-label"
@@ -109,7 +133,14 @@ const StockdataManager: React.FC = () => {
                             </FormControl>
                         </div>
                         <div>
-                            <AddCircleOutlineIcon />
+                            <AddCircleOutlineIcon
+                                onClick={handleAddTicker}
+                                className="StockdataManager__stockIcon"
+                            />
+                            <HighlightOffIcon
+                                onClick={handleDeleteTicker}
+                                className="StockdataManager__stockIcon delete"
+                            />
                         </div>
                     </div>
                     <hr className="subDivider" />
@@ -120,6 +151,7 @@ const StockdataManager: React.FC = () => {
                                 key={`stockDataItems_${stock}_${timeframe}`}
                                 stock={stock}
                                 timeframe={timeframe}
+                                handleCloseModal={handleCloseStockDataManager}
                             />
                         ))}
                     </div>

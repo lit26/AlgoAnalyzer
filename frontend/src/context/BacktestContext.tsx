@@ -11,6 +11,7 @@ interface BacktestContextProps {
     setStockDataList: React.Dispatch<React.SetStateAction<StockDataInfo[]>>;
     strategyList: string[];
     setStrategyList: React.Dispatch<React.SetStateAction<string[]>>;
+    addStockData: (stockData: StockDataInfo) => void;
     updateStockData: (updateData: StockDataInfo) => void;
     deleteStockData: (deleteStockDataId: number) => void;
 }
@@ -34,6 +35,9 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<string[]>([]);
 
+    const addStockData = (stockData: StockDataInfo) => {
+        setStockDataList([stockData, ...stockDataList]);
+    };
     const updateStockData = (updateData: StockDataInfo) => {
         setStockDataList(
             stockDataList.map(stockData =>
@@ -57,6 +61,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         setStockDataList,
         strategyList,
         setStrategyList,
+        addStockData,
         updateStockData,
         deleteStockData,
     };

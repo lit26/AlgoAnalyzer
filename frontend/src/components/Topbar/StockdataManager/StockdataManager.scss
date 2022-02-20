@@ -42,3 +42,11 @@
     height: 71%;
     overflow-y: auto;
 }
+.StockdataManager__stockIcon:hover{
+    cursor: pointer;
+    color: $grayColor !important;
+}
+
+.StockdataManager__stockIcon.delete{
+    color: red
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import CustomButton from '../../CustomButton';
+import { useBacktest } from '../../../context/BacktestContext';
 
 const style = {
     position: 'absolute',
@@ -16,10 +17,14 @@ const style = {
 };
 
 const TimeframeSelect: React.FC = () => {
+    const { currentTicker } = useBacktest();
     const [open, setOpen] = useState<boolean>(false);
     return (
         <>
-            <CustomButton onClick={() => setOpen(!open)} text="T" />
+            <CustomButton
+                onClick={() => setOpen(!open)}
+                text={currentTicker ? currentTicker.timeframe : 'T'}
+            />
             <Modal
                 open={open}
                 onClose={() => setOpen(false)}

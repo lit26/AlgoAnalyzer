@@ -11,15 +11,20 @@ import { useBacktest } from '../../../../../context/BacktestContext';
 
 interface StockdataItemProps {
     stockInfo: StockDataInfo;
+    handleCloseModal: () => void;
 }
 
-const StockdataItem: React.FC<StockdataItemProps> = ({ stockInfo }) => {
+const StockdataItem: React.FC<StockdataItemProps> = ({
+    stockInfo,
+    handleCloseModal,
+}) => {
     const { updateStockData, deleteStockData, setCurrentTicker } =
         useBacktest();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 
     const handleStockSelect = () => {
         setCurrentTicker(stockInfo);
+        handleCloseModal();
     };
 
     const handleStockUpdate = () => {

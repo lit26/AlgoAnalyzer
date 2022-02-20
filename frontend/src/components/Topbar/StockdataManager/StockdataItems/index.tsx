@@ -12,9 +12,14 @@ import StockdataItem from './StockdataItem';
 interface StockdataItemProps {
     stock: string;
     timeframe: string;
+    handleCloseModal: () => void;
 }
 
-const StockdataItems: React.FC<StockdataItemProps> = ({ stock, timeframe }) => {
+const StockdataItems: React.FC<StockdataItemProps> = ({
+    stock,
+    timeframe,
+    handleCloseModal,
+}) => {
     const [stockList, setStockList] = useState<StockDataInfo[]>([]);
     const { stockDataList } = useBacktest();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
@@ -44,6 +49,7 @@ const StockdataItems: React.FC<StockdataItemProps> = ({ stock, timeframe }) => {
                     <StockdataItem
                         key={`stockDataInfo_${stock}_${stockInfo.timeframe}`}
                         stockInfo={stockInfo}
+                        handleCloseModal={handleCloseModal}
                     />
                 ))}
             </AccordionDetails>
