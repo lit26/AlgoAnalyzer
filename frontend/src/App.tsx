@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.scss';
 import Layout from './components/Layout';
-import { getGeneralInfo } from './apis/index';
+import { getGeneralInfo } from './apis/stockData';
 import { useBacktest } from './context/BacktestContext';
 
 const App: React.FC = () => {

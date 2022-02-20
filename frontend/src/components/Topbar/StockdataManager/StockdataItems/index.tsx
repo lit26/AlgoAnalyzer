@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StockDataInfoProps } from '../../../../interfaces/data';
+import { StockDataInfo } from '../../../../types/data';
 import { useBacktest } from '../../../../context/BacktestContext';
 import './StockdataItems.scss';
 import Accordion from '@mui/material/Accordion';
@@ -15,7 +15,7 @@ interface StockdataItemProps {
 }
 
 const StockdataItems: React.FC<StockdataItemProps> = ({ stock, timeframe }) => {
-    const [stockList, setStockList] = useState<StockDataInfoProps[]>([]);
+    const [stockList, setStockList] = useState<StockDataInfo[]>([]);
     const { stockDataList } = useBacktest();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 

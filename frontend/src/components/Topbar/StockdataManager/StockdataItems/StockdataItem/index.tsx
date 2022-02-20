@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StockDataInfoProps } from '../../../../../interfaces/data';
+import { StockDataInfo } from '../../../../../types/data';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 interface StockdataItemProps {
-    stockInfo: StockDataInfoProps;
+    stockInfo: StockDataInfo;
 }
 
 const StockdataItem: React.FC<StockdataItemProps> = ({ stockInfo }) => {

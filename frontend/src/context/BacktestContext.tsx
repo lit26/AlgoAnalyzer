@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ProviderProps } from '../interfaces/provider';
-import { StockDataInfoProps } from '../interfaces/data';
+import React, { useState, useContext } from 'react';
+import { ProviderProps } from '../types/provider';
+import { StockDataInfo } from '../types/data';
 
 interface BacktestContextProps {
-    stockDataList: StockDataInfoProps[];
-    setStockDataList: React.Dispatch<
-        React.SetStateAction<StockDataInfoProps[]>
-    >;
+    stockDataList: StockDataInfo[];
+    setStockDataList: React.Dispatch<React.SetStateAction<StockDataInfo[]>>;
     strategyList: string[];
     setStrategyList: React.Dispatch<React.SetStateAction<string[]>>;
 }
@@ -24,9 +22,7 @@ export function useBacktest() {
 }
 
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
-    const [stockDataList, setStockDataList] = useState<StockDataInfoProps[]>(
-        [],
-    );
+    const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<string[]>([]);
 
     const value = {

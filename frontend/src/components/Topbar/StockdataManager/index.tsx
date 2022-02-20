@@ -12,7 +12,6 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { TIMEFRAMES } from '../../../constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { StockDataInfoProps } from '../../../interfaces/data';
 
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);

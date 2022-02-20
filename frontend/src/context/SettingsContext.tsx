@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { ProviderProps } from '../interfaces/provider';
+import { ProviderProps } from '../types/provider';
 
 interface SettingsContextProps {}
 
