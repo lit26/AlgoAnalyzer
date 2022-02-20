@@ -1,0 +1,39 @@
+@import "../../../../util";
+
+.StockdataItems{
+    margin: 0.25rem !important;
+    background-color: $primaryColor !important;
+    color: $textColor !important;
+    border-radius: 10px !important;
+    svg{
+        color: $textColor !important;
+    }
+    &.mouseOver{
+        outline: 1px solid #1976d2 !important;
+    }
+    .StockdataItems__item{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        border-radius: 10px !important;
+        padding: 0.25rem;
+        cursor: pointer;
+        div{
+            flex:0.3;
+        }
+        &.mouseOver{
+            outline: 1px solid #1976d2 !important;
+        }
+        .StockdataItems__itemActions{
+            text-align: right;
+            svg:hover{
+                color: $grayColor !important;
+            }
+            .StockdataItems__itemDeleteIcon{
+                color: red !important;
+            }
+        }
+    }
+}

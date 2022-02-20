@@ -10,5 +10,7 @@
     "main": [
       "main.js"
     ]
-  }
+  },
+  "error": "ModuleBuildError",
+  "message": "Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: Undefined variable.\n   ╷\n32 │                 color: $dividerColor !important;\n   │                        ^^^^^^^^^^^^^\n   ╵\n  src/components/Topbar/StockdataManager/StockdataItems/StockdataItems.scss 32:24  root stylesheet"
 }

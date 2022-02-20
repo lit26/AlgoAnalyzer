@@ -1,0 +1,40 @@
+@import '../../../util';
+
+.StockdataManager{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 60vh;
+    background-color: $primaryColor;
+    border-radius: 4px;
+    color: $textColor;
+    h1{
+        padding: 1rem;
+    }
+}
+.Searchbar{
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    justify-content: space-between;
+}
+.Searchbar__tickerInput{
+    display: flex;
+    align-items: center;
+    input{
+        color: $textColor;
+    }
+    .Searchbar__iconWrapper{
+        margin-right:3px;
+    }
+}
+.subDivider{
+    background-color: $grayColor;
+    height: 1px;
+    border: 0;
+}
+.TimeframeSelect{
+    color: $textColor !important;
+}

@@ -1,0 +1,6 @@
+@import '../../util';
+
+.CustomButton{
+    display: inline-flex;
+    border-right: 1px solid $secondaryColor;
+}
