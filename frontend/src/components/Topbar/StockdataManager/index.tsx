@@ -108,9 +108,14 @@ const StockdataManager: React.FC = () => {
                     </div>
                     <hr className="subDivider" />
                     {/* Stock data */}
-                    {stockList.map(stock => (
-                        <StockdataItems stock={stock} timeframe={timeframe} />
-                    ))}
+                    <div className="StockdataManager__stockData">
+                        {stockList.map(stock => (
+                            <StockdataItems
+                                stock={stock}
+                                timeframe={timeframe}
+                            />
+                        ))}
+                    </div>
                 </div>
             </Modal>
         </>

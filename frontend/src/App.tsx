@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import './App.scss';
 import Layout from './components/Layout';
-import { getGeneralInfo } from './apis/stockData';
+import { getGeneralInfoRequest } from './apis/';
 import { useBacktest } from './context/BacktestContext';
 
 const App: React.FC = () => {
     const { setStockDataList, setStrategyList } = useBacktest();
 
     useEffect(() => {
-        getGeneralInfo()
+        getGeneralInfoRequest()
             .then((res: any) => {
                 setStockDataList(res.historyData);
                 setStrategyList(res.strategies);

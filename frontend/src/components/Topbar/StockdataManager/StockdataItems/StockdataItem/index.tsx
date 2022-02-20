@@ -2,17 +2,31 @@ import React, { useState } from 'react';
 import { StockDataInfo } from '../../../../../types/data';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import {
+    updateStockDataRequest,
+    deleteStockDataRequest,
+} from '../../../../../apis/stockData';
+import { useBacktest } from '../../../../../context/BacktestContext';
 
 interface StockdataItemProps {
     stockInfo: StockDataInfo;
 }
 
 const StockdataItem: React.FC<StockdataItemProps> = ({ stockInfo }) => {
+    const { updateStockData, deleteStockData } = useBacktest();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 
-    const handleStockUpdate = () => {};
+    const handleStockUpdate = () => {
+        updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
+            .then(res => updateStockData(res))
+            .catch(err => console.log(err));
+    };
 
-    const handleStockDelete = () => {};
+    const handleStockDelete = () => {
+        deleteStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
+            .then(() => deleteStockData(stockInfo.id))
+            .catch(err => console.log(err));
+    };
 
     return (
         <div

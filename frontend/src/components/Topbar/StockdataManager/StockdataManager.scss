@@ -38,3 +38,7 @@
 .TimeframeSelect{
     color: $textColor !important;
 }
+.StockdataManager__stockData{
+    height: 71%;
+    overflow-y: auto;
+}
