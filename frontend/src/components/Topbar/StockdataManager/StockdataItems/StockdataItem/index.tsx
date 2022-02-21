@@ -8,6 +8,7 @@ import {
     deleteStockDataRequest,
 } from '../../../../../apis/stockData';
 import { useBacktest } from '../../../../../context/BacktestContext';
+import { useNotification } from '../../../../../context/NotificationContext';
 
 interface StockdataItemProps {
     stockInfo: StockDataInfo;
@@ -20,6 +21,7 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
 }) => {
     const { updateStockData, deleteStockData, setCurrentTicker } =
         useBacktest();
+    const { addNotifications } = useNotification();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 
     const handleStockSelect = () => {
@@ -30,13 +32,17 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     const handleStockUpdate = () => {
         updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(res => updateStockData(res))
-            .catch(err => console.log(err));
+            .catch(err =>
+                addNotifications('Fail to update stock data.', 'error'),
+            );
     };
 
     const handleStockDelete = () => {
         deleteStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(() => deleteStockData(stockInfo.id))
-            .catch(err => console.log(err));
+            .catch(err =>
+                addNotifications('Fail to delete stock data.', 'error'),
+            );
     };
 
     return (

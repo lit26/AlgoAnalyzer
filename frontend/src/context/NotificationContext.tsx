@@ -49,8 +49,6 @@ export const NotificationProvider: React.FC<ProviderProps> = ({ children }) => {
         removeNotifications,
     };
 
-    console.log(notifications);
-
     return (
         <NotificationContext.Provider value={value}>
             {children}

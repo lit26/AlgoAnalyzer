@@ -14,6 +14,7 @@ interface BacktestContextProps {
     addStockData: (stockData: StockDataInfo) => void;
     updateStockData: (updateData: StockDataInfo) => void;
     deleteStockData: (deleteStockDataId: number) => void;
+    deleteMultipleStockData: (deleteStockDataIds: number[]) => void;
 }
 
 const BacktestContext = React.createContext<BacktestContextProps | undefined>(
@@ -36,12 +37,26 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     const [strategyList, setStrategyList] = useState<string[]>([]);
 
     const addStockData = (stockData: StockDataInfo) => {
-        setStockDataList([stockData, ...stockDataList]);
+        if (
+            stockDataList.find(oldStockData => oldStockData.id === stockData.id)
+        ) {
+            updateStockData(stockData);
+        } else {
+            setStockDataList([stockData, ...stockDataList]);
+        }
     };
     const updateStockData = (updateData: StockDataInfo) => {
         setStockDataList(
             stockDataList.map(stockData =>
                 stockData.id === updateData.id ? updateData : stockData,
+            ),
+        );
+    };
+
+    const deleteMultipleStockData = (deleteStockDataIds: number[]) => {
+        setStockDataList(
+            stockDataList.filter(
+                stockData => !deleteStockDataIds.includes(stockData.id),
             ),
         );
     };
@@ -64,6 +79,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         addStockData,
         updateStockData,
         deleteStockData,
+        deleteMultipleStockData,
     };
 
     return (
