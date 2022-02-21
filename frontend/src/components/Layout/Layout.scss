@@ -1,0 +1,17 @@
+@import '../../util';
+.Layout__cols{
+    display: flex;
+    height: calc(100vh - 42px);
+}
+
+.gutter{
+    background-color: $secondaryColor;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    &.gutter-horizontal{
+        cursor: col-resize;
+    }
+    &.gutter-vertical{
+        cursor: row-resize;
+    }
+}
