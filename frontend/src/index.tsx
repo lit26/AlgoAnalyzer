@@ -5,6 +5,12 @@ import { SettingsProvider } from './context/SettingsContext';
 import { BacktestProvider } from './context/BacktestContext';
 import { NotificationProvider } from './context/NotificationContext';
 
+declare global {
+    interface Window {
+        Bokeh: any;
+    }
+}
+
 render(
     <SettingsProvider>
         <NotificationProvider>
