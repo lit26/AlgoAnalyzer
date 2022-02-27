@@ -6,6 +6,8 @@ from .serializers import StockDataSerializer, SingleStockDataSerializer
 from .models import StockData
 from .stock_data.grab_data import *
 from .manager import *
+from .plot.plot import plot
+import json
 
 # Create your views here.
 def main_view(request):
@@ -16,37 +18,21 @@ class StockDataView(views.APIView):
     def get(self, request):
         queryset = StockData.objects.all()
         serializer = StockDataSerializer(queryset, many=True)
-        return Response({"history_data": serializer.data}, status=status.HTTP_200_OK)
+        return Response(
+            {"history_data": serializer.data, "strategies": STRATEGIES.keys()},
+            status=status.HTTP_200_OK,
+        )
 
 
 class SingleStockDataView(views.APIView):
     serializer_class = SingleStockDataSerializer
 
     def get(self, request, ticker, timeframe):
-        df = read_data(ticker, timeframe)
-        data_date = df["Date"].values
-        data_ohlcv = [
-            df["Open"].values,
-            df["High"].values,
-            df["Low"].values,
-            df["Close"].values,
-            df["Volume"].values,
-        ]
-        data_volume = df["Volume"].values
-
-        ticker_data = [
-            [
-                data_date[i],
-                data_ohlcv[0][i],
-                data_ohlcv[1][i],
-                data_ohlcv[2][i],
-                data_ohlcv[3][i],
-            ]
-            for i in range(len(data_date))
-        ]
-        ticker_volume = [[data_date[i], data_volume[i]] for i in range(len(data_date))]
-        data = {"data": ticker_data, "volume": ticker_volume}
-        return Response(data)
+        df = read_data(ticker, timeframe)[:100]
+        df["Date"] = pd.to_datetime(df["Date"])
+        bfp = plot(ticker, df)
+        json_item = bfp.get_component()
+        return Response(json.dumps(json_item))
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -112,6 +98,7 @@ class SingleStockDataView(views.APIView):
 
 STManager = StrategiesManager()
 
+
 class StrategyView(views.APIView):
     def get(self, request, strategy):
         params = STManager.get_strategy_detail(strategy)
@@ -121,3 +108,10 @@ class StrategyView(views.APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response({"params": params}, status=status.HTTP_200_OK)
+
+    def post(self, request, strategy):
+        ticker = request.data["ticker"]
+        timeframe = request.data["timeframe"]
+        params = request.data["params"]
+        STManager.run_strategy(strategy, ticker, timeframe, params)
+        return Response({"msg": "todo"}, status=status.HTTP_200_OK)
