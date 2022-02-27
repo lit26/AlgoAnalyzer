@@ -23,18 +23,16 @@ export const updateStockDataRequest = (ticker: string, timeframe: string) => {
             ticker,
             timeframe,
         })
-            .then((res: any) => {
+            .then((res: any) =>
                 resolve({
                     id: res.id,
                     ticker: res.ticker,
                     timeframe: res.timeframe,
                     startTime: res.start_time,
                     endTime: res.end_time,
-                });
-            })
-            .catch(err => {
-                reject(err);
-            });
+                }),
+            )
+            .catch(err => reject(err));
     });
 };
 

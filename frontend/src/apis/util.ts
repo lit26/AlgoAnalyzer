@@ -9,11 +9,7 @@ export const apiRequest = (url: string, method: Method, data?: any) => {
             url,
             data,
         })
-            .then((res: any) => {
-                resolve(res.data);
-            })
-            .catch(err => {
-                reject(err);
-            });
+            .then((res: any) => resolve(res.data))
+            .catch(err => reject(err));
     });
 };

@@ -3,7 +3,7 @@ import { API_URL, apiRequest } from './util';
 export const getGeneralInfoRequest = () => {
     return new Promise((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/data`, 'GET')
-            .then((res: any) => {
+            .then((res: any) =>
                 resolve({
                     historyData: res.history_data.map((stockDataInfo: any) => ({
                         id: stockDataInfo.id,
@@ -12,11 +12,11 @@ export const getGeneralInfoRequest = () => {
                         startTime: stockDataInfo.start_time,
                         endTime: stockDataInfo.end_time,
                     })),
-                    strategies: res.strategies,
-                });
-            })
-            .catch(err => {
-                reject(err);
-            });
+                    strategies: res.strategies.map((strategy: string) => ({
+                        name: strategy,
+                    })),
+                }),
+            )
+            .catch(err => reject(err));
     });
 };
