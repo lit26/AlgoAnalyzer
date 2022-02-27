@@ -11,6 +11,6 @@
       "main.js"
     ]
   },
-  "error": "ModuleBuildError",
-  "message": "Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: Undefined variable.\n   ╷\n27 │             background-color: $primColor !important;\n   │                               ^^^^^^^^^^\n   ╵\n  src/components/Topbar/StockdataManager/StockdataItems/StockdataItems.scss 27:31  root stylesheet"
+  "error": "unknown-error",
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Chart/index.tsx(58,21)\n      TS2322: Type '({ attributes: any; id: string; type: string; subtype?: string | undefined; reference?: undefined; } | { reference: BokehEmbedPlotReference; })[]' is not assignable to type 'BokehEmbedPlotReference[]'.\n  Type '{ attributes: any; id: string; type: string; subtype?: string | undefined; reference?: undefined; } | { reference: BokehEmbedPlotReference; }' is not assignable to type 'BokehEmbedPlotReference'.\n    Type '{ reference: BokehEmbedPlotReference; }' is missing the following properties from type 'BokehEmbedPlotReference': attributes, id, type"
 }

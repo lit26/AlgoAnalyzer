@@ -34,21 +34,6 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
             .catch(err => console.error(err));
     }, []);
 
-    // // console.log(chartRef.current);
-    // if (chartRef.current) {
-    //     const { childNodes: childDivs } = chartRef.current;
-
-    //     // This will return you how many divs are inside a parent
-    //     const divCount = Object.keys(childDivs).reduce((acc, div: any) => {
-    //         if (childDivs[div] instanceof HTMLDivElement) acc += 1;
-    //         return acc;
-    //     }, 0);
-
-    //     if (divCount > 1) {
-    //         console.log('test');
-    //     }
-    // }
-
     useEffect(() => {
         if (chartRef.current) {
             chartRef.current.innerHTML = '';
@@ -60,25 +45,20 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                             (
                                 reference: BokehEmbedPlotReference,
                                 index: number,
-                            ) => {
-                                if (
-                                    reference.subtype &&
-                                    reference.subtype === 'Figure'
-                                ) {
-                                    return {
-                                        ...reference,
-                                        attributes: {
-                                            ...reference.attributes,
-                                            width: chartSize.width,
-                                            height:
-                                                plotScales[index] *
-                                                (chartSize.height / 5),
-                                        },
-                                    };
-                                } else {
-                                    return reference;
-                                }
-                            },
+                            ) =>
+                                reference.subtype &&
+                                reference.subtype === 'Figure'
+                                    ? {
+                                          ...reference,
+                                          attributes: {
+                                              ...reference.attributes,
+                                              width: chartSize.width,
+                                              height:
+                                                  plotScales[index] *
+                                                  (chartSize.height / 5),
+                                          },
+                                      }
+                                    : reference,
                         );
                 }
 
