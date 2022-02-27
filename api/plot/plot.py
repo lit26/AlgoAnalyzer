@@ -15,30 +15,34 @@ from bokeh.io import curdoc
 from bokeh.themes import Theme
 import os
 
-INDEX_COL = 'index1'
+INDEX_COL = "index1"
 w = 0.5
 
-with open(os.path.join(os.path.dirname(__file__), 'autoscale_cb.js'),
-          encoding='utf-8') as _f:
+with open(
+    os.path.join(os.path.dirname(__file__), "autoscale_cb.js"), encoding="utf-8"
+) as _f:
     _AUTOSCALE_JS_CALLBACK = _f.read()
 
 curdoc().theme = Theme(filename="api/plot/theme.yml")
 
+
 class plot:
-    def __init__(self, 
-                stock, 
-                data, 
-                date='Date',
-                open='Open', 
-                high="High", 
-                low="Low", 
-                close="Close", 
-                volume="Volume", 
-                kind="candlestick", 
-                show_volume=True, 
-                addplot=None,
-                main_plot_height=400,
-                volume_plot_height=100):
+    def __init__(
+        self,
+        stock,
+        data,
+        date="Date",
+        open="Open",
+        high="High",
+        low="Low",
+        close="Close",
+        volume="Volume",
+        kind="candlestick",
+        show_volume=True,
+        addplot=None,
+        main_plot_height=400,
+        volume_plot_height=100,
+    ):
         self._stock = stock
         self._date = date
         self._open = open
@@ -51,13 +55,13 @@ class plot:
         self._addplot = addplot
         self._main_plot_height = main_plot_height
         self._volume_plot_height = volume_plot_height
-        self._tools = "pan,xwheel_zoom,box_zoom,zoom_in,zoom_out,reset"
+        self._tools = "pan,xwheel_zoom,reset"
         self._linked_crosshair = CrosshairTool(dimensions="both", line_color="#d1d4dc")
         self._grid_line_alpha = 0.3
         self._p = []
         self._process_data(data)
         self._plot()
-    
+
     def add_subplot(self, subplot):
         p = figure(x_range=self._p[0].x_range, plot_height=200, **self._options)
         p.xaxis.major_label_overrides = self._major_label_overrides
@@ -66,15 +70,24 @@ class plot:
         ind_line = []
         ind_tooltip = []
         for ind in subplot:
-            if ind['kind'] == 'line':
-                l = p.line(x=INDEX_COL,
-                        y=ind['column'],source=self._source, **self._format_style('line', **ind))
+            if ind["kind"] == "line":
+                l = p.line(
+                    x=INDEX_COL,
+                    y=ind["column"],
+                    source=self._source,
+                    **self._format_style("line", **ind),
+                )
                 ind_line.append(l)
-                ind_tooltip.append((ind['column'], f"@{ind['column']}"))
-            elif ind['kind'] == 'scatter':
-                s = p.scatter(x=INDEX_COL, y=ind['column'], source=self._source, **self._format_style('scatter', **ind))
+                ind_tooltip.append((ind["column"], f"@{ind['column']}"))
+            elif ind["kind"] == "scatter":
+                s = p.scatter(
+                    x=INDEX_COL,
+                    y=ind["column"],
+                    source=self._source,
+                    **self._format_style("scatter", **ind),
+                )
                 ind_line.append(s)
-                ind_tooltip.append((ind['column'], f"@{ind['column']}"))
+                ind_tooltip.append((ind["column"], f"@{ind['column']}"))
             else:
                 raise ValueError("Other kinds are not supported.")
         p.add_tools(
@@ -82,11 +95,12 @@ class plot:
                 renderers=ind_line,
                 point_policy="follow_mouse",
                 tooltips=ind_tooltip,
-                mode="vline")
+                mode="vline",
             )
+        )
         p.add_tools(self._linked_crosshair)
         self._p.append(p)
-    
+
     def _format_tooltips(self, custom):
         NBSP = "\N{NBSP}" * 4
         tool_tips = dict(
@@ -105,7 +119,8 @@ class plot:
                     ),
                 ),
                 ("Volume", "@Volume{0,0.0[0000]}"),
-            ] + custom,
+            ]
+            + custom,
             formatters={"@Date": "datetime"},
             mode="vline",
         )
@@ -130,8 +145,13 @@ class plot:
 
     def _volume_plot(self):
         if self._show_volume:
-            p = figure(x_range=self._p[0].x_range, plot_height=self._volume_plot_height, **self._options)
-            p.toolbar.logo=None
+            p = figure(
+                x_range=self._p[0].x_range,
+                plot_height=self._volume_plot_height,
+                tools="pan,xwheel_zoom,reset",
+                **self._options,
+            )
+            p.toolbar.logo = None
             p.xaxis.major_label_overrides = self._major_label_overrides
             p.grid.grid_line_alpha = self._grid_line_alpha
 
@@ -143,8 +163,15 @@ class plot:
                 source=self._source,
             )
 
-            t1 = p.vbar(fill_color="green", line_color="green",view=self._view_inc, **vbar_options)
-            t2 = p.vbar(fill_color="red", line_color="red", view=self._view_dec, **vbar_options)
+            t1 = p.vbar(
+                fill_color="green",
+                line_color="green",
+                view=self._view_inc,
+                **vbar_options,
+            )
+            t2 = p.vbar(
+                fill_color="red", line_color="red", view=self._view_dec, **vbar_options
+            )
 
             p.add_tools(
                 HoverTool(
@@ -159,48 +186,56 @@ class plot:
 
     def _format_style(self, plot, **kwargs):
         styles = {}
-        if plot == 'line':
-            styles['color'] = kwargs['color'] if 'color' in kwargs else '#d1d4dc'
-            styles['line_width'] = kwargs['line_width'] if 'line_width' in kwargs else 1
-            styles['alpha'] = kwargs['alpha'] if 'alpha' in kwargs else 1
-        elif plot == 'scatter':
-            styles['color'] = kwargs['color'] if 'color' in kwargs else '#d1d4dc'
-            styles['size'] = kwargs['size'] if 'size' in kwargs else 3
-            styles['alpha'] = kwargs['alpha'] if 'alpha' in kwargs else 1
-            styles['marker'] = kwargs['marker'] if 'marker' in kwargs else 'dot'
-        
+        if plot == "line":
+            styles["color"] = kwargs["color"] if "color" in kwargs else "#d1d4dc"
+            styles["line_width"] = kwargs["line_width"] if "line_width" in kwargs else 1
+            styles["alpha"] = kwargs["alpha"] if "alpha" in kwargs else 1
+        elif plot == "scatter":
+            styles["color"] = kwargs["color"] if "color" in kwargs else "#d1d4dc"
+            styles["size"] = kwargs["size"] if "size" in kwargs else 3
+            styles["alpha"] = kwargs["alpha"] if "alpha" in kwargs else 1
+            styles["marker"] = kwargs["marker"] if "marker" in kwargs else "dot"
+
         return styles
 
-    
     def _add_mainplot(self, p):
         if not self._addplot:
             return []
         ind_tooltip = []
         for ind in self._addplot:
-            if ind['kind'] == 'line':
-                p.line(x=INDEX_COL,
-                        y=ind['column'],source=self._source, **self._format_style('line', **ind))
-            elif ind['kind'] == 'scatter':
-                p.scatter(x=INDEX_COL, y=ind['column'], source=self._source, **self._format_style('scatter', **ind))
+            if ind["kind"] == "line":
+                p.line(
+                    x=INDEX_COL,
+                    y=ind["column"],
+                    source=self._source,
+                    **self._format_style("line", **ind),
+                )
+            elif ind["kind"] == "scatter":
+                p.scatter(
+                    x=INDEX_COL,
+                    y=ind["column"],
+                    source=self._source,
+                    **self._format_style("scatter", **ind),
+                )
             else:
                 raise ValueError("Other kinds are not supported.")
-            ind_tooltip.append((ind['column'], f"@{ind['column']}"))
-            
+            ind_tooltip.append((ind["column"], f"@{ind['column']}"))
+
         return ind_tooltip
-    
+
     def _auto_scale(self, p):
-        custom_js_args = dict(ohlc_range=p.y_range,
-                          source=self._source)
-        p.x_range.js_on_change('end', CustomJS(args=custom_js_args,
-                                                  code=_AUTOSCALE_JS_CALLBACK))
+        custom_js_args = dict(ohlc_range=p.y_range, source=self._source)
+        p.x_range.js_on_change(
+            "end", CustomJS(args=custom_js_args, code=_AUTOSCALE_JS_CALLBACK)
+        )
         return p
-    
+
     def _candlestick_plot(self):
         p = figure(
             plot_height=self._main_plot_height, tools=self._tools, **self._options
         )
 
-        p.toolbar.logo=None
+        p.toolbar.logo = None
         p.xaxis.major_label_overrides = self._major_label_overrides
         p.grid.grid_line_alpha = self._grid_line_alpha
 
@@ -214,14 +249,18 @@ class plot:
             source=self._source,
         )
 
-        t1 = p.vbar(fill_color="green", line_color="green", view=self._view_inc, **vbar_options)
-        t2 = p.vbar(fill_color="red", line_color='red', view=self._view_dec, **vbar_options)
+        t1 = p.vbar(
+            fill_color="green", line_color="green", view=self._view_inc, **vbar_options
+        )
+        t2 = p.vbar(
+            fill_color="red", line_color="red", view=self._view_dec, **vbar_options
+        )
 
         ind_tooltip = self._add_mainplot(p)
 
         p.add_tools(
             HoverTool(
-                renderers=[t1,t2],
+                renderers=[t1, t2],
                 **self._format_tooltips(ind_tooltip),
             ),
             self._linked_crosshair,
@@ -233,7 +272,7 @@ class plot:
         p = figure(
             plot_height=self._main_plot_height, tools=self._tools, **self._options
         )
-        p.toolbar.logo=None
+        p.toolbar.logo = None
         p.xaxis.major_label_overrides = self._major_label_overrides
         p.grid.grid_line_alpha = self._grid_line_alpha
 
@@ -264,4 +303,4 @@ class plot:
     def get_component(self):
         layout = column(self._p)
         curdoc().add_root(layout)
-        return json_item(layout, 'bkplot')
+        return json_item(layout, "bkplot")
