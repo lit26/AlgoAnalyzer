@@ -1,0 +1,12 @@
+@import '../../util';
+
+.Searchbar{
+    display: flex;
+    align-items: center;
+    input{
+        color: $textColor;
+    }
+    .Searchbar__iconWrapper{
+        margin-right:3px;
+    }
+}
