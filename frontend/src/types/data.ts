@@ -10,3 +10,8 @@ export type Timeframe = {
     display: string;
     value: string;
 };
+
+export type Strategy = {
+    name: string;
+    params?: any;
+};

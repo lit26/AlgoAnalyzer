@@ -7,15 +7,18 @@ import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
 import { useBacktest } from '../../../context/BacktestContext';
 import { useNotification } from '../../../context/NotificationContext';
+import { getStrategyParams } from '../../../apis/strategy';
+import { Strategy } from '../../../types/data';
 
 const StrategyManager: React.FC = () => {
-    const [strategyDisplayList, setStrategyDisplayList] = useState<string[]>(
+    const [strategyDisplayList, setStrategyDisplayList] = useState<Strategy[]>(
         [],
     );
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
-    const { strategyList, setCurrentStrategy } = useBacktest();
+    const { strategyList, setCurrentStrategy, updateCurrentStrategy } =
+        useBacktest();
     const { addNotifications } = useNotification();
 
     useEffect(() => {
@@ -28,7 +31,7 @@ const StrategyManager: React.FC = () => {
         let tmp = strategyList;
         if (search !== '') {
             tmp = strategyList.filter(strategy =>
-                strategy.toLowerCase().includes(search.toLowerCase()),
+                strategy.name.toLowerCase().includes(search.toLowerCase()),
             );
         }
         setStrategyDisplayList(tmp);
@@ -44,8 +47,24 @@ const StrategyManager: React.FC = () => {
         setSearch(e.target.value);
     };
 
-    const handleSelectStrategy = (strategy: string) => {
-        setCurrentStrategy(strategy);
+    const handleSelectStrategy = (selectStrategyName: string) => {
+        // check strategy params exist
+        const selectStrategy = strategyList.find(
+            strategy => strategy.name === selectStrategyName,
+        );
+        if (selectStrategy?.params) {
+            setCurrentStrategy(selectStrategy);
+        } else {
+            getStrategyParams(selectStrategyName)
+                .then(res =>
+                    updateCurrentStrategy({
+                        name: selectStrategyName,
+                        params: res,
+                    }),
+                )
+                .catch(err => console.log(err));
+        }
+
         setStrategyManagerModalOpen(false);
     };
 
@@ -83,7 +102,7 @@ const StrategyManager: React.FC = () => {
                         {strategyDisplayList.map((strategy, index) => (
                             <StrategyManagerItem
                                 key={`strategyDisplay_${index}`}
-                                strategy={strategy}
+                                strategy={strategy.name}
                                 selectStrategy={handleSelectStrategy}
                             />
                         ))}
