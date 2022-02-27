@@ -22,12 +22,19 @@ import {
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);
     const [timeframe, setTimeframe] = useState<string>('');
+    const [stockExpand, setStockExpand] = useState<string | false>('panel1');
     const [stockDataManagerModalOpen, setStockDataManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { currentTicker, stockDataList, addStockData, deleteStockData } =
         useBacktest();
     const { addNotifications } = useNotification();
+
+    const handlePanelChange =
+        (panel: string) =>
+        (event: React.SyntheticEvent, newExpanded: boolean) => {
+            setStockExpand(newExpanded ? panel : false);
+        };
 
     useEffect(() => {
         setStockList([...new Set(stockDataList.map(stock => stock.ticker))]);
@@ -182,6 +189,8 @@ const StockdataManager: React.FC = () => {
                         {stockList.map(stock => (
                             <StockdataItems
                                 key={`stockDataItems_${stock}_${timeframe}`}
+                                expand={stockExpand}
+                                handlePanelChange={handlePanelChange}
                                 stock={stock}
                                 timeframe={timeframe}
                                 handleCloseModal={handleCloseStockDataManager}

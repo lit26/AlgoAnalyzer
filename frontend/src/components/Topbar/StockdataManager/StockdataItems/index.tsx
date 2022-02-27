@@ -10,12 +10,18 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StockdataItem from './StockdataItem';
 
 interface StockdataItemProps {
+    expand: string | false;
+    handlePanelChange: (
+        panel: string,
+    ) => (event: React.SyntheticEvent, newExpanded: boolean) => void;
     stock: string;
     timeframe: string;
     handleCloseModal: () => void;
 }
 
 const StockdataItems: React.FC<StockdataItemProps> = ({
+    expand,
+    handlePanelChange,
     stock,
     timeframe,
     handleCloseModal,
@@ -34,6 +40,8 @@ const StockdataItems: React.FC<StockdataItemProps> = ({
 
     return (
         <Accordion
+            expanded={expand === `panel_${stock}`}
+            onChange={handlePanelChange(`panel_${stock}`)}
             className={`StockdataItems ${mouseOver ? 'mouseOver' : ''}`}
             onMouseOver={() => setMouseOver(true)}
             onMouseOut={() => setMouseOver(false)}>
