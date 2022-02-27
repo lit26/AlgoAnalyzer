@@ -61,8 +61,11 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                                     : reference,
                         );
                 }
-
-                window.Bokeh.embed.embed_item(plot, 'BokehPlot');
+                const bokehPlot = document.getElementById('BokehPlot');
+                if (bokehPlot) {
+                    bokehPlot.innerHTML = '';
+                }
+                window.Bokeh.embed.embed_item(plotData, 'BokehPlot');
             }
         }
     }, [plotData, chartSize, plotScales]);

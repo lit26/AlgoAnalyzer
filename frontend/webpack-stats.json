@@ -11,6 +11,6 @@
       "main.js"
     ]
   },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Chart/index.tsx(58,21)\n      TS2322: Type '({ attributes: any; id: string; type: string; subtype?: string | undefined; reference?: undefined; } | { reference: BokehEmbedPlotReference; })[]' is not assignable to type 'BokehEmbedPlotReference[]'.\n  Type '{ attributes: any; id: string; type: string; subtype?: string | undefined; reference?: undefined; } | { reference: BokehEmbedPlotReference; }' is not assignable to type 'BokehEmbedPlotReference'.\n    Type '{ reference: BokehEmbedPlotReference; }' is missing the following properties from type 'BokehEmbedPlotReference': attributes, id, type"
+  "error": "ModuleParseError",
+  "message": "Module parse failed: Identifier 'plot' has already been declared (31:22)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n|                                         (chartSize.height / 5) }) }) : reference);\n|                 }\n>                 const plot = document.getElementById('BokehPlot');\n|                 if (plot) {\n|                     plot.innerHTML = '';"
 }
