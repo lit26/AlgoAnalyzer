@@ -140,12 +140,11 @@ class plot:
                 width=w,
                 top=self._volume,
                 bottom=0,
-                line_color="#d1d4dc",
                 source=self._source,
             )
 
-            t1 = p.vbar(fill_color="green", view=self._view_inc, **vbar_options)
-            t2 = p.vbar(fill_color="red", view=self._view_dec, **vbar_options)
+            t1 = p.vbar(fill_color="green", line_color="green",view=self._view_inc, **vbar_options)
+            t2 = p.vbar(fill_color="red", line_color="red", view=self._view_dec, **vbar_options)
 
             p.add_tools(
                 HoverTool(
@@ -212,12 +211,11 @@ class plot:
             width=w,
             top=self._open,
             bottom=self._close,
-            line_color="#d1d4dc",
             source=self._source,
         )
 
-        t1 = p.vbar(fill_color="green", view=self._view_inc, **vbar_options)
-        t2 = p.vbar(fill_color="red", view=self._view_dec, **vbar_options)
+        t1 = p.vbar(fill_color="green", line_color="green", view=self._view_inc, **vbar_options)
+        t2 = p.vbar(fill_color="red", line_color='red', view=self._view_dec, **vbar_options)
 
         ind_tooltip = self._add_mainplot(p)
 
