@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import CustomButton from '../../CustomButton';
+import Searchbar from '../../Searchbar';
 import './StockdataManager.scss';
-import SearchIcon from '@mui/icons-material/Search';
 import Modal from '@mui/material/Modal';
 import Backdrop from '@mui/material/Backdrop';
-import InputBase from '@mui/material/InputBase';
-import { useBacktest } from '../../../context/BacktestContext';
-import { useNotification } from '../../../context/NotificationContext';
-import StockdataItems from './StockdataItems';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useBacktest } from '../../../context/BacktestContext';
+import { useNotification } from '../../../context/NotificationContext';
+import StockdataItems from './StockdataItems';
 import { TIMEFRAMES } from '../../../constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
@@ -35,10 +34,6 @@ const StockdataManager: React.FC = () => {
         (event: React.SyntheticEvent, newExpanded: boolean) => {
             setStockExpand(newExpanded ? panel : false);
         };
-
-    useEffect(() => {
-        setStockList([...new Set(stockDataList.map(stock => stock.ticker))]);
-    }, [stockDataList]);
 
     useEffect(() => {
         let tmp = stockDataList;
@@ -77,7 +72,7 @@ const StockdataManager: React.FC = () => {
         if (validateInput(true)) {
             updateStockDataRequest(search, timeframe)
                 .then(res => addStockData(res))
-                .catch(err =>
+                .catch(() =>
                     addNotifications('Fail to add stock data.', 'error'),
                 );
         }
@@ -105,6 +100,12 @@ const StockdataManager: React.FC = () => {
         setStockDataManagerModalOpen(false);
     };
 
+    const handleSearchChange = (
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+    ) => {
+        setSearch(e.target.value.toUpperCase());
+    };
+
     return (
         <>
             <CustomButton
@@ -124,23 +125,16 @@ const StockdataManager: React.FC = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}>
-                <div className="StockdataManager">
+                <div className="AlgoModal">
                     <h1>Stock data</h1>
                     <hr />
                     {/* Search bar */}
-                    <div className="Searchbar">
-                        <div className="Searchbar__tickerInput">
-                            <div className="Searchbar__iconWrapper">
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Type to search or add"
-                                value={search}
-                                onChange={e =>
-                                    setSearch(e.target.value.toUpperCase())
-                                }
-                            />
-                        </div>
+                    <div className="StockdataManager__input">
+                        <Searchbar
+                            search={search}
+                            onChange={handleSearchChange}
+                            placeholder="Type to search or add"
+                        />
                         <div>
                             <FormControl
                                 variant="standard"
