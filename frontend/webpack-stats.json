@@ -11,6 +11,6 @@
       "main.js"
     ]
   },
-  "error": "ModuleParseError",
-  "message": "Module parse failed: Unexpected token (85:16)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n|             else {\n|                 addNotifications(`${search} is not exist.`, 'error'),\n>                 ;\n|             }\n|         }"
+  "error": "ModuleBuildError",
+  "message": "Module build failed (from ./node_modules/sass-loader/dist/cjs.js):\nSassError: Undefined variable.\n   ╷\n27 │             background-color: $primColor !important;\n   │                               ^^^^^^^^^^\n   ╵\n  src/components/Topbar/StockdataManager/StockdataItems/StockdataItems.scss 27:31  root stylesheet"
 }

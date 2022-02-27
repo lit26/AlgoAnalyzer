@@ -9,6 +9,9 @@
     svg{
         color: $textColor !important;
     }
+    &.mouseOver{
+        background-color: $thirdColor !important;
+    }
     .StockdataItems__item{
         display: flex;
         justify-content: space-between;

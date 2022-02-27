@@ -1,0 +1,13 @@
+@import '../../../../util';
+
+.StrategyManagerItem{
+    padding: 12px 16px;
+    border-radius: 10px;
+    background-color: $secondaryColor;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    cursor: pointer;
+    &:hover{
+        background-color: $thirdColor;
+    }
+}

@@ -36,6 +36,12 @@ const StockdataManager: React.FC = () => {
         };
 
     useEffect(() => {
+        if (!stockDataManagerModalOpen) {
+            setSearch('');
+        }
+    }, [stockDataManagerModalOpen]);
+
+    useEffect(() => {
         let tmp = stockDataList;
         if (search !== '') {
             tmp = stockDataList.filter(stock =>
