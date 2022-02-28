@@ -1,0 +1,21 @@
+@import "../../../../util";
+
+.ParamItem{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    // &>*{
+    //     flex-shrink:1
+    // }
+    .ParamItem__input{
+        width:85px;
+    }
+    input[type="text"], input[type='number']{
+        width: 55px;
+        margin: 9px 11px;
+        padding: 3px;
+        color: $textColor;
+        border-radius: 4px;
+        border: 1px solid $textColor;
+    }
+}
