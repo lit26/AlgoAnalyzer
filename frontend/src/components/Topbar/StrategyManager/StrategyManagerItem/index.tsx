@@ -6,7 +6,7 @@ interface StrategyManagerItemProps {
     selectStrategy: (strategy: string) => void;
 }
 
-export const StrategyManagerItem: React.FC<StrategyManagerItemProps> = ({
+const StrategyManagerItem: React.FC<StrategyManagerItemProps> = ({
     strategy,
     selectStrategy,
 }) => {

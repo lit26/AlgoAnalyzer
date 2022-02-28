@@ -56,10 +56,10 @@ const StrategyManager: React.FC = () => {
             setCurrentStrategy(selectStrategy);
         } else {
             getStrategyParams(selectStrategyName)
-                .then(res =>
+                .then((res: any) =>
                     updateCurrentStrategy({
                         name: selectStrategyName,
-                        params: res,
+                        params: res.params,
                     }),
                 )
                 .catch(err => addNotifications(err.response.data.msg, 'error'));
