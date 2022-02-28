@@ -32,17 +32,13 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     const handleStockUpdate = () => {
         updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(res => updateStockData(res))
-            .catch(err =>
-                addNotifications('Fail to update stock data.', 'error'),
-            );
+            .catch(err => addNotifications(err.response.data.msg, 'error'));
     };
 
     const handleStockDelete = () => {
         deleteStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(() => deleteStockData(stockInfo.id))
-            .catch(err =>
-                addNotifications('Fail to delete stock data.', 'error'),
-            );
+            .catch(err => addNotifications(err.response.data.msg, 'error'));
     };
 
     return (

@@ -88,8 +88,6 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         );
     };
 
-    console.log(strategyList);
-
     const value = {
         currentTicker,
         setCurrentTicker,

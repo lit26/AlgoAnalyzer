@@ -62,7 +62,7 @@ const StrategyManager: React.FC = () => {
                         params: res,
                     }),
                 )
-                .catch(err => console.log(err));
+                .catch(err => addNotifications(err.response.data.msg, 'error'));
         }
 
         setStrategyManagerModalOpen(false);
