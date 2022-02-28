@@ -67,11 +67,11 @@ class SingleStockDataView(views.APIView):
                     )
             except:
                 return Response(
-                    {"Bad Request": "Fetch data error..."},
+                    {"msg": "Fetch data error..."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         return Response(
-            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+            {"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
     def delete(self, request):
@@ -85,14 +85,14 @@ class SingleStockDataView(views.APIView):
                 queryset.delete()
                 delete_data(ticker, timeframe)
                 return Response(
-                    {"Msg": "Delete successfully"}, status=status.HTTP_200_OK
+                    {"msg": "Delete successfully"}, status=status.HTTP_200_OK
                 )
             except:
                 return Response(
-                    {"Bad Request": "Not exist..."}, status=status.HTTP_400_BAD_REQUEST
+                    {"msg": "Not exist..."}, status=status.HTTP_400_BAD_REQUEST
                 )
         return Response(
-            {"Bad Request": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
+            {"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
         )
 
 
@@ -104,7 +104,7 @@ class StrategyView(views.APIView):
         params = STManager.get_strategy_detail(strategy)
         if not params:
             return Response(
-                {"Bad Request": "Strategy not exist..."},
+                {"msg": "Strategy not exist..."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response({"params": params}, status=status.HTTP_200_OK)
