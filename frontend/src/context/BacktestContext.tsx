@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { StockDataInfo, Strategy } from '../types/data';
 
@@ -42,6 +42,33 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     });
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<Strategy[]>([]);
+
+    // save backtest input information
+    useEffect(() => {
+        if (currentStrategy.name !== '') {
+            localStorage.setItem('strategy', JSON.stringify(currentStrategy));
+        }
+    }, [currentStrategy]);
+
+    // load backtest input information
+    useEffect(() => {
+        if (localStorage.getItem('strategy') !== null) {
+            const saveStrategyStr = localStorage.getItem('strategy');
+            if (saveStrategyStr) {
+                const saveStrategy: Strategy = JSON.parse(saveStrategyStr);
+
+                // check if the strategy exist
+                if (
+                    currentStrategy.name === '' &&
+                    strategyList.find(
+                        strategy => strategy.name === saveStrategy.name,
+                    )
+                ) {
+                    setCurrentStrategy(saveStrategy);
+                }
+            }
+        }
+    }, [strategyList]);
 
     // managing stock data
     const addStockData = (stockData: StockDataInfo) => {
