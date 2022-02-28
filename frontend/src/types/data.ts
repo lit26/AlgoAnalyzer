@@ -18,6 +18,6 @@ export type Strategy = {
 
 export type StrategyParam = {
     name: string;
-    default: any;
-    current?: any;
+    default: number | boolean | string;
+    current: number | boolean | string;
 };

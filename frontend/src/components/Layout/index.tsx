@@ -61,7 +61,7 @@ const Layout: React.FC = () => {
                 </Split>
 
                 {/* Right panel */}
-                <Split direction="vertical" gutterSize={4}>
+                <Split direction="vertical" gutterSize={4} sizes={[40, 60]}>
                     <InputPanel />
                     <ResultPanel />
                 </Split>

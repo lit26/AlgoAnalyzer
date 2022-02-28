@@ -17,6 +17,7 @@ interface BacktestContextProps {
     updateStockData: (updateData: StockDataInfo) => void;
     deleteStockData: (deleteStockDataId: number) => void;
     deleteMultipleStockData: (deleteStockDataIds: number[]) => void;
+    selectCurrentStrategy: (selectStrategy: Strategy) => void;
     updateCurrentStrategy: (selectStrategy: Strategy) => void;
 }
 
@@ -77,8 +78,20 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     };
 
     // managing Strategies
+    const selectCurrentStrategy = (selectStrategy: Strategy) => {
+        if (selectStrategy.params) {
+            setCurrentStrategy({
+                name: selectStrategy.name,
+                params: selectStrategy.params.map(param => ({
+                    ...param,
+                    current: param.default,
+                })),
+            });
+        }
+    };
+
     const updateCurrentStrategy = (selectStrategy: Strategy) => {
-        setCurrentStrategy(selectStrategy);
+        selectCurrentStrategy(selectStrategy);
         setStrategyList(
             strategyList.map(strategy =>
                 strategy.name === selectStrategy.name
@@ -101,6 +114,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         updateStockData,
         deleteStockData,
         deleteMultipleStockData,
+        selectCurrentStrategy,
         updateCurrentStrategy,
     };
 
