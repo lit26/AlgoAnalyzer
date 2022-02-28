@@ -3,8 +3,7 @@ import CustomButton from '../../CustomButton';
 import './StrategyManager.scss';
 import Searchbar from '../../Searchbar';
 import StrategyManagerItem from './StrategyManagerItem';
-import Modal from '@mui/material/Modal';
-import Backdrop from '@mui/material/Backdrop';
+import { Modal, Backdrop } from '@mui/material/';
 import { useBacktest } from '../../../context/BacktestContext';
 import { useNotification } from '../../../context/NotificationContext';
 import { getStrategyParams } from '../../../apis/strategy';
@@ -17,7 +16,7 @@ const StrategyManager: React.FC = () => {
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
-    const { strategyList, setCurrentStrategy, updateCurrentStrategy } =
+    const { strategyList, selectCurrentStrategy, updateCurrentStrategy } =
         useBacktest();
     const { addNotifications } = useNotification();
 
@@ -53,7 +52,7 @@ const StrategyManager: React.FC = () => {
             strategy => strategy.name === selectStrategyName,
         );
         if (selectStrategy?.params) {
-            setCurrentStrategy(selectStrategy);
+            selectCurrentStrategy(selectStrategy);
         } else {
             getStrategyParams(selectStrategyName)
                 .then((res: any) =>
