@@ -13,5 +13,11 @@ export type Timeframe = {
 
 export type Strategy = {
     name: string;
-    params?: any;
+    params?: StrategyParam[];
+};
+
+export type StrategyParam = {
+    name: string;
+    default: any;
+    current?: any;
 };

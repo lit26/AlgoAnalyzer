@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Split from 'react-split';
 import Topbar from '../Topbar';
 import Chart from '../Chart';
+import InputPanel from '../InputPanel';
+import ResultPanel from '../ResultPanel';
 import './Layout.scss';
 import { ChartSize } from '../../types/plot';
 
@@ -60,8 +62,8 @@ const Layout: React.FC = () => {
 
                 {/* Right panel */}
                 <Split direction="vertical" gutterSize={4}>
-                    <div>Input panel</div>
-                    <div>General result panel</div>
+                    <InputPanel />
+                    <ResultPanel />
                 </Split>
             </Split>
         </div>
