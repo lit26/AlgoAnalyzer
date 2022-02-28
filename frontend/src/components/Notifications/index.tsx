@@ -65,7 +65,10 @@ const Notifications: React.FC = () => {
     return (
         <div className="Notifications">
             {notifications.map(notification => (
-                <Notification notification={notification} />
+                <Notification
+                    key={notification.id}
+                    notification={notification}
+                />
             ))}
         </div>
     );
