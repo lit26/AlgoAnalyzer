@@ -4,6 +4,7 @@ import Topbar from '../Topbar';
 import Chart from '../Chart';
 import InputPanel from '../InputPanel';
 import ResultPanel from '../ResultPanel';
+import TesterPanel from '../TesterPanel';
 import './Layout.scss';
 import { ChartSize } from '../../types/plot';
 
@@ -57,7 +58,7 @@ const Layout: React.FC = () => {
                         <Chart chartSize={chartSize} />
                     </div>
 
-                    <div>Tester panel</div>
+                    <TesterPanel />
                 </Split>
 
                 {/* Right panel */}
