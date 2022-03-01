@@ -4,15 +4,19 @@ import CustomButton from '../CustomButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BacktestPanel from '../BacktestPanel';
 import OptimizePanel from '../OptimizePanel';
+import SettingsModal from './SettingsModal';
 
 const TesterPanel: React.FC = () => {
     const [curTab, setCurTab] = useState<string>('backtest');
+    const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
     const handleChange = (tab: string) => {
         setCurTab(tab);
     };
 
-    const handleSettingsChange = () => {};
+    const handleSettingsClose = () => {
+        setSettingsOpen(false);
+    };
 
     return (
         <div className="TesterPanel">
@@ -26,8 +30,12 @@ const TesterPanel: React.FC = () => {
                     onClick={() => handleChange('optimize')}
                 />
                 <SettingsIcon
-                    onClick={handleSettingsChange}
-                    style={{ padding: '0 6px' }}
+                    onClick={() => setSettingsOpen(true)}
+                    style={{ padding: '0 6px', cursor: 'pointer' }}
+                />
+                <SettingsModal
+                    open={settingsOpen}
+                    handleClose={handleSettingsClose}
                 />
             </div>
             <hr className="subDivider" />

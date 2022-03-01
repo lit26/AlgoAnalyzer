@@ -2,7 +2,7 @@ import { render } from 'react-dom';
 import App from './App';
 import './index.scss';
 import { SettingsProvider } from './context/SettingsContext';
-import { BacktestProvider } from './context/BacktestContext';
+import { ManagerProvider } from './context/ManagerContext';
 import { NotificationProvider } from './context/NotificationContext';
 
 declare global {
@@ -14,9 +14,9 @@ declare global {
 render(
     <SettingsProvider>
         <NotificationProvider>
-            <BacktestProvider>
+            <ManagerProvider>
                 <App />
-            </BacktestProvider>
+            </ManagerProvider>
         </NotificationProvider>
     </SettingsProvider>,
     document.getElementById('root'),

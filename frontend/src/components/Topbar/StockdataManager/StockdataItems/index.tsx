@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StockDataInfo } from '../../../../types/data';
-import { useBacktest } from '../../../../context/BacktestContext';
+import { useManager } from '../../../../context/ManagerContext';
 import './StockdataItems.scss';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -27,7 +27,7 @@ const StockdataItems: React.FC<StockdataItemProps> = ({
     handleCloseModal,
 }) => {
     const [stockList, setStockList] = useState<StockDataInfo[]>([]);
-    const { stockDataList } = useBacktest();
+    const { stockDataList } = useManager();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 
     useEffect(() => {

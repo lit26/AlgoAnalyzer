@@ -7,7 +7,7 @@ import {
     updateStockDataRequest,
     deleteStockDataRequest,
 } from '../../../../../apis/stockData';
-import { useBacktest } from '../../../../../context/BacktestContext';
+import { useManager } from '../../../../../context/ManagerContext';
 import { useNotification } from '../../../../../context/NotificationContext';
 
 interface StockdataItemProps {
@@ -19,8 +19,7 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     stockInfo,
     handleCloseModal,
 }) => {
-    const { updateStockData, deleteStockData, setCurrentTicker } =
-        useBacktest();
+    const { updateStockData, deleteStockData, setCurrentTicker } = useManager();
     const { addNotifications } = useNotification();
     const [mouseOver, setMouseOver] = useState<boolean>(false);
 

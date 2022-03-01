@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { StockDataInfo, Strategy } from '../types/data';
 
-interface BacktestContextProps {
+interface ManagerContextProps {
     currentTicker: StockDataInfo | undefined;
     setCurrentTicker: React.Dispatch<
         React.SetStateAction<StockDataInfo | undefined>
@@ -21,19 +21,19 @@ interface BacktestContextProps {
     updateCurrentStrategy: (selectStrategy: Strategy) => void;
 }
 
-const BacktestContext = React.createContext<BacktestContextProps | undefined>(
+const ManagerContext = React.createContext<ManagerContextProps | undefined>(
     undefined,
 );
 
-export function useBacktest() {
-    const context = useContext(BacktestContext);
+export function useManager() {
+    const context = useContext(ManagerContext);
     if (context === undefined) {
         throw new Error('useContext must be within Provider');
     }
     return context;
 }
 
-export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
+export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
     const [currentTicker, setCurrentTicker] = useState<
         StockDataInfo | undefined
     >(undefined);
@@ -43,14 +43,14 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<Strategy[]>([]);
 
-    // save backtest input information
+    // save manager input information
     useEffect(() => {
         if (currentStrategy.name !== '') {
             localStorage.setItem('strategy', JSON.stringify(currentStrategy));
         }
     }, [currentStrategy]);
 
-    // load backtest input information
+    // load manager input information
     useEffect(() => {
         if (localStorage.getItem('strategy') !== null) {
             const saveStrategyStr = localStorage.getItem('strategy');
@@ -146,8 +146,8 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     };
 
     return (
-        <BacktestContext.Provider value={value}>
+        <ManagerContext.Provider value={value}>
             {children}
-        </BacktestContext.Provider>
+        </ManagerContext.Provider>
     );
 };

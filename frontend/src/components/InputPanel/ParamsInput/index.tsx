@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import { useBacktest } from '../../../context/BacktestContext';
+import { useManager } from '../../../context/ManagerContext';
 import ParamItem from './ParamItem';
 import './ParamsInput.scss';
 
 const ParamsInput: React.FC = () => {
-    const { currentStrategy, setCurrentStrategy } = useBacktest();
+    const { currentStrategy, setCurrentStrategy } = useManager();
 
     const resetParams = () => {
         if (currentStrategy.params) {

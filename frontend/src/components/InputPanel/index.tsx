@@ -1,10 +1,10 @@
 import React from 'react';
-import { useBacktest } from '../../context/BacktestContext';
+import { useManager } from '../../context/ManagerContext';
 import ParamsInput from './ParamsInput';
 import './InputPanel.scss';
 
 const InputPanel: React.FC = () => {
-    const { currentStrategy } = useBacktest();
+    const { currentStrategy } = useManager();
 
     return (
         <div className="InputPanel">

@@ -4,7 +4,7 @@ import './StrategyManager.scss';
 import Searchbar from '../../Searchbar';
 import StrategyManagerItem from './StrategyManagerItem';
 import { Modal, Backdrop } from '@mui/material/';
-import { useBacktest } from '../../../context/BacktestContext';
+import { useManager } from '../../../context/ManagerContext';
 import { useNotification } from '../../../context/NotificationContext';
 import { getStrategyParams } from '../../../apis/strategy';
 import { Strategy } from '../../../types/data';
@@ -17,7 +17,7 @@ const StrategyManager: React.FC = () => {
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { strategyList, selectCurrentStrategy, updateCurrentStrategy } =
-        useBacktest();
+        useManager();
     const { addNotifications } = useNotification();
 
     useEffect(() => {

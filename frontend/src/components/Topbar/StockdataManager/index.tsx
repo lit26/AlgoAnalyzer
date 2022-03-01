@@ -4,7 +4,7 @@ import Searchbar from '../../Searchbar';
 import './StockdataManager.scss';
 import { Modal, Backdrop, MenuItem, FormControl } from '@mui/material/';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useBacktest } from '../../../context/BacktestContext';
+import { useManager } from '../../../context/ManagerContext';
 import { useNotification } from '../../../context/NotificationContext';
 import StockdataItems from './StockdataItems';
 import { TIMEFRAMES } from '../../../constants';
@@ -23,7 +23,7 @@ const StockdataManager: React.FC = () => {
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { currentTicker, stockDataList, addStockData, deleteStockData } =
-        useBacktest();
+        useManager();
     const { addNotifications } = useNotification();
 
     const handlePanelChange =

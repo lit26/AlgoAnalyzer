@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import './App.scss';
 import Layout from './components/Layout';
 import { getGeneralInfoRequest } from './apis/';
-import { useBacktest } from './context/BacktestContext';
+import { useManager } from './context/ManagerContext';
 import { useNotification } from './context/NotificationContext';
 import Notifications from './components/Notifications';
 
 const App: React.FC = () => {
-    const { setStockDataList, setStrategyList } = useBacktest();
+    const { setStockDataList, setStrategyList } = useManager();
     const { addNotifications } = useNotification();
 
     useEffect(() => {

@@ -52,7 +52,7 @@ const Layout: React.FC = () => {
                 <Split
                     direction="vertical"
                     gutterSize={5}
-                    sizes={[75, 25]}
+                    sizes={[70, 30]}
                     onDragEnd={updateSize}>
                     <div ref={chartRef}>
                         <Chart chartSize={chartSize} />
