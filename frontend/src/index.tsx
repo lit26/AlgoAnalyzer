@@ -3,6 +3,7 @@ import App from './App';
 import './index.scss';
 import { SettingsProvider } from './context/SettingsContext';
 import { ManagerProvider } from './context/ManagerContext';
+import { BacktestProvider } from './context/BacktestContext';
 import { NotificationProvider } from './context/NotificationContext';
 
 declare global {
@@ -15,7 +16,9 @@ render(
     <SettingsProvider>
         <NotificationProvider>
             <ManagerProvider>
-                <App />
+                <BacktestProvider>
+                    <App />
+                </BacktestProvider>
             </ManagerProvider>
         </NotificationProvider>
     </SettingsProvider>,

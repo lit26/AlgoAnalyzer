@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Split from 'react-split';
+import { useSettings } from '../../context/SettingsContext';
 import Topbar from '../Topbar';
 import Chart from '../Chart';
 import InputPanel from '../InputPanel';
@@ -10,6 +11,7 @@ import { ChartSize } from '../../types/plot';
 
 const Layout: React.FC = () => {
     const chartRef = useRef<any>(null);
+    const { setChartHeight } = useSettings();
     const [chartSize, setChartSize] = useState<ChartSize | undefined>(
         undefined,
     );
@@ -37,6 +39,7 @@ const Layout: React.FC = () => {
                 width: chartRef.current.offsetWidth,
                 height: chartRef.current.offsetHeight,
             });
+            setChartHeight(chartRef.current.offsetHeight);
         }
     };
 
@@ -46,14 +49,14 @@ const Layout: React.FC = () => {
             <Split
                 className="Layout__cols"
                 gutterSize={5}
-                sizes={[75, 25]}
-                onDragEnd={updateSize}>
+                sizes={[70, 30]}
+                onDrag={updateSize}>
                 {/* Left panel */}
                 <Split
                     direction="vertical"
                     gutterSize={5}
-                    sizes={[70, 30]}
-                    onDragEnd={updateSize}>
+                    sizes={[65, 35]}
+                    onDrag={updateSize}>
                     <div ref={chartRef}>
                         <Chart chartSize={chartSize} />
                     </div>

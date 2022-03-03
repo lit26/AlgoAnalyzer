@@ -21,3 +21,18 @@ export type StrategyParam = {
     default: number | boolean | string;
     current: number | boolean | string;
 };
+
+export type Transaction = {
+    date: string;
+    action: string;
+    size: number;
+    price: number;
+    pnl: number;
+    pnlcomm: number;
+    barlen: number;
+};
+
+export type Trade = {
+    ref: number;
+    trades: Transaction[];
+};

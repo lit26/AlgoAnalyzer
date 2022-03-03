@@ -1,0 +1,17 @@
+@import "../../util";
+
+.BacktestPanel__header{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: $secondaryColor;
+    margin: 2px;
+    .BacktestPanel__nav{
+        padding: 6px 8px;
+        cursor: pointer;
+        &.active{
+            color: #1976d2;
+        }
+    }
+
+}

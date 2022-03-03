@@ -1,11 +1,15 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { useManager } from '../../../context/ManagerContext';
+import { useBacktest } from '../../../context/BacktestContext';
 import ParamItem from './ParamItem';
 import './ParamsInput.scss';
+import { backtestStrategy } from '../../../apis/strategy';
+import { BacktestRes } from '../../../types/response';
 
 const ParamsInput: React.FC = () => {
     const { currentStrategy, setCurrentStrategy } = useManager();
+    const { updateBacktestResult } = useBacktest();
 
     const resetParams = () => {
         if (currentStrategy.params) {
@@ -44,7 +48,24 @@ const ParamsInput: React.FC = () => {
         }
     };
 
-    const updateParams = () => {};
+    const updateParams = () => {
+        // format params
+        let params = {};
+        if (currentStrategy.params) {
+            params = Object.assign(
+                {},
+                ...currentStrategy.params.map(param => ({
+                    [param.name]: param.current,
+                })),
+            );
+        }
+
+        backtestStrategy(currentStrategy.name, 'AAPL', '1d', params)
+            .then((res: BacktestRes) => {
+                updateBacktestResult(res);
+            })
+            .catch(err => console.log(err));
+    };
 
     return (
         <>

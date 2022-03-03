@@ -5,6 +5,7 @@ import { getGeneralInfoRequest } from './apis/';
 import { useManager } from './context/ManagerContext';
 import { useNotification } from './context/NotificationContext';
 import Notifications from './components/Notifications';
+import { PlatformRes } from './types/response';
 
 const App: React.FC = () => {
     const { setStockDataList, setStrategyList } = useManager();
@@ -12,7 +13,7 @@ const App: React.FC = () => {
 
     useEffect(() => {
         getGeneralInfoRequest()
-            .then((res: any) => {
+            .then((res: PlatformRes) => {
                 setStockDataList(res.historyData);
                 setStrategyList(res.strategies);
             })
