@@ -1,14 +1,15 @@
 import React from 'react';
 import { useBacktest } from '../../../context/BacktestContext';
 import { useSettings } from '../../../context/SettingsContext';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+} from '@mui/material';
 import { Transaction } from '../../../types/data';
 
 interface Column {
@@ -47,11 +48,6 @@ const columns: readonly Column[] = [
     {
         id: 'pnl',
         label: 'PnL',
-        align: 'right',
-    },
-    {
-        id: 'drawdown',
-        label: 'Drawdown',
         align: 'right',
     },
 ];
@@ -140,18 +136,6 @@ const Transactions: React.FC = () => {
                                         style={cellStyle}>
                                         {transaction.size.toFixed(2)}
                                     </TableCell>
-                                    {/* <TableCell
-                                        key="type"
-                                        align="right"
-                                        style={{
-                                            ...cellStyle,
-                                            borderBottom:
-                                                index === 0
-                                                    ? '1px solid #131722'
-                                                    : '1px solid #9ba4ad',
-                                        }}>
-                                        {index === 1 ? transaction.barlen : ''}
-                                    </TableCell> */}
                                     <TableCell
                                         key="type"
                                         align="right"
@@ -162,13 +146,13 @@ const Transactions: React.FC = () => {
                                                     ? '1px solid #131722'
                                                     : '1px solid #9ba4ad',
                                         }}>
-                                        {index === 1
-                                            ? `${transaction.pnl.toFixed(
+                                        {index === 0
+                                            ? `${trade.trades[1].pnl.toFixed(
                                                   2,
-                                              )}(${calculatePnLPct(
+                                              )}`
+                                            : `(${calculatePnLPct(
                                                   trade.trades,
-                                              )}%)`
-                                            : ''}
+                                              )}%)`}
                                     </TableCell>
                                 </TableRow>
                             )),
