@@ -6,4 +6,5 @@ class StockData(models.Model):
     timeframe = models.CharField(max_length=3)
     start_time = models.CharField(max_length=20)
     end_time = models.CharField(max_length=20)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

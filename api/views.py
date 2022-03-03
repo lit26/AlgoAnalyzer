@@ -70,9 +70,7 @@ class SingleStockDataView(views.APIView):
                     {"msg": "Fetch data error..."},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        return Response(
-            {"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -91,9 +89,7 @@ class SingleStockDataView(views.APIView):
                 return Response(
                     {"msg": "Not exist..."}, status=status.HTTP_400_BAD_REQUEST
                 )
-        return Response(
-            {"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST
-        )
+        return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 STManager = StrategiesManager()
@@ -113,5 +109,10 @@ class StrategyView(views.APIView):
         ticker = request.data["ticker"]
         timeframe = request.data["timeframe"]
         params = request.data["params"]
-        STManager.run_strategy(strategy, ticker, timeframe, params)
-        return Response({"msg": "todo"}, status=status.HTTP_200_OK)
+        if not STManager.get_strategy_detail(strategy):
+            return Response(
+                {"msg": "Strategy not exist..."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        analysis_result = STManager.run_strategy(strategy, ticker, timeframe, params)
+        return Response(analysis_result, status=status.HTTP_200_OK)
