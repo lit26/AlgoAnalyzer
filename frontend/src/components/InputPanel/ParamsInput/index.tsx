@@ -9,7 +9,7 @@ import { BacktestRes } from '../../../types/response';
 
 const ParamsInput: React.FC = () => {
     const { currentStrategy, setCurrentStrategy } = useManager();
-    const { updateBacktestResult } = useBacktest();
+    const { updateBacktestResult, handlePlot } = useBacktest();
 
     const resetParams = () => {
         if (currentStrategy.params) {
@@ -63,6 +63,7 @@ const ParamsInput: React.FC = () => {
         backtestStrategy(currentStrategy.name, 'AAPL', '1d', params)
             .then((res: BacktestRes) => {
                 updateBacktestResult(res);
+                handlePlot(res.plot);
             })
             .catch(err => console.log(err));
     };

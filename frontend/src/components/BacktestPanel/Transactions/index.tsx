@@ -105,8 +105,7 @@ const Transactions: React.FC = () => {
                                     hover
                                     role="checkbox"
                                     tabIndex={-1}
-                                    // key={`row_${index}`}
-                                >
+                                    key={`row_${trade.ref}_${index}`}>
                                     <TableCell
                                         key="id"
                                         style={{
@@ -118,26 +117,30 @@ const Transactions: React.FC = () => {
                                         }}>
                                         {index === 0 ? id + 1 : ''}
                                     </TableCell>
-                                    <TableCell key="date" style={cellStyle}>
+                                    <TableCell
+                                        key={`date_${trade.ref}_${index}`}
+                                        style={cellStyle}>
                                         {transaction.date.slice(0, 10)}
                                     </TableCell>
-                                    <TableCell key="type" style={cellStyle}>
+                                    <TableCell
+                                        key={`type_${trade.ref}_${index}`}
+                                        style={cellStyle}>
                                         {transaction.action}
                                     </TableCell>
                                     <TableCell
-                                        key="price"
+                                        key={`price_${trade.ref}_${index}`}
                                         align="right"
                                         style={cellStyle}>
                                         {transaction.price.toFixed(2)}
                                     </TableCell>
                                     <TableCell
-                                        key="size"
+                                        key={`size_${trade.ref}_${index}`}
                                         align="right"
                                         style={cellStyle}>
                                         {transaction.size.toFixed(2)}
                                     </TableCell>
                                     <TableCell
-                                        key="type"
+                                        key={`pnl_${trade.ref}_${index}`}
                                         align="right"
                                         style={{
                                             ...cellStyle,

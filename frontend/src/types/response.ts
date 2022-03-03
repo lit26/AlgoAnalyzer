@@ -7,4 +7,5 @@ export type PlatformRes = {
 
 export type BacktestRes = {
     trades: Trade[];
+    plot: any;
 };

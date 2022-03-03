@@ -10,7 +10,5 @@
     "main": [
       "main.js"
     ]
-  },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/BacktestPanel/Transactions/index.tsx(64,21)\n      TS2362: The left-hand side of an arithmetic operation must be of type 'any', 'number', 'bigint' or an enum type."
+  }
 }

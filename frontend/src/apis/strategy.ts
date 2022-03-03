@@ -17,7 +17,12 @@ export const backtestStrategy = (
             timeframe,
             params,
         })
-            .then((res: any) => resolve(res))
+            .then((res: any) =>
+                resolve({
+                    ...res,
+                    plot: JSON.parse(res.plot),
+                }),
+            )
             .catch(err => reject(err));
     });
 };

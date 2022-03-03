@@ -5,6 +5,7 @@ import {
     BokehEmbedPlotReference,
     ChartSize,
 } from '../../types/plot';
+import { useBacktest } from '../../context/BacktestContext';
 import './Chart.scss';
 
 interface ChartProps {
@@ -13,24 +14,11 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
-    const [plotData, setPlotData] = useState<BokehEmbedPlot | undefined>(
-        undefined,
-    );
-    const [plotScales, setPlotScales] = useState<number[]>([]);
+    const { plotData, handlePlot, plotScales } = useBacktest();
 
     useEffect(() => {
         getStockDataRequest()
-            .then(res => {
-                setPlotScales(
-                    res.doc.roots.references.map(
-                        (reference: BokehEmbedPlotReference) =>
-                            reference.subtype && reference.subtype === 'Figure'
-                                ? reference.attributes.height / 100
-                                : 0,
-                    ),
-                );
-                setPlotData(res);
-            })
+            .then(res => handlePlot(res))
             .catch(err => console.error(err));
     }, []);
 
