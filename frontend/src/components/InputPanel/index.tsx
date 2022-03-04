@@ -16,7 +16,7 @@ const InputPanel: React.FC = () => {
             {currentStrategy.name !== '' ? (
                 <ParamsInput />
             ) : (
-                <div className="InputPanel__placeholder">No strategy</div>
+                <div className="placeholder">No strategy</div>
             )}
         </div>
     );

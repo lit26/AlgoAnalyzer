@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Split from 'react-split';
-import { useSettings } from '../../context/SettingsContext';
+import { useBacktest } from '../../context/BacktestContext';
 import Topbar from '../Topbar';
 import Chart from '../Chart';
 import InputPanel from '../InputPanel';
@@ -11,7 +11,7 @@ import { ChartSize } from '../../types/plot';
 
 const Layout: React.FC = () => {
     const chartRef = useRef<any>(null);
-    const { setChartHeight } = useSettings();
+    const { setChartHeight } = useBacktest();
     const [chartSize, setChartSize] = useState<ChartSize | undefined>(
         undefined,
     );

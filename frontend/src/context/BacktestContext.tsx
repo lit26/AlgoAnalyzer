@@ -5,14 +5,16 @@ import { Trade } from '../types/data';
 import { BokehEmbedPlot, BokehEmbedPlotReference } from '../types/plot';
 
 interface BacktestContextProps {
-    trades: Trade[];
-    setTrades: React.Dispatch<React.SetStateAction<Trade[]>>;
+    trades?: Trade[];
+    setTrades: React.Dispatch<React.SetStateAction<Trade[] | undefined>>;
     plotData?: BokehEmbedPlot;
     setPlotData: React.Dispatch<
         React.SetStateAction<BokehEmbedPlot | undefined>
     >;
     plotScales: number[];
     setPlotScales: React.Dispatch<React.SetStateAction<number[]>>;
+    chartHeight: number;
+    setChartHeight: React.Dispatch<React.SetStateAction<number>>;
     updateBacktestResult: (backtestRes: BacktestRes) => void;
     handlePlot: (res: any) => void;
 }
@@ -30,10 +32,11 @@ export function useBacktest() {
 }
 
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
-    const [trades, setTrades] = useState<Trade[]>([]);
+    const [trades, setTrades] = useState<Trade[] | undefined>(undefined);
     const [plotData, setPlotData] = useState<BokehEmbedPlot | undefined>(
         undefined,
     );
+    const [chartHeight, setChartHeight] = useState<number>(0);
     const [plotScales, setPlotScales] = useState<number[]>([]);
 
     const updateBacktestResult = (backtestRes: BacktestRes) => {
@@ -58,6 +61,8 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         setPlotData,
         plotScales,
         setPlotScales,
+        chartHeight,
+        setChartHeight,
         updateBacktestResult,
         handlePlot,
     };

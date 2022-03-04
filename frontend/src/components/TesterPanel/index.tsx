@@ -25,10 +25,10 @@ const TesterPanel: React.FC = () => {
                     text="Backtest"
                     onClick={() => handleChange('backtest')}
                 />
-                <CustomButton
+                {/* <CustomButton
                     text="Optimize"
                     onClick={() => handleChange('optimize')}
-                />
+                /> */}
                 <SettingsIcon
                     onClick={() => setSettingsOpen(true)}
                     style={{ padding: '0 6px', cursor: 'pointer' }}

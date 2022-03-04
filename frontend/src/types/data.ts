@@ -36,3 +36,20 @@ export type Trade = {
     ref: number;
     trades: Transaction[];
 };
+
+export type Drawdown = {
+    drawdown: number;
+    moneydown: number;
+    maxdrawdown: number;
+    maxmoneydown: number;
+};
+
+export type StrategyStat = {
+    sharpe: number;
+    sqn: number;
+    trades: number;
+    rtot: number;
+    ravg: number;
+    rnorm: number;
+    rnorm100: number;
+};

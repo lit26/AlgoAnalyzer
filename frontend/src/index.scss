@@ -22,6 +22,19 @@
   color: $secondaryTextColor !important;
 }
 
+.subDivider{
+  background-color: $grayColor;
+  height: 1px;
+  border: 0;
+}
+
+.placeholder{
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 2px;
