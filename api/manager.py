@@ -39,9 +39,10 @@ class StrategiesManager:
         self._percent_sizer = percent_sizer
 
     def _add_analyzer(self, cerebro):
-        # cerebro.addanalyzer(btanalyzers.SharpeRatio, _name="sharpe")
-        # cerebro.addanalyzer(btanalyzers.DrawDown, _name="drawdown")
-        # cerebro.addanalyzer(btanalyzers.Returns, _name="returns")
+        cerebro.addanalyzer(btanalyzers.SharpeRatio, _name="sharpe")
+        cerebro.addanalyzer(btanalyzers.DrawDown, _name="drawdown")
+        cerebro.addanalyzer(btanalyzers.Returns, _name="returns")
+        cerebro.addanalyzer(btanalyzers.SQN, _name="sqn")
         # cerebro.addanalyzer(btanalyzers.Position, _name="position")
         # cerebro.addanalyzer(btanalyzers.TradeAnalyzer, _name="trade")
         # cerebro.addanalyzer(btanalyzers.Transactions, _name="transactions")
@@ -56,9 +57,8 @@ class StrategiesManager:
         cerebro.addstrategy(self._strategies[strategy_name], **params)
 
         # load data
-        data = bt.feeds.YahooFinanceCSVData(
-            dataname=f"{BASE_STOCK_DATA}/{ticker}_{timeframe}.csv"
-        )
+        data_file = f"{BASE_STOCK_DATA}/{ticker}_{timeframe}.csv"
+        data = bt.feeds.YahooFinanceCSVData(dataname=data_file, adjclose=False)
         cerebro.adddata(data)
 
         # settings
@@ -72,6 +72,4 @@ class StrategiesManager:
         strat = cerebro.run()
         back = strat[0]
 
-        return analysis(back.analyzers)
-
-        # return analysis(back.analyzers)
+        return analysis(back.analyzers, ticker, timeframe)

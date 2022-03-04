@@ -28,7 +28,7 @@ class SingleStockDataView(views.APIView):
     serializer_class = SingleStockDataSerializer
 
     def get(self, request, ticker, timeframe):
-        df = read_data(ticker, timeframe)[:100]
+        df = read_data(ticker, timeframe)
         df["Date"] = pd.to_datetime(df["Date"])
         bfp = plot(ticker, df)
         json_item = bfp.get_component()

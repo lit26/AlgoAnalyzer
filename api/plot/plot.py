@@ -9,11 +9,12 @@ from bokeh.models import (
     CrosshairTool,
     NumeralTickFormatter,
 )
-from bokeh.plotting import figure
+from bokeh.plotting import figure, show
 from bokeh.embed import json_item
 from bokeh.io import curdoc
 from bokeh.themes import Theme
 import os
+
 
 INDEX_COL = "index1"
 w = 0.5
@@ -304,3 +305,6 @@ class plot:
         layout = column(self._p)
         curdoc().add_root(layout)
         return json_item(layout, "bkplot")
+    
+    def show(self):
+        show(column(self._p))
