@@ -118,9 +118,13 @@ const Transactions: React.FC = () => {
                                                             : '1px solid #9ba4ad',
                                                 }}>
                                                 {index === 0
-                                                    ? `${trade.trades[1].pnl.toFixed(
-                                                          2,
-                                                      )}`
+                                                    ? `${
+                                                          trade.trades[1]
+                                                              ? trade.trades[1].pnl.toFixed(
+                                                                    2,
+                                                                )
+                                                              : ''
+                                                      }`
                                                     : `(${calculatePnLPct(
                                                           trade.trades,
                                                       )}%)`}

@@ -31,20 +31,18 @@ const ParamsInput: React.FC = () => {
         if (currentStrategy.params) {
             setCurrentStrategy({
                 name: currentStrategy.name,
-                params: currentStrategy.params.map(param => {
-                    if (param.name === name) {
-                        return {
-                            ...param,
-                            current:
-                                typeof param.default === 'number' &&
-                                typeof value === 'string'
-                                    ? parseFloat(value)
-                                    : value,
-                        };
-                    } else {
-                        return param;
-                    }
-                }),
+                params: currentStrategy.params.map(param =>
+                    param.name === name
+                        ? {
+                              ...param,
+                              current:
+                                  typeof param.default === 'number' &&
+                                  typeof value === 'string'
+                                      ? parseFloat(value)
+                                      : value,
+                          }
+                        : param,
+                ),
             });
         }
     };
