@@ -24,10 +24,16 @@ with open(
 ) as _f:
     _AUTOSCALE_JS_CALLBACK = _f.read()
 
+with open(
+    os.path.join(os.path.dirname(__file__), "position_autoscale_cb.js"),
+    encoding="utf-8",
+) as _f:
+    _POSITION_AUTOSCALE_JS_CALLBACK = _f.read()
+
 curdoc().theme = Theme(filename="api/plot/theme.yml")
 
 
-class plot:
+class Stockplot:
     def __init__(
         self,
         stock,
@@ -59,6 +65,7 @@ class plot:
         self._tools = "pan,xwheel_zoom,reset"
         self._linked_crosshair = CrosshairTool(dimensions="both", line_color="#d1d4dc")
         self._grid_line_alpha = 0.3
+        self._p_scale = []
         self._p = []
         self._process_data(data)
         self._plot()
@@ -100,6 +107,7 @@ class plot:
             )
         )
         p.add_tools(self._linked_crosshair)
+        self._p_scale.append(200)
         self._p.append(p)
 
     def _format_tooltips(self, custom):
@@ -183,6 +191,7 @@ class plot:
             p.add_tools(self._linked_crosshair)
 
             p.yaxis.formatter = NumeralTickFormatter(format="0.0a")
+            self._p_scale.append(self._volume_plot_height)
             self._p.append(p)
 
     def _format_style(self, plot, **kwargs):
@@ -267,6 +276,7 @@ class plot:
             self._linked_crosshair,
         )
         self._auto_scale(p)
+        self._p_scale.append(self._main_plot_height)
         self._p.append(p)
 
     def _line_plot(self):
@@ -289,6 +299,7 @@ class plot:
             self._linked_crosshair,
         )
         self._auto_scale(p)
+        self._p_scale.append(self._main_plot_height)
         self._p.append(p)
 
     def _plot(self):
@@ -304,7 +315,86 @@ class plot:
     def get_component(self):
         layout = column(self._p)
         curdoc().add_root(layout)
-        return json_item(layout, "bkplot")
-    
+        return json_item(layout, "bkplot"), self._p_scale
+
+    def show(self):
+        show(column(self._p))
+
+
+class Portfolioplot:
+    def __init__(
+        self,
+        data,
+        date="Date",
+        portfolio="Portfolio",
+        positions="Positions",
+        plot_height=200,
+    ):
+        self._data = data
+        self._date = date
+        self._portfolio = portfolio
+        self._positions = positions
+        self._process_data(data)
+        self._plot_height = plot_height
+        self._tools = "pan,xwheel_zoom,reset"
+        self._linked_crosshair = CrosshairTool(dimensions="both", line_color="#d1d4dc")
+        self._grid_line_alpha = 0.3
+        self._p = []
+        self._p_scale = [plot_height]
+        self._plot()
+
+    def _format_tooltips(self):
+        tool_tips = dict(
+            point_policy="follow_mouse",
+            tooltips=[
+                ("Date", "@Date{%F}"),
+                ("Portfolio", "@Portfolio{0,0.0[0000]}"),
+                ("Positions", "@Positions{0,0.0[0000]}"),
+            ],
+            formatters={"@Date": "datetime"},
+            mode="vline",
+        )
+        return tool_tips
+
+    def _process_data(self, data):
+        self._source = ColumnDataSource(data)
+        self._options = dict(x_axis_type="datetime", plot_width=1000)
+        self._major_label_overrides = {
+            i: date.strftime("%b %d")
+            for i, date in enumerate(pd.to_datetime(self._source.data[self._date]))
+        }
+
+    def _auto_scale(self, p):
+        custom_js_args = dict(ohlc_range=p.y_range, source=self._source)
+        p.x_range.js_on_change(
+            "end", CustomJS(args=custom_js_args, code=_POSITION_AUTOSCALE_JS_CALLBACK)
+        )
+        return p
+
+    def _plot(self):
+        p = figure(plot_height=self._plot_height, tools=self._tools, **self._options)
+        p.toolbar.logo = None
+        p.xaxis.major_label_overrides = self._major_label_overrides
+        p.grid.grid_line_alpha = self._grid_line_alpha
+
+        l1 = p.line(x=INDEX_COL, y=self._portfolio, source=self._source)
+        l2 = p.line(
+            x=INDEX_COL, y=self._positions, source=self._source, line_color="#f47f33"
+        )
+
+        p.add_tools(
+            HoverTool(renderers=[l1, l2], **self._format_tooltips()),
+            self._linked_crosshair,
+        )
+        p.yaxis.formatter = NumeralTickFormatter(format="0.0a")
+        self._auto_scale(p)
+
+        self._p.append(p)
+
+    def get_component(self):
+        layout = column(self._p)
+        curdoc().add_root(layout)
+        return json_item(layout, "bkplot_position"), self._p_scale
+
     def show(self):
         show(column(self._p))

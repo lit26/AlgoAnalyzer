@@ -1,13 +1,13 @@
 import backtrader as bt
 import backtrader.analyzers as btanalyzers
-import pandas as pd
 from .strategy.MaCrossStrategy import MaCrossStrategy
 from .strategy.MACDStrategy import MACDStrategy
 from .analysis.trades import Trades
 from .analysis.result import *
 
 DEFAULT_CASH = 1000000
-DEFAULT_SIZER = 95
+DEFAULT_FIX_SIZER = 10
+DEFAULT_PERCENT_SIZER = 95
 
 STRATEGIES = {
     "MA Cross Strategy": MaCrossStrategy,
@@ -20,8 +20,6 @@ BASE_STOCK_DATA = "api/stock_data/data"
 class StrategiesManager:
     def __init__(self):
         self._strategies = STRATEGIES
-        self._default_cash = DEFAULT_CASH
-        self._default_sizer = DEFAULT_SIZER
 
     def get_strategy_detail(self, strategy_name):
         if strategy_name not in self._strategies:
@@ -34,23 +32,29 @@ class StrategiesManager:
         ]
         return params
 
-    def update_settings(self, cash, percent_sizer):
-        self._default_cash = cash
-        self._percent_sizer = percent_sizer
-
     def _add_analyzer(self, cerebro):
         cerebro.addanalyzer(btanalyzers.SharpeRatio, _name="sharpe")
         cerebro.addanalyzer(btanalyzers.DrawDown, _name="drawdown")
         cerebro.addanalyzer(btanalyzers.Returns, _name="returns")
         cerebro.addanalyzer(btanalyzers.SQN, _name="sqn")
-        # cerebro.addanalyzer(btanalyzers.Position, _name="position")
+        cerebro.addanalyzer(btanalyzers.PositionsValue, _name="positions", cash=True)
         # cerebro.addanalyzer(btanalyzers.TradeAnalyzer, _name="trade")
         # cerebro.addanalyzer(btanalyzers.Transactions, _name="transactions")
         cerebro.addanalyzer(Trades, _name="trades")
 
         return cerebro
 
-    def run_strategy(self, strategy_name, ticker, timeframe, params):
+    def run_strategy(
+        self,
+        strategy_name,
+        ticker,
+        timeframe,
+        params,
+        sizer,
+        cash=DEFAULT_CASH,
+        percentage_sizer=DEFAULT_PERCENT_SIZER,
+        fix_sizer=DEFAULT_FIX_SIZER,
+    ):
         cerebro = bt.Cerebro()
 
         # add strategy
@@ -62,8 +66,11 @@ class StrategiesManager:
         cerebro.adddata(data)
 
         # settings
-        cerebro.broker.setcash(self._default_cash)
-        cerebro.addsizer(bt.sizers.PercentSizer, percents=self._default_sizer)
+        cerebro.broker.setcash(cash)
+        if sizer == "fix":
+            cerebro.addsizer(bt.sizers.FixedSize, stake=fix_sizer)
+        elif sizer == "percentage":
+            cerebro.addsizer(bt.sizers.PercentSizerInt, percents=percentage_sizer)
 
         # analyzers
         cerebro = self._add_analyzer(cerebro)

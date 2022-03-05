@@ -4,9 +4,9 @@ import backtrader as bt
 
 class MACDStrategy(bt.Strategy):
     params = (
-        ("fast_length", 12), 
-        ("slow_length", 26), 
-        ("period_signal", 9), 
+        ("fast_length", 12),
+        ("slow_length", 26),
+        ("period_signal", 9),
     )
 
     def __init__(self):

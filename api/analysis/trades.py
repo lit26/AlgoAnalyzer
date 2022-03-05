@@ -1,5 +1,4 @@
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 
 import collections
@@ -10,7 +9,7 @@ from backtrader import Order, Position
 
 
 class Trades(bt.Analyzer):
-    '''This analyzer reports the transactions occurred with each an every data in
+    """This analyzer reports the transactions occurred with each an every data in
     the system
 
     Params:
@@ -32,10 +31,11 @@ class Trades(bt.Analyzer):
 
         Returns a dictionary with returns as values and the datetime points for
         each return as keys
-    '''
+    """
+
     params = (
-        ('headers', False),
-        ('_pfheaders', ('date', 'type', 'amount', 'price')),
+        ("headers", False),
+        ("_pfheaders", ("date", "type", "amount", "price")),
     )
 
     def start(self):
@@ -47,8 +47,6 @@ class Trades(bt.Analyzer):
         self.rets.trades = {}
         if self.p.headers:
             self.rets.transactions[self.p._pfheaders[0]] = [list(self.p._pfheaders[1:])]
-        
-        
 
     def notify_order(self, order):
         # An order could have several partial executions per cycle (unlikely
@@ -66,36 +64,36 @@ class Trades(bt.Analyzer):
                 break  # end of pending reached
 
             pos.update(exbit.size, exbit.price)
-    
+
     def _record_trade(self, ref, trade_info):
         if ref not in self.rets.trades:
             self.rets.trades[ref] = []
         self.rets.trades[ref].append(trade_info)
-            
+
     def notify_trade(self, trade):
         if trade.justopened:
             trade_info = {
-                'date': self.strategy.datetime.datetime(),
-                'size': trade.size,
-                'price': trade.price,
-                'pnl': trade.pnl,
-                'pnlcomm': trade.pnlcomm,
-                'baropen':trade.baropen,
-                'dtopen': trade.dtopen,
-                'barlen': trade.barlen,
+                "date": self.strategy.datetime.datetime(),
+                "size": trade.size,
+                "price": trade.price,
+                "pnl": trade.pnl,
+                "pnlcomm": trade.pnlcomm,
+                "baropen": trade.baropen,
+                "dtopen": trade.dtopen,
+                "barlen": trade.barlen,
             }
             self._record_trade(trade.ref, trade_info)
 
         elif trade.status == trade.Closed:
             trade_info = {
-                'date': self.strategy.datetime.datetime(),
-                'size': trade.size,
-                'price': trade.price,
-                'pnl': trade.pnl,
-                'pnlcomm': trade.pnlcomm,
-                'baropen':trade.baropen,
-                'dtopen': trade.dtopen,
-                'barlen': trade.barlen,
+                "date": self.strategy.datetime.datetime(),
+                "size": trade.size,
+                "price": trade.price,
+                "pnl": trade.pnl,
+                "pnlcomm": trade.pnlcomm,
+                "baropen": trade.baropen,
+                "dtopen": trade.dtopen,
+                "barlen": trade.barlen,
             }
             self._record_trade(trade.ref, trade_info)
 
@@ -107,7 +105,7 @@ class Trades(bt.Analyzer):
             if pos is not None:
                 size, price = pos.size, pos.price
                 if size:
-                    entries.append(['BUY' if size>=0 else "SELL", size, price])
+                    entries.append(["BUY" if size >= 0 else "SELL", size, price])
 
         if entries:
             self.rets.transactions[self.strategy.datetime.datetime()] = entries

@@ -6,7 +6,7 @@ from .serializers import StockDataSerializer, SingleStockDataSerializer
 from .models import StockData
 from .stock_data.grab_data import *
 from .manager import *
-from .plot.plot import plot
+from .plot.plot import Stockplot
 import json
 
 # Create your views here.
@@ -30,9 +30,10 @@ class SingleStockDataView(views.APIView):
     def get(self, request, ticker, timeframe):
         df = read_data(ticker, timeframe)
         df["Date"] = pd.to_datetime(df["Date"])
-        bfp = plot(ticker, df)
-        json_item = bfp.get_component()
-        return Response(json.dumps(json_item))
+        bfp = Stockplot(ticker, df)
+        json_item, p_scale = bfp.get_component()
+        plot = {"plotdata": json.dumps(json_item), "pscale": p_scale}
+        return Response(plot, status=status.HTTP_200_OK)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
@@ -109,10 +110,13 @@ class StrategyView(views.APIView):
         ticker = request.data["ticker"]
         timeframe = request.data["timeframe"]
         params = request.data["params"]
+        sizer = request.data["sizer"]
         if not STManager.get_strategy_detail(strategy):
             return Response(
                 {"msg": "Strategy not exist..."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        analysis_result = STManager.run_strategy(strategy, ticker, timeframe, params)
+        analysis_result = STManager.run_strategy(
+            strategy, ticker, timeframe, params, sizer
+        )
         return Response(analysis_result, status=status.HTTP_200_OK)
