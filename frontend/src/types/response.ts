@@ -1,4 +1,5 @@
-import { StockDataInfo, Strategy, Trade } from './data';
+import { StockDataInfo, Strategy, Trade, StrategyStat, Drawdown } from './data';
+import { BokehEmbedPlot } from './plot';
 
 export type PlatformRes = {
     historyData: StockDataInfo[];
@@ -6,6 +7,14 @@ export type PlatformRes = {
 };
 
 export type BacktestRes = {
+    stat: StrategyStat;
     trades: Trade[];
     plot: any;
+    drawdown: Drawdown;
+    portfolio: any;
+};
+
+export type BokehPlotRes = {
+    plotdata: BokehEmbedPlot;
+    pscale: number[];
 };

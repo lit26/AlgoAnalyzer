@@ -43,7 +43,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                                               width: chartSize.width,
                                               height:
                                                   plotScales[index] *
-                                                  (chartSize.height / 5),
+                                                  chartSize.height,
                                           },
                                       }
                                     : reference,

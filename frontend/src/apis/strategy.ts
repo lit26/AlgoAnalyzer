@@ -10,17 +10,26 @@ export const backtestStrategy = (
     ticker: string,
     timeframe: string,
     params: any,
+    sizer: string,
 ) => {
     return new Promise<BacktestRes>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'POST', {
             ticker,
             timeframe,
             params,
+            sizer,
         })
             .then((res: any) =>
                 resolve({
                     ...res,
-                    plot: JSON.parse(res.plot),
+                    plot: {
+                        ...res.plot,
+                        plotdata: JSON.parse(res.plot.plotdata),
+                    },
+                    portfolio: {
+                        ...res.portfolio,
+                        plotdata: JSON.parse(res.portfolio.plotdata),
+                    },
                 }),
             )
             .catch(err => reject(err));

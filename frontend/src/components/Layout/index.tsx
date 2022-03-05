@@ -7,14 +7,10 @@ import InputPanel from '../InputPanel';
 import ResultPanel from '../ResultPanel';
 import TesterPanel from '../TesterPanel';
 import './Layout.scss';
-import { ChartSize } from '../../types/plot';
 
 const Layout: React.FC = () => {
     const chartRef = useRef<any>(null);
-    const { setChartHeight } = useBacktest();
-    const [chartSize, setChartSize] = useState<ChartSize | undefined>(
-        undefined,
-    );
+    const { chartSize, setChartSize } = useBacktest();
 
     // update plot size when window size change
     let resizeInterval: any;
@@ -39,7 +35,17 @@ const Layout: React.FC = () => {
                 width: chartRef.current.offsetWidth,
                 height: chartRef.current.offsetHeight,
             });
-            setChartHeight(chartRef.current.offsetHeight);
+        }
+    };
+
+    const handleDrag = () => {
+        const plot1 = document.getElementById('BokehPlot');
+        if (plot1) {
+            plot1.innerHTML = '';
+        }
+        const plot2 = document.getElementById('BokehPerformancePlot');
+        if (plot2) {
+            plot2.innerHTML = '';
         }
     };
 
@@ -50,13 +56,15 @@ const Layout: React.FC = () => {
                 className="Layout__cols"
                 gutterSize={5}
                 sizes={[70, 30]}
-                onDrag={updateSize}>
+                onDrag={handleDrag}
+                onDragEnd={updateSize}>
                 {/* Left panel */}
                 <Split
                     direction="vertical"
                     gutterSize={5}
                     sizes={[65, 35]}
-                    onDrag={updateSize}>
+                    onDrag={handleDrag}
+                    onDragEnd={updateSize}>
                     <div ref={chartRef}>
                         <Chart chartSize={chartSize} />
                     </div>

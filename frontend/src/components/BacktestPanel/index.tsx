@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Transactions from './Transactions';
+import Performance from './Performance';
 import './BacktestPanel.scss';
 
 const backtestTabs = ['Transactions', 'Performance'];
@@ -25,6 +26,7 @@ const BacktestPanel: React.FC = () => {
             </div>
             <div className="BacktestPanel__content">
                 {curBacktestTab === 'Transactions' && <Transactions />}
+                {curBacktestTab === 'Performance' && <Performance />}
             </div>
         </div>
     );

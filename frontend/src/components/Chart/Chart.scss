@@ -1,6 +1,6 @@
 #BokehPlot{
     position:relative;
     &>div{
-        position: absolute !important; // hide multiple plots
+        position: absolute !important; // hide multiple plots if exists
     }
 }

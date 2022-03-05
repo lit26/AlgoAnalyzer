@@ -1,22 +1,32 @@
 import React, { useState, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
-import { BacktestRes } from '../types/response';
+import { BacktestRes, BokehPlotRes } from '../types/response';
 import { Trade } from '../types/data';
-import { BokehEmbedPlot, BokehEmbedPlotReference } from '../types/plot';
+import {
+    BokehEmbedPlot,
+    BokehEmbedPlotReference,
+    ChartSize,
+} from '../types/plot';
 
 interface BacktestContextProps {
+    backtestRunning: boolean;
+    setBacktestRunning: React.Dispatch<React.SetStateAction<boolean>>;
     trades?: Trade[];
     setTrades: React.Dispatch<React.SetStateAction<Trade[] | undefined>>;
     plotData?: BokehEmbedPlot;
     setPlotData: React.Dispatch<
         React.SetStateAction<BokehEmbedPlot | undefined>
     >;
+    portfolioPlotData?: BokehEmbedPlot;
+    setPortfolioPlotData: React.Dispatch<
+        React.SetStateAction<BokehEmbedPlot | undefined>
+    >;
     plotScales: number[];
     setPlotScales: React.Dispatch<React.SetStateAction<number[]>>;
-    chartHeight: number;
-    setChartHeight: React.Dispatch<React.SetStateAction<number>>;
+    chartSize?: ChartSize;
+    setChartSize: React.Dispatch<React.SetStateAction<ChartSize | undefined>>;
     updateBacktestResult: (backtestRes: BacktestRes) => void;
-    handlePlot: (res: any) => void;
+    handlePlot: (res: BokehPlotRes) => void;
 }
 
 const BacktestContext = React.createContext<BacktestContextProps | undefined>(
@@ -32,37 +42,52 @@ export function useBacktest() {
 }
 
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
+    const [backtestRunning, setBacktestRunning] = useState<boolean>(false);
     const [trades, setTrades] = useState<Trade[] | undefined>(undefined);
     const [plotData, setPlotData] = useState<BokehEmbedPlot | undefined>(
         undefined,
     );
-    const [chartHeight, setChartHeight] = useState<number>(0);
+    const [portfolioPlotData, setPortfolioPlotData] = useState<
+        BokehEmbedPlot | undefined
+    >(undefined);
     const [plotScales, setPlotScales] = useState<number[]>([]);
+    const [chartSize, setChartSize] = useState<ChartSize | undefined>(
+        undefined,
+    );
 
     const updateBacktestResult = (backtestRes: BacktestRes) => {
         setTrades(backtestRes.trades);
     };
 
-    const handlePlot = (res: any) => {
+    const handlePlot = (res: BokehPlotRes) => {
+        const totalHeight = res.pscale.reduce(
+            (acc: number, height: number) => acc + height,
+            0,
+        );
         setPlotScales(
-            res.doc.roots.references.map((reference: BokehEmbedPlotReference) =>
-                reference.subtype && reference.subtype === 'Figure'
-                    ? reference.attributes.height / 100
-                    : 0,
+            res.plotdata.doc.roots.references.map(
+                (reference: BokehEmbedPlotReference) =>
+                    reference.subtype && reference.subtype === 'Figure'
+                        ? reference.attributes.height / totalHeight
+                        : 0,
             ),
         );
-        setPlotData(res);
+        setPlotData(res.plotdata);
     };
 
     const value = {
+        backtestRunning,
+        setBacktestRunning,
         trades,
         setTrades,
         plotData,
         setPlotData,
+        portfolioPlotData,
+        setPortfolioPlotData,
         plotScales,
         setPlotScales,
-        chartHeight,
-        setChartHeight,
+        chartSize,
+        setChartSize,
         updateBacktestResult,
         handlePlot,
     };

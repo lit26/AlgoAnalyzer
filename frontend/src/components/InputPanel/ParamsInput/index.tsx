@@ -9,7 +9,8 @@ import { BacktestRes } from '../../../types/response';
 
 const ParamsInput: React.FC = () => {
     const { currentStrategy, setCurrentStrategy } = useManager();
-    const { updateBacktestResult, handlePlot } = useBacktest();
+    const { updateBacktestResult, handlePlot, setPortfolioPlotData } =
+        useBacktest();
 
     const resetParams = () => {
         if (currentStrategy.params) {
@@ -60,10 +61,17 @@ const ParamsInput: React.FC = () => {
             );
         }
 
-        backtestStrategy(currentStrategy.name, 'AAPL', '1d', params)
+        backtestStrategy(
+            currentStrategy.name,
+            'AAPL',
+            '1d',
+            params,
+            'percentage',
+        )
             .then((res: BacktestRes) => {
                 updateBacktestResult(res);
                 handlePlot(res.plot);
+                setPortfolioPlotData(res.portfolio.plotdata);
             })
             .catch(err => console.log(err));
     };

@@ -10,7 +10,5 @@
     "main": [
       "main.js"
     ]
-  },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/BacktestPanel/Transactions/index.tsx(100,26)\n      TS2532: Object is possibly 'undefined'."
+  }
 }
