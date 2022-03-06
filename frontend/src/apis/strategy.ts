@@ -10,6 +10,7 @@ export const backtestStrategy = (
     strategy: string,
     ticker: string,
     timeframe: string,
+    plotkind: string,
     params: any,
     cash: number,
     sizer: Sizer,
@@ -18,6 +19,7 @@ export const backtestStrategy = (
         apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'POST', {
             ticker,
             timeframe,
+            plotkind,
             params,
             cash,
             sizer,

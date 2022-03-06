@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/TesterPanel/index.tsx(43,32)\n      TS2322: Type '{ active: boolean; }' is not assignable to type 'IntrinsicAttributes & { children?: ReactNode; }'.\n  Property 'active' does not exist on type 'IntrinsicAttributes & { children?: ReactNode; }'."
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/InputPanel/ParamsInput/index.tsx(90,13)\n      TS1005: ',' expected."
 }
