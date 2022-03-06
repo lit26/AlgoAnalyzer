@@ -157,7 +157,7 @@ class Stockplot:
             p = figure(
                 x_range=self._p[0].x_range,
                 plot_height=self._volume_plot_height,
-                tools="pan,xwheel_zoom,reset",
+                tools="pan,reset",
                 **self._options,
             )
             p.toolbar.logo = None
@@ -377,13 +377,13 @@ class Portfolioplot:
         p.xaxis.major_label_overrides = self._major_label_overrides
         p.grid.grid_line_alpha = self._grid_line_alpha
 
-        l1 = p.line(x=INDEX_COL, y=self._portfolio, source=self._source)
-        l2 = p.line(
+        l = p.line(x=INDEX_COL, y=self._portfolio, source=self._source)
+        p.line(
             x=INDEX_COL, y=self._positions, source=self._source, line_color="#f47f33"
         )
 
         p.add_tools(
-            HoverTool(renderers=[l1, l2], **self._format_tooltips()),
+            HoverTool(renderers=[l], **self._format_tooltips()),
             self._linked_crosshair,
         )
         p.yaxis.formatter = NumeralTickFormatter(format="0.0a")

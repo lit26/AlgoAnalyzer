@@ -1,0 +1,45 @@
+@import '../../../util';
+
+.Settings{
+    display: flex;
+    flex-direction: column;
+}
+.Settings__settings{
+    padding: 1rem;
+    flex-grow: 1;
+}
+.SettingsRow{
+    display: flex;
+    align-items: center;
+    input[type="text"], input[type='number']{
+        width: 80px;
+        margin: 9px 11px;
+        padding: 5px;
+        color: $textColor;
+        border-radius: 4px;
+        border: 1px solid $textColor;
+    }
+    .SettingsRow__label{
+        flex: 0.4;
+    }
+    .SettingsRow__sizer{
+        flex: 0.6;
+        display: flex;
+        align-items: center;
+    }
+    .SettingsRow__sizerSelect{
+        width: 100px !important;
+        color: $textColor !important;
+    }
+    .css-88nv5c-MuiInputBase-root-MuiInput-root-MuiSelect-root:after{
+        border-bottom: 0 !important;
+    }
+}
+.Settings__action{
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: flex-end;
+    &>button{
+        margin-left: 5px;
+    }
+}

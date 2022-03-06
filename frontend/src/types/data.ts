@@ -30,6 +30,7 @@ export type Transaction = {
     pnl: number;
     pnlcomm: number;
     barlen: number;
+    pnlpct?: number;
 };
 
 export type Trade = {
@@ -52,4 +53,9 @@ export type StrategyStat = {
     ravg: number;
     rnorm: number;
     rnorm100: number;
+};
+
+export type Sizer = {
+    type: string;
+    amount: number;
 };
