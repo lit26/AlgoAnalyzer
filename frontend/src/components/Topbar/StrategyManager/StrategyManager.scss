@@ -1,11 +1,26 @@
-.StrategyManager__input{
+@import "../../../util";
+
+.StrategyManager{
     display: flex;
-    align-items: center;
-    padding: 1rem;
-    justify-content: space-between;
-}
-.StrategyManagerItems{
-    margin: 5px;
-    overflow-y: auto;
-    height: 71%;
+    flex-direction: column;
+    .StrategyManager__input{
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        justify-content: space-between;
+    }
+    .StrategyManagerList{
+        display: flex;
+        flex-grow: 1;
+    }
+    .StrategyManagerList__nav{
+        flex: 0.3;
+        padding: 5px;
+        border-right: 1px solid $grayColor;
+    }
+    .StrategyManagerItems{
+        flex: 0.7;
+        padding: 5px;
+        overflow-y: auto;
+    }
 }

@@ -128,7 +128,6 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                         </div>
                     </div>
                 </div>
-                <hr className="subDivider" />
                 <div className="Settings__action">
                     <Button
                         size="small"

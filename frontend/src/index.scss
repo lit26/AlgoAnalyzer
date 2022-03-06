@@ -18,6 +18,9 @@
   h1{
       padding: 1rem;
   }
+  &:focus-visible{
+    outline: 0;
+  }
 }
 .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
   color: $secondaryTextColor !important;

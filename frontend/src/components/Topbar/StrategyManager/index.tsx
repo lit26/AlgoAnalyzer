@@ -84,7 +84,7 @@ const StrategyManager: React.FC = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}>
-                <div className="AlgoModal">
+                <div className="AlgoModal StrategyManager">
                     <h1>Strategies</h1>
                     <hr />
                     {/* Search bar */}
@@ -97,14 +97,17 @@ const StrategyManager: React.FC = () => {
                     </div>
 
                     <hr className="subDivider" />
-                    <div className="StrategyManagerItems">
-                        {strategyDisplayList.map((strategy, index) => (
-                            <StrategyManagerItem
-                                key={`strategyDisplay_${index}`}
-                                strategy={strategy.name}
-                                selectStrategy={handleSelectStrategy}
-                            />
-                        ))}
+                    <div className="StrategyManagerList">
+                        <div className="StrategyManagerList__nav">nav</div>
+                        <div className="StrategyManagerItems">
+                            {strategyDisplayList.map((strategy, index) => (
+                                <StrategyManagerItem
+                                    key={`strategyDisplay_${index}`}
+                                    strategy={strategy.name}
+                                    selectStrategy={handleSelectStrategy}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </Modal>

@@ -56,6 +56,7 @@ const Layout: React.FC = () => {
                 className="Layout__cols"
                 gutterSize={5}
                 sizes={[70, 30]}
+                minSize={[220, 200]}
                 onDrag={handleDrag}
                 onDragEnd={updateSize}>
                 {/* Left panel */}
