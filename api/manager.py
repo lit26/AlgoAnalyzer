@@ -6,8 +6,7 @@ from .analysis.trades import Trades
 from .analysis.result import *
 
 DEFAULT_CASH = 1000000
-DEFAULT_FIX_SIZER = 10
-DEFAULT_PERCENT_SIZER = 95
+DEFAULT_SIZER_AMOUNT= 10
 
 STRATEGIES = {
     "MA Cross Strategy": MaCrossStrategy,
@@ -38,8 +37,6 @@ class StrategiesManager:
         cerebro.addanalyzer(btanalyzers.Returns, _name="returns")
         cerebro.addanalyzer(btanalyzers.SQN, _name="sqn")
         cerebro.addanalyzer(btanalyzers.PositionsValue, _name="positions", cash=True)
-        # cerebro.addanalyzer(btanalyzers.TradeAnalyzer, _name="trade")
-        # cerebro.addanalyzer(btanalyzers.Transactions, _name="transactions")
         cerebro.addanalyzer(Trades, _name="trades")
 
         return cerebro
@@ -51,9 +48,8 @@ class StrategiesManager:
         timeframe,
         params,
         sizer,
+        sizer_amount=DEFAULT_SIZER_AMOUNT,
         cash=DEFAULT_CASH,
-        percentage_sizer=DEFAULT_PERCENT_SIZER,
-        fix_sizer=DEFAULT_FIX_SIZER,
     ):
         cerebro = bt.Cerebro()
 
@@ -68,9 +64,9 @@ class StrategiesManager:
         # settings
         cerebro.broker.setcash(cash)
         if sizer == "fix":
-            cerebro.addsizer(bt.sizers.FixedSize, stake=fix_sizer)
+            cerebro.addsizer(bt.sizers.FixedSize, stake=sizer_amount)
         elif sizer == "percentage":
-            cerebro.addsizer(bt.sizers.PercentSizerInt, percents=percentage_sizer)
+            cerebro.addsizer(bt.sizers.PercentSizerInt, percents=sizer_amount)
 
         # analyzers
         cerebro = self._add_analyzer(cerebro)

@@ -111,12 +111,13 @@ class StrategyView(views.APIView):
         timeframe = request.data["timeframe"]
         params = request.data["params"]
         sizer = request.data["sizer"]
+        cash = request.data["cash"]
         if not STManager.get_strategy_detail(strategy):
             return Response(
                 {"msg": "Strategy not exist..."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         analysis_result = STManager.run_strategy(
-            strategy, ticker, timeframe, params, sizer
+            strategy, ticker, timeframe, params, sizer['type'], sizer['amount'], cash
         )
         return Response(analysis_result, status=status.HTTP_200_OK)

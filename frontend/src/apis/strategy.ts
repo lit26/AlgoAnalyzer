@@ -1,5 +1,6 @@
 import { API_URL, apiRequest } from './util';
 import { BacktestRes } from '../types/response';
+import { Sizer } from '../types/data';
 
 export const getStrategyParams = (strategy: string) => {
     return apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'GET');
@@ -10,13 +11,15 @@ export const backtestStrategy = (
     ticker: string,
     timeframe: string,
     params: any,
-    sizer: string,
+    cash: number,
+    sizer: Sizer,
 ) => {
     return new Promise<BacktestRes>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'POST', {
             ticker,
             timeframe,
             params,
+            cash,
             sizer,
         })
             .then((res: any) =>

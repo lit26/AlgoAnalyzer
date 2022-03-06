@@ -8,6 +8,11 @@ def analysis(analyzers, ticker, timeframe):
     trades_res = analyzers.trades.get_analysis()
     positions_res = analyzers.positions.get_analysis()
     trades = get_trades(trades_res["trades"], trades_res["transactions"])
+
+    stat = {}
+    for k,v in get_pnl_info(trades).items():
+        stat[k] = v
+    
     plot, position_plot = get_strategy_plot(
         ticker, timeframe, trades_res["transactions"], positions_res
     )
@@ -15,7 +20,6 @@ def analysis(analyzers, ticker, timeframe):
     res = analyzers.drawdown.get_analysis()
     drawdown_info = get_drawdown(res)
 
-    stat = {}
     stat["sharpe"] = analyzers.sharpe.get_analysis()["sharperatio"]
     res = analyzers.sqn.get_analysis()
     for k, v in res.items():
@@ -40,6 +44,14 @@ def get_drawdown(drawdown):
         "moneydown": drawdown.moneydown,
         "maxdrawdown": drawdown.max.drawdown,
         "maxmoneydown": drawdown.max.moneydown,
+    }
+
+def get_pnl_info(trades):
+    pnl_list = [trade['trades'][1]['pnlpct'] for trade in trades if len(trade['trades']) == 2]
+    return {
+        'maxpnl': max(pnl_list),
+        'minpnl': min(pnl_list),
+        'winrate': len([i for i in pnl_list if i > 0])*100 / len(pnl_list)
     }
 
 
@@ -90,7 +102,18 @@ def get_trades(trades, transactions):
             }
             transactions_in_trade.append(transaction_info)
         all_trades.append({"ref": k, "trades": transactions_in_trade})
-    return all_trades
+    return [calculate_pnl_pct(i) for i in all_trades]
+
+def calculate_pnl_pct(trade):
+    if len(trade['trades']) == 2:
+        trades = trade['trades']
+        from_trade = trades[0]
+        to_trade = trades[1]
+        from_trade['pnlpct'] = 0
+        to_trade['pnlpct'] = (to_trade['price'] - from_trade['price'])*100/from_trade['price']
+        
+        trade['trades'] = [from_trade, to_trade]
+    return trade
 
 
 def get_buy_sell(df, transactions):

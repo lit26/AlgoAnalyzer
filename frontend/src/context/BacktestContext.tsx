@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { BacktestRes, BokehPlotRes } from '../types/response';
-import { Trade } from '../types/data';
+import { Trade, Sizer } from '../types/data';
 import {
     BokehEmbedPlot,
     BokehEmbedPlotReference,
@@ -9,6 +9,10 @@ import {
 } from '../types/plot';
 
 interface BacktestContextProps {
+    defaultCash: number;
+    setDefaultCash: React.Dispatch<React.SetStateAction<number>>;
+    defaultSizer: Sizer;
+    setDefaultSizer: React.Dispatch<React.SetStateAction<Sizer>>;
     backtestRunning: boolean;
     setBacktestRunning: React.Dispatch<React.SetStateAction<boolean>>;
     trades?: Trade[];
@@ -42,6 +46,12 @@ export function useBacktest() {
 }
 
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
+    const [defaultCash, setDefaultCash] = useState<number>(1000000);
+    const [defaultSizer, setDefaultSizer] = useState<Sizer>({
+        type: 'fix',
+        amount: 10,
+    });
+
     const [backtestRunning, setBacktestRunning] = useState<boolean>(false);
     const [trades, setTrades] = useState<Trade[] | undefined>(undefined);
     const [plotData, setPlotData] = useState<BokehEmbedPlot | undefined>(
@@ -76,6 +86,10 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     };
 
     const value = {
+        defaultCash,
+        setDefaultCash,
+        defaultSizer,
+        setDefaultSizer,
         backtestRunning,
         setBacktestRunning,
         trades,

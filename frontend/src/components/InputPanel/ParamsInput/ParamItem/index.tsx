@@ -38,7 +38,7 @@ const ParamItem: React.FC<ParamItemProps> = ({
                         type={
                             typeof defaultParam === 'number' ? 'number' : 'text'
                         }
-                        value={value}
+                        value={value ? value : 0}
                         onChange={handleTextChange}
                     />
                 )}
