@@ -46,6 +46,7 @@ class StrategiesManager:
         strategy_name,
         ticker,
         timeframe,
+        plotkind,
         params,
         sizer,
         sizer_amount=DEFAULT_SIZER_AMOUNT,
@@ -75,4 +76,4 @@ class StrategiesManager:
         strat = cerebro.run()
         back = strat[0]
 
-        return analysis(back.analyzers, ticker, timeframe)
+        return analysis(back.analyzers, ticker, timeframe, plotkind)

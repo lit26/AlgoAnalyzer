@@ -39,10 +39,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
     };
 
     const handleSizerChange = (e: SelectChangeEvent) => {
-        setCurSizer({
-            ...curSizer,
-            type: e.target.value,
-        });
+        const inputSizer = e.target.value;
+        if (inputSizer === 'fix' || inputSizer === 'percentage') {
+            setCurSizer({
+                ...curSizer,
+                type: inputSizer,
+            });
+        }
     };
 
     const handleSizerAmountChange = (

@@ -56,6 +56,6 @@ export type StrategyStat = {
 };
 
 export type Sizer = {
-    type: string;
+    type: 'fix' | 'percentage';
     amount: number;
 };

@@ -28,7 +28,7 @@ const BacktestPanel: React.FC = () => {
                 ))}
             </div>
             <div className="BacktestPanel__content">
-                {trades ? (
+                {trades && !backtestRunning ? (
                     <>
                         {curBacktestTab === 'Transactions' && <Transactions />}
                         {curBacktestTab === 'Performance' && <Performance />}

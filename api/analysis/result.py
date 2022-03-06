@@ -4,7 +4,7 @@ from ..stock_data.grab_data import *
 from ..plot.plot import Stockplot, Portfolioplot
 
 
-def analysis(analyzers, ticker, timeframe):
+def analysis(analyzers, ticker, timeframe, plotkind):
     trades_res = analyzers.trades.get_analysis()
     positions_res = analyzers.positions.get_analysis()
     trades = get_trades(trades_res["trades"], trades_res["transactions"])
@@ -14,7 +14,7 @@ def analysis(analyzers, ticker, timeframe):
         stat[k] = v
     
     plot, position_plot = get_strategy_plot(
-        ticker, timeframe, trades_res["transactions"], positions_res
+        ticker, timeframe, trades_res["transactions"], positions_res, plotkind
     )
 
     res = analyzers.drawdown.get_analysis()
@@ -55,7 +55,7 @@ def get_pnl_info(trades):
     }
 
 
-def get_strategy_plot(ticker, timeframe, transactions, positions):
+def get_strategy_plot(ticker, timeframe, transactions, positions, plotkind):
     df = read_data(ticker, timeframe)
     df["Date"] = pd.to_datetime(df["Date"])
 
@@ -71,7 +71,7 @@ def get_strategy_plot(ticker, timeframe, transactions, positions):
             marker="inverted_triangle",
         ),
     ]
-    bfp = Stockplot(ticker, df, addplot=addplot)
+    bfp = Stockplot(ticker, df, addplot=addplot, kind=plotkind)
     json_item, p_scale = bfp.get_component()
     plot = {"pscale": p_scale, "plotdata": json.dumps(json_item)}
 

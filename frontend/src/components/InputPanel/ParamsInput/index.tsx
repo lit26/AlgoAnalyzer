@@ -86,6 +86,7 @@ const ParamsInput: React.FC = () => {
             currentStrategy.name,
             'AAPL',
             '1d',
+            'candlestick',
             params,
             defaultCash,
             defaultSizer,
