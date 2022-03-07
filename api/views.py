@@ -121,4 +121,7 @@ class StrategyView(views.APIView):
         analysis_result = STManager.run_strategy(
             strategy, ticker, timeframe, plotkind, params, sizer['type'], sizer['amount'], cash
         )
+        analysis_result['ticker'] = ticker
+        analysis_result['timeframe'] = timeframe
+        analysis_result['strategy'] = strategy
         return Response(analysis_result, status=status.HTTP_200_OK)
