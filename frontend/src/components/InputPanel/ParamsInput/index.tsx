@@ -13,7 +13,6 @@ const ParamsInput: React.FC = () => {
     const { addNotifications } = useNotification();
     const {
         updateBacktestResult,
-        handlePlot,
         setPortfolioPlotData,
         setBacktestRunning,
         defaultCash,
@@ -94,7 +93,6 @@ const ParamsInput: React.FC = () => {
             .then((res: BacktestRes) => {
                 setBacktestRunning(false);
                 updateBacktestResult(res);
-                handlePlot(res.plot);
                 setPortfolioPlotData(res.portfolio.plotdata);
             })
             .catch(err => {

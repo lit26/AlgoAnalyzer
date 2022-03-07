@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { BacktestRes, BokehPlotRes } from '../types/response';
-import { Trade, Sizer } from '../types/data';
+import { Trade, Sizer, Drawdown, StrategyStat } from '../types/data';
 import {
     BokehEmbedPlot,
     BokehEmbedPlotReference,
@@ -15,8 +15,10 @@ interface BacktestContextProps {
     setDefaultSizer: React.Dispatch<React.SetStateAction<Sizer>>;
     backtestRunning: boolean;
     setBacktestRunning: React.Dispatch<React.SetStateAction<boolean>>;
-    trades?: Trade[];
-    setTrades: React.Dispatch<React.SetStateAction<Trade[] | undefined>>;
+    backtestRes?: BacktestRes;
+    setBacktestRes: React.Dispatch<
+        React.SetStateAction<BacktestRes | undefined>
+    >;
     plotData?: BokehEmbedPlot;
     setPlotData: React.Dispatch<
         React.SetStateAction<BokehEmbedPlot | undefined>
@@ -48,12 +50,15 @@ export function useBacktest() {
 export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     const [defaultCash, setDefaultCash] = useState<number>(1000000);
     const [defaultSizer, setDefaultSizer] = useState<Sizer>({
-        type: 'fix',
+        type: 'percentage',
         amount: 10,
     });
 
     const [backtestRunning, setBacktestRunning] = useState<boolean>(false);
-    const [trades, setTrades] = useState<Trade[] | undefined>(undefined);
+    const [backtestRes, setBacktestRes] = useState<BacktestRes | undefined>(
+        undefined,
+    );
+
     const [plotData, setPlotData] = useState<BokehEmbedPlot | undefined>(
         undefined,
     );
@@ -66,7 +71,8 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     );
 
     const updateBacktestResult = (backtestRes: BacktestRes) => {
-        setTrades(backtestRes.trades);
+        setBacktestRes(backtestRes);
+        handlePlot(backtestRes.plot);
     };
 
     const handlePlot = (res: BokehPlotRes) => {
@@ -92,10 +98,16 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         setDefaultSizer,
         backtestRunning,
         setBacktestRunning,
-        trades,
-        setTrades,
+        backtestRes,
+        setBacktestRes,
+        // backtestStat,
+        // setBacktestStat,
+        // trades,
+        // setTrades,
         plotData,
         setPlotData,
+        // drawdown,
+        // setDrawdown,
         portfolioPlotData,
         setPortfolioPlotData,
         plotScales,

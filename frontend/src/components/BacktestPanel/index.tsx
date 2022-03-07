@@ -11,7 +11,7 @@ const BacktestPanel: React.FC = () => {
     const [curBacktestTab, setCurBacktestTab] = useState<string>(
         backtestTabs[0],
     );
-    const { trades, backtestRunning } = useBacktest();
+    const { backtestRes, backtestRunning } = useBacktest();
 
     return (
         <div className="BacktestPanel">
@@ -28,7 +28,7 @@ const BacktestPanel: React.FC = () => {
                 ))}
             </div>
             <div className="BacktestPanel__content">
-                {trades && !backtestRunning ? (
+                {backtestRes && !backtestRunning ? (
                     <>
                         {curBacktestTab === 'Transactions' && <Transactions />}
                         {curBacktestTab === 'Performance' && <Performance />}
@@ -47,7 +47,7 @@ const BacktestPanel: React.FC = () => {
                                 <div>Backtest running.</div>
                             </div>
                         ) : (
-                            <div>No backtest Strategy running.</div>
+                            <div>No backtest strategy running.</div>
                         )}
                     </div>
                 )}

@@ -18,7 +18,7 @@ const cellStyle = {
 };
 
 const Transactions: React.FC = () => {
-    const { chartSize, trades } = useBacktest();
+    const { chartSize, backtestRes } = useBacktest();
 
     return (
         <Paper
@@ -50,8 +50,8 @@ const Transactions: React.FC = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {trades &&
-                            trades.map((trade, id) =>
+                        {backtestRes &&
+                            backtestRes.trades.map((trade, id) =>
                                 trade.trades.map((transaction, index) => (
                                     <TableRow
                                         hover

@@ -7,6 +7,9 @@ export type PlatformRes = {
 };
 
 export type BacktestRes = {
+    ticker: string;
+    timeframe: string;
+    strategy: string;
     stat: StrategyStat;
     trades: Trade[];
     plot: any;

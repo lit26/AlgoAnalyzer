@@ -64,6 +64,7 @@ const Layout: React.FC = () => {
                     direction="vertical"
                     gutterSize={5}
                     sizes={[65, 35]}
+                    minSize={[200, 200]}
                     onDrag={handleDrag}
                     onDragEnd={updateSize}>
                     <div ref={chartRef}>

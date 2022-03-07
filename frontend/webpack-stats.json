@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/InputPanel/ParamsInput/index.tsx(90,13)\n      TS1005: ',' expected."
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/ResultPanel/index.tsx(55,51)\n      TS2345: Argument of type 'readonly Row[]' is not assignable to parameter of type 'Row[]'.\n  The type 'readonly Row[]' is 'readonly' and cannot be assigned to the mutable type 'Row[]'."
 }
