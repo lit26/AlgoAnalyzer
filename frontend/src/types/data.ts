@@ -30,7 +30,7 @@ export type Transaction = {
     pnl: number;
     pnlcomm: number;
     barlen: number;
-    pnlpct?: number;
+    pnlpct: number;
 };
 
 export type Trade = {
@@ -46,6 +46,11 @@ export type Drawdown = {
 };
 
 export type StrategyStat = {
+    totalreturn: number;
+    buyhold: number;
+    maxpnl: number;
+    minpnl: number;
+    winrate: number;
     sharpe: number;
     sqn: number;
     trades: number;

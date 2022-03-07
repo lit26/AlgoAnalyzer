@@ -1,10 +1,14 @@
 import json
+import numpy as np
 import pandas as pd
 from ..stock_data.grab_data import *
 from ..plot.plot import Stockplot, Portfolioplot
 
 
 def analysis(analyzers, ticker, timeframe, plotkind):
+    df = read_data(ticker, timeframe)
+    df["Date"] = pd.to_datetime(df["Date"])
+
     trades_res = analyzers.trades.get_analysis()
     positions_res = analyzers.positions.get_analysis()
     trades = get_trades(trades_res["trades"], trades_res["transactions"])
@@ -14,8 +18,10 @@ def analysis(analyzers, ticker, timeframe, plotkind):
         stat[k] = v
     
     plot, position_plot = get_strategy_plot(
-        ticker, timeframe, trades_res["transactions"], positions_res, plotkind
+        df, trades_res["transactions"], positions_res, plotkind
     )
+    stat['totalreturn'] = get_total_return(positions_res)
+    stat['buyhold'] = (df['Adj Close'].iloc[-1]-df['Adj Close'].iloc[0])*100/df['Adj Close'].iloc[0]
 
     res = analyzers.drawdown.get_analysis()
     drawdown_info = get_drawdown(res)
@@ -55,9 +61,7 @@ def get_pnl_info(trades):
     }
 
 
-def get_strategy_plot(ticker, timeframe, transactions, positions, plotkind):
-    df = read_data(ticker, timeframe)
-    df["Date"] = pd.to_datetime(df["Date"])
+def get_strategy_plot(df, transactions, positions, plotkind):
 
     # transactions plot
     df = get_buy_sell(df, transactions)
@@ -71,7 +75,7 @@ def get_strategy_plot(ticker, timeframe, transactions, positions, plotkind):
             marker="inverted_triangle",
         ),
     ]
-    bfp = Stockplot(ticker, df, addplot=addplot, kind=plotkind)
+    bfp = Stockplot(df, addplot=addplot, kind=plotkind)
     json_item, p_scale = bfp.get_component()
     plot = {"pscale": p_scale, "plotdata": json.dumps(json_item)}
 
@@ -83,6 +87,9 @@ def get_strategy_plot(ticker, timeframe, transactions, positions, plotkind):
     position_plot = {"pscale": p_scale2, "plotdata": json.dumps(position_json_item)}
     return plot, position_plot
 
+def get_total_return(positions_res):
+    positions = list(positions_res.items())
+    return (positions[-1][1][1]-positions[0][1][1])*100/positions[0][1][1]
 
 def get_trades(trades, transactions):
     all_trades = []

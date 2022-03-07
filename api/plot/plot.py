@@ -36,7 +36,6 @@ curdoc().theme = Theme(filename="api/plot/theme.yml")
 class Stockplot:
     def __init__(
         self,
-        stock,
         data,
         date="Date",
         open="Open",
@@ -50,7 +49,6 @@ class Stockplot:
         main_plot_height=400,
         volume_plot_height=100,
     ):
-        self._stock = stock
         self._date = date
         self._open = open
         self._high = high

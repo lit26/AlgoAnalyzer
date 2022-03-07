@@ -38,9 +38,9 @@ const ResultPanel: React.FC = () => {
     }, [backtestRes]);
 
     return (
-        <>
-            {backtestRes ? (
-                <div className="ResultPanel">
+        <div className="ResultPanel">
+            {backtestRes && (
+                <>
                     {/* basic info */}
                     <h3>{backtestRes.strategy}</h3>
                     {/* stat */}
@@ -71,11 +71,9 @@ const ResultPanel: React.FC = () => {
                             />
                         ))}
                     </div>
-                </div>
-            ) : (
-                <div>No backtest strategy running.</div>
+                </>
             )}
-        </>
+        </div>
     );
 };
 
