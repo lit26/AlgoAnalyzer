@@ -1,39 +1,26 @@
 @import "../../../../util";
 
-.StockdataItems{
-    margin-top: 0.25rem !important;
-    margin-bottom: 0.25rem !important;
-    background-color: $secondaryColor !important;
-    color: $textColor !important;
+.StockdataItems__item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
     border-radius: 10px !important;
-    svg{
-        color: $textColor !important;
+    padding: 0.25rem;
+    cursor: pointer;
+    div{
+        flex:0.3;
     }
-    &.mouseOver{
-        background-color: $thirdColor !important;
+    &:hover{
+        background: rgba(0, 0, 0, 0.04) !important
     }
-    .StockdataItems__item{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 8px;
-        border-radius: 10px !important;
-        padding: 0.25rem;
-        cursor: pointer;
-        div{
-            flex:0.3;
+    .StockdataItems__itemActions{
+        text-align: right;
+        svg:hover{
+            color: $grayColor !important;
         }
-        &.mouseOver{
-            background-color: $primaryColor !important;
-        }
-        .StockdataItems__itemActions{
-            text-align: right;
-            svg:hover{
-                color: $grayColor !important;
-            }
-            .StockdataItems__itemDeleteIcon{
-                color: red !important;
-            }
+        .StockdataItems__itemDeleteIcon{
+            color: red !important;
         }
     }
 }

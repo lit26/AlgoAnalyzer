@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Split from 'react-split';
 import { useBacktest } from '../../context/BacktestContext';
 import Topbar from '../Topbar';

@@ -14,13 +14,16 @@ def analysis(analyzers, ticker, timeframe, plotkind):
     trades = get_trades(trades_res["trades"], trades_res["transactions"])
 
     stat = {}
-    for k,v in get_pnl_info(trades).items():
+    pnl_list, pnl_stat = get_pnl_info(trades)
+    for k,v in pnl_stat.items():
         stat[k] = v
+    pnl_list = np.array([i/100 for i in pnl_list])
+    returns = (1 + pnl_list).cumprod() - 1
+    stat['totalreturn'] = returns[-1]*100
     
     plot, position_plot = get_strategy_plot(
         df, trades_res["transactions"], positions_res, plotkind
     )
-    stat['totalreturn'] = get_total_return(positions_res)
     stat['buyhold'] = (df['Adj Close'].iloc[-1]-df['Adj Close'].iloc[0])*100/df['Adj Close'].iloc[0]
 
     res = analyzers.drawdown.get_analysis()
@@ -54,7 +57,7 @@ def get_drawdown(drawdown):
 
 def get_pnl_info(trades):
     pnl_list = [trade['trades'][1]['pnlpct'] for trade in trades if len(trade['trades']) == 2]
-    return {
+    return pnl_list, {
         'maxpnl': max(pnl_list),
         'minpnl': min(pnl_list),
         'winrate': len([i for i in pnl_list if i > 0])*100 / len(pnl_list)
@@ -86,10 +89,6 @@ def get_strategy_plot(df, transactions, positions, plotkind):
     position_json_item, p_scale2 = bfp_portfolio.get_component()
     position_plot = {"pscale": p_scale2, "plotdata": json.dumps(position_json_item)}
     return plot, position_plot
-
-def get_total_return(positions_res):
-    positions = list(positions_res.items())
-    return (positions[-1][1][1]-positions[0][1][1])*100/positions[0][1][1]
 
 def get_trades(trades, transactions):
     all_trades = []

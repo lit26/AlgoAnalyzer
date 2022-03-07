@@ -9,7 +9,7 @@ export const statRowsLabels: Row[] = [
     { key: 'trades', label: '# Trades', pct: false },
     { key: 'winrate', label: 'Win rate', pct: true },
     { key: 'totalreturn', label: 'Return', pct: true },
-    { key: 'buyhold', label: 'Buy hold', pct: true },
+    { key: 'buyhold', label: 'Buy & hold', pct: true },
     { key: 'maxpnl', label: 'Max pnl', pct: true },
     { key: 'minpnl', label: 'Min pnl', pct: true },
     { key: 'sharpe', label: 'Sharpe', pct: false },

@@ -30,7 +30,7 @@ class SingleStockDataView(views.APIView):
     def get(self, request, ticker, timeframe):
         df = read_data(ticker, timeframe)
         df["Date"] = pd.to_datetime(df["Date"])
-        bfp = Stockplot(ticker, df)
+        bfp = Stockplot(df)
         json_item, p_scale = bfp.get_component()
         plot = {"plotdata": json.dumps(json_item), "pscale": p_scale}
         return Response(plot, status=status.HTTP_200_OK)

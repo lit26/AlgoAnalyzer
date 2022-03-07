@@ -1,11 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { getStockDataRequest } from '../../apis/stockData';
-import {
-    BokehEmbedPlot,
-    BokehEmbedPlotReference,
-    ChartSize,
-} from '../../types/plot';
+import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
 import { useBacktest } from '../../context/BacktestContext';
+import { useNotification } from '../../context/NotificationContext';
 import './Chart.scss';
 
 interface ChartProps {
@@ -15,11 +12,12 @@ interface ChartProps {
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const { plotData, handlePlot, plotScales } = useBacktest();
+    const { addNotifications } = useNotification();
 
     useEffect(() => {
         getStockDataRequest()
             .then(res => handlePlot(res))
-            .catch(err => console.error(err));
+            .catch(err => addNotifications('Fail to plot chart.', 'error'));
     }, []);
 
     useEffect(() => {

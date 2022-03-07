@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StockDataInfo } from '../../../../../types/data';
+import { useManager } from '../../../../../context/ManagerContext';
+import { useNotification } from '../../../../../context/NotificationContext';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -7,8 +9,6 @@ import {
     updateStockDataRequest,
     deleteStockDataRequest,
 } from '../../../../../apis/stockData';
-import { useManager } from '../../../../../context/ManagerContext';
-import { useNotification } from '../../../../../context/NotificationContext';
 
 interface StockdataItemProps {
     stockInfo: StockDataInfo;
@@ -21,7 +21,6 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
 }) => {
     const { updateStockData, deleteStockData, setCurrentTicker } = useManager();
     const { addNotifications } = useNotification();
-    const [mouseOver, setMouseOver] = useState<boolean>(false);
 
     const handleStockSelect = () => {
         setCurrentTicker(stockInfo);
@@ -41,15 +40,13 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     };
 
     return (
-        <div
-            className={`StockdataItems__item ${mouseOver ? 'mouseOver' : ''}`}
-            onMouseOver={() => setMouseOver(true)}
-            onMouseOut={() => setMouseOver(false)}>
+        <div className={`StockdataItems__item`}>
             <div>{stockInfo.timeframe}</div>
-            <div>
+            {/* <div>
                 <div>{`${stockInfo.startTime}-`}</div>
                 <div>{stockInfo.endTime}</div>
-            </div>
+            </div> */}
+            <div>{`${stockInfo.startTime} - ${stockInfo.endTime}`}</div>
             <div className="StockdataItems__itemActions">
                 <KeyboardReturnIcon onClick={handleStockSelect} />
                 <RefreshIcon onClick={handleStockUpdate} />

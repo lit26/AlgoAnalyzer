@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Layout/index.tsx(7,8)\n      TS1192: Module '\"/Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/ResultPanel/index\"' has no default export."
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Topbar/StockdataManager/index.tsx(204,38)\n      TS2741: Property 'handleCloseModal' is missing in type '{ stock: string; timeframe: string; }' but required in type 'StockdataItemsProps'."
 }

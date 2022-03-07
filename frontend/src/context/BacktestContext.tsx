@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { BacktestRes, BokehPlotRes } from '../types/response';
-import { Trade, Sizer, Drawdown, StrategyStat } from '../types/data';
+import { Sizer } from '../types/data';
 import {
     BokehEmbedPlot,
     BokehEmbedPlotReference,
@@ -51,7 +51,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
     const [defaultCash, setDefaultCash] = useState<number>(1000000);
     const [defaultSizer, setDefaultSizer] = useState<Sizer>({
         type: 'percentage',
-        amount: 10,
+        amount: 95,
     });
 
     const [backtestRunning, setBacktestRunning] = useState<boolean>(false);

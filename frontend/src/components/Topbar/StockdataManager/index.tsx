@@ -14,23 +14,21 @@ import {
     updateStockDataRequest,
     deleteStockDataRequest,
 } from '../../../apis/stockData';
+import TreeItem from '@mui/lab/TreeItem';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import StockdataItem from './StockdataItem';
+import TreeView from '@mui/lab/TreeView';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);
     const [timeframe, setTimeframe] = useState<string>('');
-    const [stockExpand, setStockExpand] = useState<string | false>('panel1');
     const [stockDataManagerModalOpen, setStockDataManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { currentTicker, stockDataList, addStockData, deleteStockData } =
         useManager();
     const { addNotifications } = useNotification();
-
-    const handlePanelChange =
-        (panel: string) =>
-        (event: React.SyntheticEvent, newExpanded: boolean) => {
-            setStockExpand(newExpanded ? panel : false);
-        };
 
     useEffect(() => {
         if (!stockDataManagerModalOpen) {
@@ -183,16 +181,33 @@ const StockdataManager: React.FC = () => {
                     <hr className="subDivider" />
                     {/* Stock data */}
                     <div className="StockdataManager__stockData">
-                        {stockList.map(stock => (
-                            <StockdataItems
-                                key={`stockDataItems_${stock}_${timeframe}`}
-                                expand={stockExpand}
-                                handlePanelChange={handlePanelChange}
-                                stock={stock}
-                                timeframe={timeframe}
-                                handleCloseModal={handleCloseStockDataManager}
-                            />
-                        ))}
+                        <TreeView
+                            aria-label="file system navigator"
+                            defaultCollapseIcon={<ExpandMoreIcon />}
+                            defaultExpandIcon={<ChevronRightIcon />}
+                            sx={{
+                                flexGrow: 1,
+                                overflowY: 'auto',
+                                overflowX: 'hidden',
+                            }}>
+                            {stockList.map(stock => (
+                                <TreeItem
+                                    key={`stock_${stock}`}
+                                    nodeId={`stock_${stock}`}
+                                    sx={{
+                                        padding: '0.25rem',
+                                    }}
+                                    label={stock}>
+                                    <StockdataItems
+                                        stock={stock}
+                                        timeframe={timeframe}
+                                        handleCloseModal={
+                                            handleCloseStockDataManager
+                                        }
+                                    />
+                                </TreeItem>
+                            ))}
+                        </TreeView>
                     </div>
                 </div>
             </Modal>
