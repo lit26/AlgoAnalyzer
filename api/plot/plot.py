@@ -134,6 +134,7 @@ class Stockplot:
         return tool_tips
 
     def _process_data(self, data):
+        data.dropna(inplace=True)
         data[INDEX_COL] = data.index
         self._source = ColumnDataSource(data)
         inc = self._source.data[self._close] > self._source.data[self._open]
@@ -396,3 +397,9 @@ class Portfolioplot:
 
     def show(self):
         show(column(self._p))
+
+if __name__ == "__main__":
+    df = pd.read_csv(f"api/stock_data/data/AAPL_1mo.csv")
+    df["Date"] = pd.to_datetime(df["Date"])
+    bfp = Stockplot(df,kind='candlestick')
+    bfp.show()
