@@ -10,7 +10,5 @@
     "main": [
       "main.js"
     ]
-  },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Topbar/StockdataManager/index.tsx(204,38)\n      TS2741: Property 'handleCloseModal' is missing in type '{ stock: string; timeframe: string; }' but required in type 'StockdataItemsProps'."
+  }
 }

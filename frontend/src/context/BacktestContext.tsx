@@ -1,12 +1,13 @@
 import React, { useState, useContext } from 'react';
 import { ProviderProps } from '../types/provider';
 import { BacktestRes, BokehPlotRes } from '../types/response';
-import { Sizer } from '../types/data';
+import { Sizer, StockDataInfo, StrategyParam } from '../types/data';
 import {
     BokehEmbedPlot,
     BokehEmbedPlotReference,
     ChartSize,
 } from '../types/plot';
+import { backtestStrategy } from '../apis/strategy';
 
 interface BacktestContextProps {
     defaultCash: number;
@@ -31,6 +32,13 @@ interface BacktestContextProps {
     setPlotScales: React.Dispatch<React.SetStateAction<number[]>>;
     chartSize?: ChartSize;
     setChartSize: React.Dispatch<React.SetStateAction<ChartSize | undefined>>;
+    runStrategy: (
+        currentStrategyName: string,
+        currentTicker?: StockDataInfo,
+        param?: StrategyParam[],
+        initialCash?: number,
+        sizer?: Sizer,
+    ) => Promise<unknown>;
     updateBacktestResult: (backtestRes: BacktestRes) => void;
     handlePlot: (res: BokehPlotRes) => void;
 }
@@ -70,9 +78,71 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         undefined,
     );
 
+    const validateParams = (params: StrategyParam[]) => {
+        let postParams = {};
+        if (params) {
+            const checkMissing = params.find(param => !param.current);
+            if (checkMissing) {
+                return;
+            }
+            postParams = Object.assign(
+                {},
+                ...params.map(param => ({
+                    [param.name]: param.current,
+                })),
+            );
+        }
+        return postParams;
+    };
+
+    const runStrategy = (
+        currentStrategyName: string,
+        currentTicker?: StockDataInfo,
+        params?: StrategyParam[],
+        initialCash: number = defaultCash,
+        sizer: Sizer = defaultSizer,
+    ) => {
+        return new Promise((resolve, reject) => {
+            if (currentStrategyName === '') {
+                reject({ msg: 'No strategy is selected.' });
+                return;
+            }
+            if (!currentTicker || !params) {
+                setBacktestRunning(false);
+                reject({ msg: 'You are missing stock.' });
+                return;
+            }
+            const postParams = validateParams(params);
+            if (!postParams) {
+                reject({ msg: 'You are missing input parameters.' });
+                setBacktestRunning(false);
+            } else {
+                backtestStrategy(
+                    currentStrategyName,
+                    currentTicker.ticker,
+                    currentTicker.timeframe,
+                    'candlestick',
+                    postParams,
+                    initialCash,
+                    sizer,
+                )
+                    .then((res: BacktestRes) => {
+                        updateBacktestResult(res);
+                        resolve({ msg: 'Backtest successfully.' });
+                    })
+                    .catch(err => {
+                        setBacktestRunning(false);
+                        reject({ msg: 'Fail to run strategy.' });
+                    });
+            }
+        });
+    };
+
     const updateBacktestResult = (backtestRes: BacktestRes) => {
         setBacktestRes(backtestRes);
         handlePlot(backtestRes.plot);
+        setPortfolioPlotData(backtestRes.portfolio.plotdata);
+        setBacktestRunning(false);
     };
 
     const handlePlot = (res: BokehPlotRes) => {
@@ -100,20 +170,15 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         setBacktestRunning,
         backtestRes,
         setBacktestRes,
-        // backtestStat,
-        // setBacktestStat,
-        // trades,
-        // setTrades,
         plotData,
         setPlotData,
-        // drawdown,
-        // setDrawdown,
         portfolioPlotData,
         setPortfolioPlotData,
         plotScales,
         setPlotScales,
         chartSize,
         setChartSize,
+        runStrategy,
         updateBacktestResult,
         handlePlot,
     };

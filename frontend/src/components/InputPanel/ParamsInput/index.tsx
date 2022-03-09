@@ -5,19 +5,11 @@ import { useBacktest } from '../../../context/BacktestContext';
 import { useNotification } from '../../../context/NotificationContext';
 import ParamItem from './ParamItem';
 import './ParamsInput.scss';
-import { backtestStrategy } from '../../../apis/strategy';
-import { BacktestRes } from '../../../types/response';
 
 const ParamsInput: React.FC = () => {
-    const { currentStrategy, setCurrentStrategy } = useManager();
+    const { currentStrategy, setCurrentStrategy, currentTicker } = useManager();
     const { addNotifications } = useNotification();
-    const {
-        updateBacktestResult,
-        setPortfolioPlotData,
-        setBacktestRunning,
-        defaultCash,
-        defaultSizer,
-    } = useBacktest();
+    const { setBacktestRunning, runStrategy } = useBacktest();
 
     const resetParams = () => {
         if (currentStrategy.params) {
@@ -63,42 +55,13 @@ const ParamsInput: React.FC = () => {
     const updateParams = () => {
         setBacktestRunning(true);
 
-        // format params
-        let params = {};
-        if (currentStrategy.params) {
-            const checkMissing = currentStrategy.params.find(
-                param => !param.current,
-            );
-            if (checkMissing) {
-                addNotifications('You have missing parameters.', 'error');
-                return;
-            }
-            params = Object.assign(
-                {},
-                ...currentStrategy.params.map(param => ({
-                    [param.name]: param.current,
-                })),
-            );
-        }
-
-        backtestStrategy(
+        runStrategy(
             currentStrategy.name,
-            'AAPL',
-            '1d',
-            'candlestick',
-            params,
-            defaultCash,
-            defaultSizer,
-        )
-            .then((res: BacktestRes) => {
-                setBacktestRunning(false);
-                updateBacktestResult(res);
-                setPortfolioPlotData(res.portfolio.plotdata);
-            })
-            .catch(err => {
-                setBacktestRunning(false);
-                addNotifications('Fail to run strategy.', 'error');
-            });
+            currentTicker,
+            currentStrategy.params,
+        ).catch(err => {
+            addNotifications(err.msg, 'error');
+        });
     };
 
     return (

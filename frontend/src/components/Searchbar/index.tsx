@@ -21,6 +21,7 @@ const Searchbar: React.FC<Searchbar> = ({ search, onChange, placeholder }) => {
                 placeholder={placeholder}
                 value={search}
                 onChange={onChange}
+                sx={{ flexGrow: 1, paddingRight: '20px' }}
             />
         </div>
     );

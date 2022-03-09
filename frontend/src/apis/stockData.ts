@@ -1,12 +1,11 @@
 import { API_URL, apiRequest } from './util';
 import { StockDataInfo } from '../types/data';
-import { BokehEmbedPlot } from '../types/plot';
 import { BokehPlotRes } from '../types/response';
 
-export const getStockDataRequest = () => {
+export const getStockDataRequest = (ticker: string, timeframe: string) => {
     return new Promise<BokehPlotRes>((resolve, reject) => {
         apiRequest(
-            `${API_URL}/api/v1/stockdata/ticker=AAPL&timeframe=1d`,
+            `${API_URL}/api/v1/stockdata/ticker=${ticker}&timeframe=${timeframe}`,
             'GET',
         )
             .then((res: any) => {

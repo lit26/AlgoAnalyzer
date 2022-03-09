@@ -43,14 +43,14 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<Strategy[]>([]);
 
-    // save manager input information
+    // save manager strategy input information
     useEffect(() => {
         if (currentStrategy.name !== '') {
             localStorage.setItem('strategy', JSON.stringify(currentStrategy));
         }
     }, [currentStrategy]);
 
-    // load manager input information
+    // load manager strategy input information
     useEffect(() => {
         if (localStorage.getItem('strategy') !== null) {
             const saveStrategyStr = localStorage.getItem('strategy');
@@ -69,6 +69,12 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
             }
         }
     }, [strategyList]);
+
+    useEffect(() => {
+        if (stockDataList.length > 0 && !currentTicker) {
+            setCurrentTicker(stockDataList[0]);
+        }
+    }, [stockDataList]);
 
     // managing stock data
     const addStockData = (stockData: StockDataInfo) => {

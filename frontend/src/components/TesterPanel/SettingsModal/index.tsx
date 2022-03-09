@@ -8,7 +8,9 @@ import {
     FormControl,
 } from '@mui/material/';
 import './SettingsModal.scss';
+import { useManager } from '../../../context/ManagerContext';
 import { useBacktest } from '../../../context/BacktestContext';
+import { useNotification } from '../../../context/NotificationContext';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Sizer } from '../../../types/data';
 
@@ -24,8 +26,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
         amount: 0,
     });
 
-    const { defaultCash, setDefaultCash, defaultSizer, setDefaultSizer } =
-        useBacktest();
+    const { addNotifications } = useNotification();
+    const { currentStrategy, currentTicker } = useManager();
+    const {
+        defaultCash,
+        setDefaultCash,
+        defaultSizer,
+        setDefaultSizer,
+        runStrategy,
+        setBacktestRunning,
+    } = useBacktest();
 
     useEffect(() => {
         setCurCash(defaultCash);
@@ -61,6 +71,19 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
         setDefaultSizer(curSizer);
         setDefaultCash(curCash);
         handleClose();
+
+        if (currentStrategy.name !== '') {
+            setBacktestRunning(true);
+            runStrategy(
+                currentStrategy.name,
+                currentTicker,
+                currentStrategy.params,
+                curCash,
+                curSizer,
+            ).catch(err => {
+                addNotifications(err.msg, 'error');
+            });
+        }
     };
 
     const cancelUpdate = () => {

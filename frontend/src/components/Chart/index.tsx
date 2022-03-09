@@ -3,6 +3,7 @@ import { getStockDataRequest } from '../../apis/stockData';
 import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
 import { useBacktest } from '../../context/BacktestContext';
 import { useNotification } from '../../context/NotificationContext';
+import { useManager } from '../../context/ManagerContext';
 import './Chart.scss';
 
 interface ChartProps {
@@ -11,14 +12,17 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
+    const { currentTicker } = useManager();
     const { plotData, handlePlot, plotScales } = useBacktest();
     const { addNotifications } = useNotification();
 
     useEffect(() => {
-        getStockDataRequest()
-            .then(res => handlePlot(res))
-            .catch(err => addNotifications('Fail to plot chart.', 'error'));
-    }, []);
+        if (currentTicker) {
+            getStockDataRequest(currentTicker.ticker, currentTicker.timeframe)
+                .then(res => handlePlot(res))
+                .catch(err => addNotifications('Fail to plot chart.', 'error'));
+        }
+    }, [currentTicker]);
 
     useEffect(() => {
         if (chartRef.current) {

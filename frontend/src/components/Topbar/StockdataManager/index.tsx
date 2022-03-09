@@ -3,6 +3,7 @@ import CustomButton from '../../CustomButton';
 import Searchbar from '../../Searchbar';
 import './StockdataManager.scss';
 import { Modal, Backdrop, MenuItem, FormControl } from '@mui/material/';
+import { TreeItem, TreeView } from '@mui/lab';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useManager } from '../../../context/ManagerContext';
 import { useNotification } from '../../../context/NotificationContext';
@@ -10,14 +11,8 @@ import StockdataItems from './StockdataItems';
 import { TIMEFRAMES } from '../../../constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import {
-    updateStockDataRequest,
-    deleteStockDataRequest,
-} from '../../../apis/stockData';
-import TreeItem from '@mui/lab/TreeItem';
+import { updateStockDataRequest } from '../../../apis/stockData';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import StockdataItem from './StockdataItem';
-import TreeView from '@mui/lab/TreeView';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const StockdataManager: React.FC = () => {
@@ -26,8 +21,7 @@ const StockdataManager: React.FC = () => {
     const [stockDataManagerModalOpen, setStockDataManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
-    const { currentTicker, stockDataList, addStockData, deleteStockData } =
-        useManager();
+    const { currentTicker, stockDataList, addStockData } = useManager();
     const { addNotifications } = useNotification();
 
     useEffect(() => {
@@ -76,24 +70,6 @@ const StockdataManager: React.FC = () => {
                 .catch(() =>
                     addNotifications('Fail to add stock data.', 'error'),
                 );
-        }
-    };
-
-    const handleDeleteTicker = async () => {
-        if (validateInput(true)) {
-            const deleteStock = stockDataList.find(
-                stock =>
-                    stock.ticker === search && stock.timeframe === timeframe,
-            );
-            if (deleteStock) {
-                deleteStockDataRequest(search, timeframe)
-                    .then(res => deleteStockData(deleteStock.id))
-                    .catch(err =>
-                        addNotifications('Fail to delete stock data.', 'error'),
-                    );
-            } else {
-                addNotifications(`${search} is not exist.`, 'error');
-            }
         }
     };
 
@@ -173,7 +149,7 @@ const StockdataManager: React.FC = () => {
                                 className="StockdataManager__stockIcon"
                             />
                             <HighlightOffIcon
-                                onClick={handleDeleteTicker}
+                                onClick={() => setSearch('')}
                                 className="StockdataManager__stockIcon delete"
                             />
                         </div>
