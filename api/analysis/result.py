@@ -19,7 +19,10 @@ def analysis(analyzers, ticker, timeframe, plotkind):
         stat[k] = v
     pnl_list = np.array([i/100 for i in pnl_list])
     returns = (1 + pnl_list).cumprod() - 1
-    stat['totalreturn'] = returns[-1]*100
+    if len(returns) == 0:
+        stat['totalreturn'] = 0
+    else:
+        stat['totalreturn'] = returns[-1]*100
     
     plot, position_plot = get_strategy_plot(
         df, trades_res["transactions"], positions_res, plotkind
@@ -57,6 +60,12 @@ def get_drawdown(drawdown):
 
 def get_pnl_info(trades):
     pnl_list = [trade['trades'][1]['pnlpct'] for trade in trades if len(trade['trades']) == 2]
+    if len(pnl_list) == 0:
+        return [], {
+            'maxpnl': 0,
+            'minpnl': 0,
+            'winrate': 0
+        }
     return pnl_list, {
         'maxpnl': max(pnl_list),
         'minpnl': min(pnl_list),

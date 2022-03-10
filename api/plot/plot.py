@@ -134,7 +134,6 @@ class Stockplot:
         return tool_tips
 
     def _process_data(self, data):
-        data.dropna(inplace=True)
         data[INDEX_COL] = data.index
         self._source = ColumnDataSource(data)
         inc = self._source.data[self._close] > self._source.data[self._open]
