@@ -4774,7 +4774,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"TIMEFRAMES\": () => (/* binding */ TIMEFRAMES)\n/* harmony export */ });\nconst TIMEFRAMES = [\n    { display: '1d', value: '1d' },\n    { display: '1w', value: '1wk' },\n];\n\n\n//# sourceURL=webpack://frontend/./src/constants/index.tsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"TIMEFRAMES\": () => (/* binding */ TIMEFRAMES)\n/* harmony export */ });\nconst TIMEFRAMES = [\n    { display: '1d', value: '1d' },\n    { display: '1w', value: '1wk' },\n    { display: '1mo', value: '1mo' },\n    { display: '3mo', value: '3mo' },\n];\n\n\n//# sourceURL=webpack://frontend/./src/constants/index.tsx?");
 
 /***/ }),
 
