@@ -15,19 +15,23 @@ def analysis(analyzers, ticker, timeframe, plotkind):
 
     stat = {}
     pnl_list, pnl_stat = get_pnl_info(trades)
-    for k,v in pnl_stat.items():
+    for k, v in pnl_stat.items():
         stat[k] = v
-    pnl_list = np.array([i/100 for i in pnl_list])
+    pnl_list = np.array([i / 100 for i in pnl_list])
     returns = (1 + pnl_list).cumprod() - 1
     if len(returns) == 0:
-        stat['totalreturn'] = 0
+        stat["totalreturn"] = 0
     else:
-        stat['totalreturn'] = returns[-1]*100
-    
+        stat["totalreturn"] = returns[-1] * 100
+
     plot, position_plot = get_strategy_plot(
         df, trades_res["transactions"], positions_res, plotkind
     )
-    stat['buyhold'] = (df['Adj Close'].iloc[-1]-df['Adj Close'].iloc[0])*100/df['Adj Close'].iloc[0]
+    stat["buyhold"] = (
+        (df["Adj Close"].iloc[-1] - df["Adj Close"].iloc[0])
+        * 100
+        / df["Adj Close"].iloc[0]
+    )
 
     res = analyzers.drawdown.get_analysis()
     drawdown_info = get_drawdown(res)
@@ -58,18 +62,17 @@ def get_drawdown(drawdown):
         "maxmoneydown": drawdown.max.moneydown,
     }
 
+
 def get_pnl_info(trades):
-    pnl_list = [trade['trades'][1]['pnlpct'] for trade in trades if len(trade['trades']) == 2]
+    pnl_list = [
+        trade["trades"][1]["pnlpct"] for trade in trades if len(trade["trades"]) == 2
+    ]
     if len(pnl_list) == 0:
-        return [], {
-            'maxpnl': 0,
-            'minpnl': 0,
-            'winrate': 0
-        }
+        return [], {"maxpnl": 0, "minpnl": 0, "winrate": 0}
     return pnl_list, {
-        'maxpnl': max(pnl_list),
-        'minpnl': min(pnl_list),
-        'winrate': len([i for i in pnl_list if i > 0])*100 / len(pnl_list)
+        "maxpnl": max(pnl_list),
+        "minpnl": min(pnl_list),
+        "winrate": len([i for i in pnl_list if i > 0]) * 100 / len(pnl_list),
     }
 
 
@@ -99,6 +102,7 @@ def get_strategy_plot(df, transactions, positions, plotkind):
     position_plot = {"pscale": p_scale2, "plotdata": json.dumps(position_json_item)}
     return plot, position_plot
 
+
 def get_trades(trades, transactions):
     all_trades = []
     for k, v in trades.items():
@@ -119,15 +123,18 @@ def get_trades(trades, transactions):
         all_trades.append({"ref": k, "trades": transactions_in_trade})
     return [calculate_pnl_pct(i) for i in all_trades]
 
+
 def calculate_pnl_pct(trade):
-    if len(trade['trades']) == 2:
-        trades = trade['trades']
+    if len(trade["trades"]) == 2:
+        trades = trade["trades"]
         from_trade = trades[0]
         to_trade = trades[1]
-        from_trade['pnlpct'] = 0
-        to_trade['pnlpct'] = (to_trade['price'] - from_trade['price'])*100/from_trade['price']
-        
-        trade['trades'] = [from_trade, to_trade]
+        from_trade["pnlpct"] = 0
+        to_trade["pnlpct"] = (
+            (to_trade["price"] - from_trade["price"]) * 100 / from_trade["price"]
+        )
+
+        trade["trades"] = [from_trade, to_trade]
     return trade
 
 

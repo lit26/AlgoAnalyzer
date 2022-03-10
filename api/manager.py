@@ -6,7 +6,7 @@ from .analysis.trades import Trades
 from .analysis.result import *
 
 DEFAULT_CASH = 1000000
-DEFAULT_SIZER_AMOUNT= 10
+DEFAULT_SIZER_AMOUNT = 10
 
 STRATEGIES = {
     "MA Cross Strategy": MaCrossStrategy,

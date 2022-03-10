@@ -28,16 +28,20 @@ class SingleStockDataView(views.APIView):
     serializer_class = SingleStockDataSerializer
 
     def get(self, request, ticker, timeframe):
-        df = read_data(ticker, timeframe)
-        df["Date"] = pd.to_datetime(df["Date"])
-        bfp = Stockplot(df)
-        json_item, p_scale = bfp.get_component()
-        plot = {"plotdata": json.dumps(json_item), "pscale": p_scale}
-        return Response(plot, status=status.HTTP_200_OK)
+        serializer = self.serializer_class(
+            data={"ticker": ticker, "timeframe": timeframe}
+        )
+        if serializer.is_valid():
+            df = read_data(ticker, timeframe)
+            df["Date"] = pd.to_datetime(df["Date"])
+            bfp = Stockplot(df)
+            json_item, p_scale = bfp.get_component()
+            plot = {"plotdata": json.dumps(json_item), "pscale": p_scale}
+            return Response(plot, status=status.HTTP_200_OK)
+        return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
-
         if serializer.is_valid():
             ticker = serializer.data.get("ticker")
             timeframe = serializer.data.get("timeframe")
@@ -68,7 +72,7 @@ class SingleStockDataView(views.APIView):
                     )
             except:
                 return Response(
-                    {"msg": "Fetch data error..."},
+                    {"msg": ["Fetch data error..."]},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
         return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
@@ -84,13 +88,15 @@ class SingleStockDataView(views.APIView):
                 queryset.delete()
                 delete_data(ticker, timeframe)
                 return Response(
-                    {"msg": "Delete successfully"}, status=status.HTTP_200_OK
+                    {"msg": ["Delete successfully"]}, status=status.HTTP_200_OK
                 )
             except:
                 return Response(
-                    {"msg": "Not exist..."}, status=status.HTTP_400_BAD_REQUEST
+                    {"msg": ["Not exist..."]}, status=status.HTTP_400_BAD_REQUEST
                 )
-        return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"msg": ["Invalid data..."]}, status=status.HTTP_400_BAD_REQUEST
+        )
 
 
 STManager = StrategiesManager()
@@ -101,7 +107,7 @@ class StrategyView(views.APIView):
         params = STManager.get_strategy_detail(strategy)
         if not params:
             return Response(
-                {"msg": "Strategy not exist..."},
+                {"msg": ["Strategy not exist..."]},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         return Response({"params": params}, status=status.HTTP_200_OK)
@@ -115,13 +121,20 @@ class StrategyView(views.APIView):
         plotkind = request.data["plotkind"]
         if not STManager.get_strategy_detail(strategy):
             return Response(
-                {"msg": "Strategy not exist..."},
+                {"msg": ["Strategy not exist..."]},
                 status=status.HTTP_400_BAD_REQUEST,
             )
         analysis_result = STManager.run_strategy(
-            strategy, ticker, timeframe, plotkind, params, sizer['type'], sizer['amount'], cash
+            strategy,
+            ticker,
+            timeframe,
+            plotkind,
+            params,
+            sizer["type"],
+            sizer["amount"],
+            cash,
         )
-        analysis_result['ticker'] = ticker
-        analysis_result['timeframe'] = timeframe
-        analysis_result['strategy'] = strategy
+        analysis_result["ticker"] = ticker
+        analysis_result["timeframe"] = timeframe
+        analysis_result["strategy"] = strategy
         return Response(analysis_result, status=status.HTTP_200_OK)

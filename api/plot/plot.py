@@ -247,7 +247,7 @@ class Stockplot:
         p.xaxis.major_label_overrides = self._major_label_overrides
         p.grid.grid_line_alpha = self._grid_line_alpha
 
-        p.segment(**self._segment, source=self._source)
+        t = p.segment(**self._segment, source=self._source)
 
         vbar_options = dict(
             x=INDEX_COL,
@@ -257,18 +257,16 @@ class Stockplot:
             source=self._source,
         )
 
-        t1 = p.vbar(
+        p.vbar(
             fill_color="green", line_color="green", view=self._view_inc, **vbar_options
         )
-        t2 = p.vbar(
-            fill_color="red", line_color="red", view=self._view_dec, **vbar_options
-        )
+        p.vbar(fill_color="red", line_color="red", view=self._view_dec, **vbar_options)
 
         ind_tooltip = self._add_mainplot(p)
 
         p.add_tools(
             HoverTool(
-                renderers=[t1, t2],
+                renderers=[t],
                 **self._format_tooltips(ind_tooltip),
             ),
             self._linked_crosshair,
@@ -397,8 +395,9 @@ class Portfolioplot:
     def show(self):
         show(column(self._p))
 
+
 if __name__ == "__main__":
     df = pd.read_csv(f"api/stock_data/data/AAPL_1mo.csv")
     df["Date"] = pd.to_datetime(df["Date"])
-    bfp = Stockplot(df,kind='candlestick')
+    bfp = Stockplot(df, kind="candlestick")
     bfp.show()
