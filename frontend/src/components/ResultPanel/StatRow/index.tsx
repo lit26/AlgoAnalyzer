@@ -20,7 +20,7 @@ const StatRow: React.FC<StatRowProps> = ({ label, num, pct }) => {
         <div className="StatRow">
             <div>{label}</div>
             <div>
-                {num ? (isFloat(num) ? num.toFixed(2) : num) : ''}
+                {num ? (isFloat(num) ? num.toFixed(2) : num) : '0'}
                 {pct && '%'}
             </div>
         </div>

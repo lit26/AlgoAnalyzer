@@ -10,5 +10,7 @@
     "main": [
       "main.js"
     ]
-  }
+  },
+  "error": "ModuleParseError",
+  "message": "Module parse failed: Unterminated string constant (13:0)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n| // import MenuList from '@mui/material/MenuList';\n| import { Button, ClickAwayListener, Grow, Paper, Popper, MenuItem, MenuList } from '@mui/material/';\n> ';\n| const TimeframeSelect = () => {\n|     const { currentTicker, stockDataList, setCurrentTicker } = useManager();"
 }

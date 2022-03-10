@@ -63,7 +63,8 @@ const Transactions: React.FC = () => {
                                             style={{
                                                 ...cellStyle,
                                                 borderBottom:
-                                                    index === 0
+                                                    index === 0 &&
+                                                    trade.trades.length === 2
                                                         ? '1px solid #131722'
                                                         : '1px solid #9ba4ad',
                                             }}>
@@ -97,7 +98,8 @@ const Transactions: React.FC = () => {
                                             style={{
                                                 ...cellStyle,
                                                 borderBottom:
-                                                    index === 0
+                                                    index === 0 &&
+                                                    trade.trades.length === 2
                                                         ? '1px solid #131722'
                                                         : '1px solid #9ba4ad',
                                             }}>
