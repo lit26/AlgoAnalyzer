@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getStockDataRequest } from '../../apis/stockData';
 import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
 import { useBacktest } from '../../context/BacktestContext';
 import { useNotification } from '../../context/NotificationContext';
 import { useManager } from '../../context/ManagerContext';
+import CircularProgress from '@mui/material/CircularProgress';
 import './Chart.scss';
 
 interface ChartProps {
@@ -15,12 +16,20 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const { currentTicker } = useManager();
     const { plotData, handlePlot, plotScales } = useBacktest();
     const { addNotifications } = useNotification();
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (currentTicker) {
+            setLoading(true);
             getStockDataRequest(currentTicker.ticker, currentTicker.timeframe)
-                .then(res => handlePlot(res))
-                .catch(err => addNotifications('Fail to plot chart.', 'error'));
+                .then(res => {
+                    setLoading(false);
+                    handlePlot(res);
+                })
+                .catch(err => {
+                    setLoading(false);
+                    addNotifications('Fail to plot chart.', 'error');
+                });
         }
     }, [currentTicker]);
 
@@ -60,7 +69,31 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
         }
     }, [plotData, chartSize, plotScales]);
 
-    return <div id="BokehPlot" ref={chartRef}></div>;
+    return (
+        <div className="Chart">
+            <div id="BokehPlot" ref={chartRef}></div>
+            {loading && (
+                <div
+                    className="Chart__loadingWrapper"
+                    style={{
+                        width: chartSize?.width,
+                        height: chartSize?.height,
+                        backgroundColor: plotData && '#00000033',
+                    }}>
+                    <div className="Chart__loading">
+                        <CircularProgress
+                            style={{
+                                width: '26px',
+                                height: '26px',
+                                marginRight: '5px',
+                            }}
+                        />
+                        <div>Loading...</div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default Chart;

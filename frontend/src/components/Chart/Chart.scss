@@ -4,3 +4,15 @@
         position: absolute !important; // hide multiple plots if exists
     }
 }
+.Chart{
+    height:100%;
+    .Chart__loadingWrapper{
+        position: absolute;
+    }
+    .Chart__loading{
+        display:flex;
+        align-items:center;
+        height: 100%;
+        justify-content:center;
+    }
+}
