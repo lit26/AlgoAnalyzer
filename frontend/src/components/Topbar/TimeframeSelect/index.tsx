@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useManager } from '../../../context/ManagerContext';
 import { StockDataInfo } from '../../../types/data';
 import './TimeframeSelect.scss';
@@ -15,23 +15,19 @@ import {
 const TimeframeSelect: React.FC = () => {
     const { currentTicker, stockDataList, setCurrentTicker } = useManager();
     const [open, setOpen] = useState<boolean>(false);
-    const [timeframeList, setTimeframeList] = useState<StockDataInfo[]>([]);
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = useState<number>(1);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-    useEffect(() => {
-        if (currentTicker) {
-            setTimeframeList(
-                stockDataList.reduce(
-                    (acc: StockDataInfo[], stock: StockDataInfo) =>
-                        stock.ticker === currentTicker.ticker
-                            ? acc.concat(stock)
-                            : acc,
-                    [],
-                ),
-            );
-        }
-    }, [currentTicker, stockDataList]);
+    const timeframeList =
+        currentTicker && stockDataList
+            ? stockDataList.reduce(
+                  (acc: StockDataInfo[], stock: StockDataInfo) =>
+                      stock.ticker === currentTicker.ticker
+                          ? acc.concat(stock)
+                          : acc,
+                  [],
+              )
+            : [];
 
     const handleTimeframeChange = (index: number) => {
         setSelectedIndex(index);

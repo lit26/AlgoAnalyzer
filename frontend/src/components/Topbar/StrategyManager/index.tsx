@@ -10,9 +10,6 @@ import { getStrategyParams } from '../../../apis/strategy';
 import { Strategy } from '../../../types/data';
 
 const StrategyManager: React.FC = () => {
-    const [strategyDisplayList, setStrategyDisplayList] = useState<Strategy[]>(
-        [],
-    );
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
@@ -26,15 +23,12 @@ const StrategyManager: React.FC = () => {
         }
     }, [strategyManagerModalOpen]);
 
-    useEffect(() => {
-        let tmp = strategyList;
-        if (search !== '') {
-            tmp = strategyList.filter(strategy =>
-                strategy.name.toLowerCase().includes(search.toLowerCase()),
-            );
-        }
-        setStrategyDisplayList(tmp);
-    }, [strategyList, search]);
+    const strategyDisplayList =
+        search !== ''
+            ? strategyList.filter(strategy =>
+                  strategy.name.toLowerCase().includes(search.toLowerCase()),
+              )
+            : strategyList;
 
     const handleCloseStrategyManager = () => {
         setStrategyManagerModalOpen(false);

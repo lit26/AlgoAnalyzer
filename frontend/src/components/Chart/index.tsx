@@ -13,23 +13,39 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
-    const { currentTicker } = useManager();
-    const { plotData, handlePlot, plotScales } = useBacktest();
+    const { currentTicker, currentStrategy } = useManager();
+    const { plotData, handlePlot, plotScales, runStrategy } = useBacktest();
     const { addNotifications } = useNotification();
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (currentTicker) {
             setLoading(true);
-            getStockDataRequest(currentTicker.ticker, currentTicker.timeframe)
-                .then(res => {
-                    setLoading(false);
-                    handlePlot(res);
-                })
-                .catch(err => {
-                    setLoading(false);
-                    addNotifications('Fail to plot chart.', 'error');
-                });
+            if (currentStrategy.name !== '') {
+                runStrategy(
+                    currentStrategy.name,
+                    currentTicker,
+                    currentStrategy.params,
+                )
+                    .then(() => setLoading(false))
+                    .catch(err => {
+                        setLoading(false);
+                        addNotifications(err.msg, 'error');
+                    });
+            } else {
+                getStockDataRequest(
+                    currentTicker.ticker,
+                    currentTicker.timeframe,
+                )
+                    .then(res => {
+                        setLoading(false);
+                        handlePlot(res);
+                    })
+                    .catch(err => {
+                        setLoading(false);
+                        addNotifications('Fail to plot chart.', 'error');
+                    });
+            }
         }
     }, [currentTicker]);
 

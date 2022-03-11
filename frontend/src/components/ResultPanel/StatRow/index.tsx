@@ -7,13 +7,7 @@ interface StatRowProps {
     num?: any;
 }
 
-const isFloat = (n: any) => {
-    if (typeof n === 'number') {
-        return n % 1 !== 0;
-    } else {
-        return false;
-    }
-};
+const isFloat = (n: any) => (typeof n === 'number' ? n % 1 !== 0 : false);
 
 const StatRow: React.FC<StatRowProps> = ({ label, num, pct }) => {
     return (

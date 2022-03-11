@@ -42,10 +42,6 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     return (
         <div className={`StockdataItems__item`}>
             <div>{stockInfo.timeframe}</div>
-            {/* <div>
-                <div>{`${stockInfo.startTime}-`}</div>
-                <div>{stockInfo.endTime}</div>
-            </div> */}
             <div>{`${stockInfo.startTime} - ${stockInfo.endTime}`}</div>
             <div className="StockdataItems__itemActions">
                 <KeyboardReturnIcon onClick={handleStockSelect} />

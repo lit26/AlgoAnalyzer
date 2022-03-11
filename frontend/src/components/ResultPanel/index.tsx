@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useManager } from '../../context/ManagerContext';
 import { useBacktest } from '../../context/BacktestContext';
 import StatRow from './StatRow';
@@ -10,8 +10,6 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 const ResultPanel: React.FC = () => {
     const { backtestRes } = useBacktest();
     const { currentStrategy } = useManager();
-    const [statList, setStatList] = useState<Row[]>([]);
-    const [drawdownList, setDrawdownList] = useState<Row[]>([]);
 
     const parseLabels = (items: StrategyStat | Drawdown, labels: Row[]) => {
         const dictList = Object.entries(items).map(([key, value]) => ({
@@ -30,12 +28,13 @@ const ResultPanel: React.FC = () => {
         }, []);
     };
 
-    useEffect(() => {
-        if (backtestRes) {
-            setStatList(parseLabels(backtestRes.stat, statRowsLabels));
-            setDrawdownList(parseLabels(backtestRes.drawdown, drawdownLabels));
-        }
-    }, [backtestRes]);
+    const statList = backtestRes
+        ? parseLabels(backtestRes.stat, statRowsLabels)
+        : [];
+
+    const drawdownList = backtestRes
+        ? parseLabels(backtestRes.drawdown, drawdownLabels)
+        : [];
 
     return (
         <div className="ResultPanel">
