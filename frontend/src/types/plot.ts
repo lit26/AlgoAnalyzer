@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type BokehEmbedPlotReference = {
     attributes: any;
     id: string;

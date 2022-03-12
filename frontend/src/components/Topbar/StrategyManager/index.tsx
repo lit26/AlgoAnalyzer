@@ -7,7 +7,6 @@ import { Modal, Backdrop } from '@mui/material/';
 import { useManager } from '../../../context/ManagerContext';
 import { useNotification } from '../../../context/NotificationContext';
 import { getStrategyParams } from '../../../apis/strategy';
-import { Strategy } from '../../../types/data';
 
 const StrategyManager: React.FC = () => {
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
@@ -49,6 +48,7 @@ const StrategyManager: React.FC = () => {
             selectCurrentStrategy(selectStrategy);
         } else {
             getStrategyParams(selectStrategyName)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .then((res: any) =>
                     updateCurrentStrategy({
                         name: selectStrategyName,

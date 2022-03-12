@@ -27,7 +27,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
     });
 
     const { addNotifications } = useNotification();
-    const { currentStrategy, currentTicker } = useManager();
+    const { currentStrategy, currentTicker, chartType } = useManager();
     const {
         defaultCash,
         setDefaultCash,
@@ -76,6 +76,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
             setBacktestRunning(true);
             runStrategy(
                 currentStrategy.name,
+                chartType,
                 currentTicker,
                 currentStrategy.params,
                 curCash,

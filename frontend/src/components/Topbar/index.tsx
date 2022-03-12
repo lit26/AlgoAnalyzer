@@ -2,6 +2,7 @@ import React from 'react';
 import StockdataManager from './StockdataManager';
 import TimeframeSelect from './TimeframeSelect';
 import StrategyManager from './StrategyManager';
+import ChartSelect from './ChartSelect';
 import './Topbar.scss';
 
 const Topbar: React.FC = () => {
@@ -10,6 +11,7 @@ const Topbar: React.FC = () => {
             <StockdataManager />
             <TimeframeSelect />
             <StrategyManager />
+            <ChartSelect />
         </div>
     );
 };

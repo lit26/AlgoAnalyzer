@@ -9,11 +9,11 @@ import TesterPanel from '../TesterPanel';
 import './Layout.scss';
 
 const Layout: React.FC = () => {
-    const chartRef = useRef<any>(null);
+    const chartRef = useRef<HTMLDivElement>(null);
     const { chartSize, setChartSize } = useBacktest();
 
     // update plot size when window size change
-    let resizeInterval: any;
+    let resizeInterval: NodeJS.Timeout;
     useEffect(() => {
         const handleResize = () => {
             clearTimeout(resizeInterval);

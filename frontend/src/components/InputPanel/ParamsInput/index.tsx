@@ -7,7 +7,8 @@ import ParamItem from './ParamItem';
 import './ParamsInput.scss';
 
 const ParamsInput: React.FC = () => {
-    const { currentStrategy, setCurrentStrategy, currentTicker } = useManager();
+    const { currentStrategy, setCurrentStrategy, currentTicker, chartType } =
+        useManager();
     const { addNotifications } = useNotification();
     const { setBacktestRunning, runStrategy } = useBacktest();
 
@@ -57,6 +58,7 @@ const ParamsInput: React.FC = () => {
 
         runStrategy(
             currentStrategy.name,
+            chartType,
             currentTicker,
             currentStrategy.params,
         ).catch(err => {

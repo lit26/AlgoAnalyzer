@@ -14,7 +14,7 @@ const intervalIncre = 100 / (MSG_TIME / INTERVAL_TIME);
 const Notification: React.FC<NotificationProps> = ({ notification }) => {
     const [width, setWidth] = useState<number>(100);
     const [exit, setExit] = useState<boolean>(false);
-    const intervalRef = useRef<any>(null);
+    const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
     const { removeNotifications } = useNotification();
 
     const handleCloseNotification = () => {
@@ -35,7 +35,7 @@ const Notification: React.FC<NotificationProps> = ({ notification }) => {
             }
         }, INTERVAL_TIME);
         return () => {
-            clearInterval(intervalRef.current);
+            clearInterval(intervalRef.current as NodeJS.Timeout);
         };
     }, []);
 

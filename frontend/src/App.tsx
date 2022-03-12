@@ -17,9 +17,10 @@ const App: React.FC = () => {
                 setStockDataList(res.historyData);
                 setStrategyList(res.strategies);
             })
-            .catch(err =>
-                addNotifications('Fail to get general information', 'error'),
-            );
+            .catch(err => {
+                console.error(err);
+                addNotifications('Fail to get general information', 'error');
+            });
     }, []);
 
     return (

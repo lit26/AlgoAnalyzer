@@ -13,7 +13,7 @@ interface ChartProps {
 
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
-    const { currentTicker, currentStrategy } = useManager();
+    const { currentTicker, currentStrategy, chartType } = useManager();
     const { plotData, handlePlot, plotScales, runStrategy } = useBacktest();
     const { addNotifications } = useNotification();
     const [loading, setLoading] = useState<boolean>(false);
@@ -24,6 +24,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
             if (currentStrategy.name !== '') {
                 runStrategy(
                     currentStrategy.name,
+                    chartType,
                     currentTicker,
                     currentStrategy.params,
                 )
@@ -41,19 +42,19 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                         setLoading(false);
                         handlePlot(res);
                     })
-                    .catch(err => {
+                    .catch(() => {
                         setLoading(false);
                         addNotifications('Fail to plot chart.', 'error');
                     });
             }
         }
-    }, [currentTicker]);
+    }, [currentTicker, chartType]);
 
     useEffect(() => {
         if (chartRef.current) {
             chartRef.current.innerHTML = '';
             if (plotData) {
-                let plot = plotData;
+                const plot = plotData;
                 if (chartSize) {
                     plot.doc.roots.references =
                         plotData.doc.roots.references.map(
@@ -80,7 +81,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                 if (bokehPlot) {
                     bokehPlot.innerHTML = '';
                 }
-                window.Bokeh.embed.embed_item(plotData, 'BokehPlot');
+                window.Bokeh.embed.embed_item(plot, 'BokehPlot');
             }
         }
     }, [plotData, chartSize, plotScales]);

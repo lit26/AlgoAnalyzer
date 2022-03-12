@@ -7,6 +7,8 @@ interface ManagerContextProps {
     setCurrentTicker: React.Dispatch<
         React.SetStateAction<StockDataInfo | undefined>
     >;
+    chartType: string;
+    setChartType: React.Dispatch<React.SetStateAction<string>>;
     currentStrategy: Strategy;
     setCurrentStrategy: React.Dispatch<React.SetStateAction<Strategy>>;
     stockDataList: StockDataInfo[];
@@ -40,6 +42,7 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
     const [currentStrategy, setCurrentStrategy] = useState<Strategy>({
         name: '',
     });
+    const [chartType, setChartType] = useState<string>('candlestick');
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<Strategy[]>([]);
 
@@ -139,6 +142,8 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
         setCurrentTicker,
         currentStrategy,
         setCurrentStrategy,
+        chartType,
+        setChartType,
         stockDataList,
         setStockDataList,
         strategyList,

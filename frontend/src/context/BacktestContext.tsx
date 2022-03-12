@@ -34,6 +34,7 @@ interface BacktestContextProps {
     setChartSize: React.Dispatch<React.SetStateAction<ChartSize | undefined>>;
     runStrategy: (
         currentStrategyName: string,
+        chartType: string,
         currentTicker?: StockDataInfo,
         param?: StrategyParam[],
         initialCash?: number,
@@ -97,6 +98,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
 
     const runStrategy = (
         currentStrategyName: string,
+        chartType: string,
         currentTicker?: StockDataInfo,
         params?: StrategyParam[],
         initialCash: number = defaultCash,
@@ -121,7 +123,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
                     currentStrategyName,
                     currentTicker.ticker,
                     currentTicker.timeframe,
-                    'candlestick',
+                    chartType,
                     postParams,
                     initialCash,
                     sizer,
@@ -131,6 +133,7 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
                         resolve({ msg: 'Backtest successfully.' });
                     })
                     .catch(err => {
+                        console.error(err);
                         setBacktestRunning(false);
                         reject({ msg: 'Fail to run strategy.' });
                     });

@@ -12,14 +12,11 @@ const Performance: React.FC = () => {
         if (performanceChartRef.current) {
             performanceChartRef.current.innerHTML = '';
             if (portfolioPlotData) {
-                let plot = portfolioPlotData;
+                const plot = portfolioPlotData;
                 if (chartSize) {
                     plot.doc.roots.references =
                         portfolioPlotData.doc.roots.references.map(
-                            (
-                                reference: BokehEmbedPlotReference,
-                                index: number,
-                            ) =>
+                            (reference: BokehEmbedPlotReference) =>
                                 reference.subtype &&
                                 reference.subtype === 'Figure'
                                     ? {

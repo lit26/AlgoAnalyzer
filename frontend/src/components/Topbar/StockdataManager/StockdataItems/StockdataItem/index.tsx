@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StockDataInfo } from '../../../../../types/data';
 import { useManager } from '../../../../../context/ManagerContext';
 import { useNotification } from '../../../../../context/NotificationContext';

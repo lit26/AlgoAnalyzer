@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { Method } from 'axios';
 
 export const API_URL = 'http://127.0.0.1:8000';

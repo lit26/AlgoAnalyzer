@@ -4,10 +4,10 @@ import './StatRow.scss';
 interface StatRowProps {
     label: string;
     pct: boolean;
-    num?: any;
+    num?: number;
 }
 
-const isFloat = (n: any) => (typeof n === 'number' ? n % 1 !== 0 : false);
+const isFloat = (n: number) => (typeof n === 'number' ? n % 1 !== 0 : false);
 
 const StatRow: React.FC<StatRowProps> = ({ label, num, pct }) => {
     return (

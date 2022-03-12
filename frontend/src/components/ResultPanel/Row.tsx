@@ -2,7 +2,7 @@ export interface Row {
     key: string;
     label: string;
     pct: boolean;
-    value?: any;
+    value?: number;
 }
 
 export const statRowsLabels: Row[] = [

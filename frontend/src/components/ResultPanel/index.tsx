@@ -1,5 +1,4 @@
 import React from 'react';
-import { useManager } from '../../context/ManagerContext';
 import { useBacktest } from '../../context/BacktestContext';
 import StatRow from './StatRow';
 import './ResultPanel.scss';
@@ -9,7 +8,6 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 const ResultPanel: React.FC = () => {
     const { backtestRes } = useBacktest();
-    const { currentStrategy } = useManager();
 
     const parseLabels = (items: StrategyStat | Drawdown, labels: Row[]) => {
         const dictList = Object.entries(items).map(([key, value]) => ({

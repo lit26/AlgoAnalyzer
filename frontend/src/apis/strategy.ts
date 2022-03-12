@@ -11,7 +11,7 @@ export const backtestStrategy = (
     ticker: string,
     timeframe: string,
     plotkind: string,
-    params: any,
+    params: { [key: string]: number | string | boolean },
     cash: number,
     sizer: Sizer,
 ) => {
@@ -24,6 +24,7 @@ export const backtestStrategy = (
             cash,
             sizer,
         })
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .then((res: any) =>
                 resolve({
                     ...res,

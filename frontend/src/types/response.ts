@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StockDataInfo, Strategy, Trade, StrategyStat, Drawdown } from './data';
 import { BokehEmbedPlot } from './plot';
 

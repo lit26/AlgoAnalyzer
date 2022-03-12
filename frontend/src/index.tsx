@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { render } from 'react-dom';
 import App from './App';
 import './index.scss';

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_URL, apiRequest } from './util';
 import { StockDataInfo } from '../types/data';
 import { BokehPlotRes } from '../types/response';
