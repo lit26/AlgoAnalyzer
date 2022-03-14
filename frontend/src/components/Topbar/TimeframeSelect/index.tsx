@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useManager } from '../../../context/ManagerContext';
 import { StockDataInfo } from '../../../types/data';
 import TopbarSelect from '../TopbarSelect';
+import { TIMEFRAMES } from '../../../constants';
 
 const TimeframeSelect: React.FC = () => {
     const { currentTicker, stockDataList, setCurrentTicker } = useManager();
@@ -17,6 +18,12 @@ const TimeframeSelect: React.FC = () => {
                   [],
               )
             : [];
+
+    timeframeList.sort(
+        (a, b) =>
+            TIMEFRAMES.findIndex(timeframe => timeframe.value === a.name) -
+            TIMEFRAMES.findIndex(timeframe => timeframe.value === b.name),
+    );
 
     const handleTimeframeChange = (index: number) => {
         const findTicker =

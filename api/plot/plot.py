@@ -13,22 +13,14 @@ from bokeh.plotting import figure, show
 from bokeh.embed import json_item
 from bokeh.io import curdoc
 from bokeh.themes import Theme
-import os
+from .util import (
+    _AUTOSCALE_JS_CALLBACK,
+    _POSITION_AUTOSCALE_JS_CALLBACK,
+)
 
 
 INDEX_COL = "index1"
 w = 0.5
-
-with open(
-    os.path.join(os.path.dirname(__file__), "autoscale_cb.js"), encoding="utf-8"
-) as _f:
-    _AUTOSCALE_JS_CALLBACK = _f.read()
-
-with open(
-    os.path.join(os.path.dirname(__file__), "position_autoscale_cb.js"),
-    encoding="utf-8",
-) as _f:
-    _POSITION_AUTOSCALE_JS_CALLBACK = _f.read()
 
 curdoc().theme = Theme(filename="api/plot/theme.yml")
 
@@ -257,21 +249,25 @@ class Stockplot:
             source=self._source,
         )
 
-        p.vbar(
+        t1 = p.vbar(
             fill_color="green", line_color="green", view=self._view_inc, **vbar_options
         )
-        p.vbar(fill_color="red", line_color="red", view=self._view_dec, **vbar_options)
+        t2 = p.vbar(
+            fill_color="red", line_color="red", view=self._view_dec, **vbar_options
+        )
 
         ind_tooltip = self._add_mainplot(p)
 
         p.add_tools(
             HoverTool(
-                renderers=[t],
+                renderers=[t1, t2],
+                # callback=hover_cb,
                 **self._format_tooltips(ind_tooltip),
             ),
             self._linked_crosshair,
         )
         self._auto_scale(p)
+
         self._p_scale.append(self._main_plot_height)
         self._p.append(p)
 
@@ -397,7 +393,9 @@ class Portfolioplot:
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(f"api/stock_data/data/AAPL_1mo.csv")
+    from util import *
+
+    df = pd.read_csv(f"api/stock_data/data/AAPL_1d.csv")
     df["Date"] = pd.to_datetime(df["Date"])
     bfp = Stockplot(df, kind="candlestick")
     bfp.show()

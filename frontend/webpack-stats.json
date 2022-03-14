@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/BacktestPanel/Transactions/index.tsx(157,61)\n      TS2552: Cannot find name 'index'. Did you mean 'index2'?"
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Topbar/TimeframeSelect/index.tsx(24,21)\n      TS2552: Cannot find name 'TIMEFRAME'. Did you mean 'TIMEFRAMES'?"
 }

@@ -14,8 +14,10 @@ interface BacktestContextProps {
     setDefaultCash: React.Dispatch<React.SetStateAction<number>>;
     defaultSizer: Sizer;
     setDefaultSizer: React.Dispatch<React.SetStateAction<Sizer>>;
-    backtestRunning: boolean;
-    setBacktestRunning: React.Dispatch<React.SetStateAction<boolean>>;
+    backtestRunning?: boolean;
+    setBacktestRunning: React.Dispatch<
+        React.SetStateAction<boolean | undefined>
+    >;
     backtestRes?: BacktestRes;
     setBacktestRes: React.Dispatch<
         React.SetStateAction<BacktestRes | undefined>
@@ -63,7 +65,9 @@ export const BacktestProvider: React.FC<ProviderProps> = ({ children }) => {
         amount: 95,
     });
 
-    const [backtestRunning, setBacktestRunning] = useState<boolean>(false);
+    const [backtestRunning, setBacktestRunning] = useState<boolean | undefined>(
+        undefined,
+    );
     const [backtestRes, setBacktestRes] = useState<BacktestRes | undefined>(
         undefined,
     );

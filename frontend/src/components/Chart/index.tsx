@@ -14,14 +14,18 @@ interface ChartProps {
 const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const chartRef = useRef<HTMLDivElement>(null);
     const { currentTicker, currentStrategy, chartType } = useManager();
-    const { plotData, handlePlot, plotScales, runStrategy } = useBacktest();
+    const { plotData, handlePlot, plotScales, runStrategy, backtestRunning } =
+        useBacktest();
     const { addNotifications } = useNotification();
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (currentTicker) {
             setLoading(true);
-            if (currentStrategy.name !== '') {
+            if (
+                currentStrategy.name !== '' &&
+                typeof backtestRunning !== 'undefined'
+            ) {
                 runStrategy(
                     currentStrategy.name,
                     chartType,

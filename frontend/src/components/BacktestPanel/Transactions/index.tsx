@@ -10,6 +10,7 @@ import {
     TableRow,
 } from '@mui/material';
 import { columns } from './Column';
+import { Trade } from '../../../types/data';
 
 const cellStyle = {
     backgroundColor: '#131722',
@@ -20,6 +21,63 @@ const cellStyle = {
 const splitCellStyle = {
     ...cellStyle,
     padding: 0,
+};
+
+interface TransactionTableCellProps {
+    id: 'date' | 'action' | 'price' | 'size';
+    align?: 'left' | 'center' | 'right';
+    format?: (value: number | string) => string;
+}
+
+interface TransactionTableCellUIProps extends TransactionTableCellProps {
+    trade: Trade;
+}
+
+const splitCells: TransactionTableCellProps[] = [
+    {
+        id: 'date',
+        format: (value: number | string) =>
+            typeof value === 'string' ? value.slice(0, 10) : '',
+    },
+    { id: 'action' },
+    {
+        id: 'price',
+        align: 'right',
+        format: (value: number | string) =>
+            typeof value === 'number' ? value.toFixed(2) : '',
+    },
+    {
+        id: 'size',
+        align: 'right',
+        format: (value: number | string) =>
+            typeof value === 'number' ? value.toFixed(2) : '',
+    },
+];
+
+const TransactionTableCell: React.FC<TransactionTableCellUIProps> = ({
+    id,
+    trade,
+    align = 'left',
+    format,
+}) => {
+    return (
+        <TableCell style={splitCellStyle}>
+            {trade.trades.map((transaction, index) => (
+                <div
+                    key={`${id}_${trade.ref}_${index}`}
+                    style={{
+                        borderBottom:
+                            index === 0 && trade.trades.length === 2
+                                ? '1px solid #9ba4ad'
+                                : '1px solid #131722',
+                        padding: '6px 16px',
+                        textAlign: align,
+                    }}>
+                    {format ? format(transaction[id]) : transaction[id]}
+                </div>
+            ))}
+        </TableCell>
+    );
 };
 
 const Transactions: React.FC = () => {
@@ -67,107 +125,39 @@ const Transactions: React.FC = () => {
                                         style={cellStyle}>
                                         {id + 1}
                                     </TableCell>
-                                    <TableCell
-                                        key={`date_${trade.ref}_${id}`}
-                                        style={splitCellStyle}>
-                                        {trade.trades.map(
-                                            (transaction, index2) => (
-                                                <div
-                                                    key={`date_${trade.ref}_${id}_${index2}`}
-                                                    style={{
-                                                        borderBottom:
-                                                            index2 === 0 &&
-                                                            trade.trades
-                                                                .length === 2
-                                                                ? '1px solid #9ba4ad'
-                                                                : '1px solid #131722',
-                                                        padding: '6px 16px',
-                                                    }}>
-                                                    {transaction['date'].slice(
-                                                        0,
-                                                        10,
-                                                    )}
-                                                </div>
-                                            ),
-                                        )}
-                                    </TableCell>
-                                    <TableCell
-                                        key={`type_${trade.ref}_${id}`}
-                                        style={splitCellStyle}>
-                                        {trade.trades.map(
-                                            (transaction, index2) => (
-                                                <div
-                                                    key={`type_${trade.ref}_${id}_${index2}`}
-                                                    style={{
-                                                        borderBottom:
-                                                            index2 === 0 &&
-                                                            trade.trades
-                                                                .length === 2
-                                                                ? '1px solid #9ba4ad'
-                                                                : '1px solid #131722',
-                                                        padding: '6px 16px',
-                                                    }}>
-                                                    {transaction['action']}
-                                                </div>
-                                            ),
-                                        )}
-                                    </TableCell>
-                                    <TableCell
-                                        key={`price_${trade.ref}_${id}`}
-                                        style={splitCellStyle}>
-                                        {trade.trades.map(
-                                            (transaction, index2) => (
-                                                <div
-                                                    key={`price_${trade.ref}_${id}_${index2}`}
-                                                    style={{
-                                                        borderBottom:
-                                                            index2 === 0 &&
-                                                            trade.trades
-                                                                .length === 2
-                                                                ? '1px solid #9ba4ad'
-                                                                : '1px solid #131722',
-                                                        padding: '6px 16px',
-                                                        textAlign: 'right',
-                                                    }}>
-                                                    {transaction[
-                                                        'price'
-                                                    ].toFixed(2)}
-                                                </div>
-                                            ),
-                                        )}
-                                    </TableCell>
-                                    <TableCell
-                                        key={`size_${trade.ref}_${id}`}
-                                        style={splitCellStyle}>
-                                        {trade.trades.map(
-                                            (transaction, index2) => (
-                                                <div
-                                                    key={`size_${trade.ref}_${id}_${index2}`}
-                                                    style={{
-                                                        borderBottom:
-                                                            index2 === 0 &&
-                                                            trade.trades
-                                                                .length === 2
-                                                                ? '1px solid #9ba4ad'
-                                                                : '1px solid #131722',
-                                                        padding: '6px 16px',
-                                                        textAlign: 'right',
-                                                    }}>
-                                                    {transaction['size']}
-                                                </div>
-                                            ),
-                                        )}
-                                    </TableCell>
+
+                                    {splitCells.map(splitCell => (
+                                        <TransactionTableCell
+                                            key={`splitCell_${splitCell.id}`}
+                                            id={splitCell.id}
+                                            trade={trade}
+                                            align={splitCell.align}
+                                            format={splitCell.format}
+                                        />
+                                    ))}
 
                                     <TableCell
                                         key={`pnl_${trade.ref}_${id}`}
                                         align="right"
-                                        style={cellStyle}>
-                                        {`${trade.trades[1].pnl.toFixed(2)}`}
-                                        <br />
-                                        {`(${trade.trades[1].pnlpct.toFixed(
-                                            2,
-                                        )}%)`}
+                                        style={{
+                                            ...cellStyle,
+                                            color:
+                                                trade.trades.length > 1 &&
+                                                trade.trades[1].pnl < 0
+                                                    ? 'red'
+                                                    : '#d1d4dc',
+                                        }}>
+                                        {trade.trades.length > 1 && (
+                                            <>
+                                                {`${trade.trades[1].pnl.toFixed(
+                                                    2,
+                                                )}`}
+                                                <br />
+                                                {`(${trade.trades[1].pnlpct.toFixed(
+                                                    2,
+                                                )}%)`}
+                                            </>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
