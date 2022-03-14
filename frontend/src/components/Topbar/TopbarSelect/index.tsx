@@ -9,13 +9,21 @@ import {
     Popper,
     MenuItem,
     MenuList,
+    SvgIconTypeMap,
 } from '@mui/material/';
+import { OverridableComponent } from '@mui/material/OverridableComponent';
 
 interface TopbarSelect {
     name: string;
     selectedIndex: number;
     handleChange: (index: number) => void;
-    menuList: string[];
+    menuList: {
+        name: string;
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        Icon?: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
+            muiName: string;
+        };
+    }[];
 }
 
 const TopbarSelect: React.FC<TopbarSelect> = ({
@@ -54,11 +62,14 @@ const TopbarSelect: React.FC<TopbarSelect> = ({
             setOpen(false);
         }
     };
+
     return (
         <>
             <div className="CustomButton">
                 <Button ref={anchorRef} onClick={handleToggle}>
-                    {menuList[selectedIndex]}
+                    {menuList[selectedIndex]
+                        ? menuList[selectedIndex].name
+                        : ''}
                 </Button>
             </div>
             <Popper
@@ -83,16 +94,22 @@ const TopbarSelect: React.FC<TopbarSelect> = ({
                                 <MenuList
                                     autoFocusItem={open}
                                     onKeyDown={handleListKeyDown}>
-                                    {menuList.map((menuItem, index) => (
-                                        <MenuItem
-                                            key={`topbar_${name}_${index}`}
-                                            selected={index === selectedIndex}
-                                            onClick={() =>
-                                                handleSelectChange(index)
-                                            }>
-                                            {menuItem}
-                                        </MenuItem>
-                                    ))}
+                                    {menuList.map((menuItem, index) => {
+                                        const Icon = menuItem.Icon;
+                                        return (
+                                            <MenuItem
+                                                key={`topbar_${name}_${index}`}
+                                                selected={
+                                                    index === selectedIndex
+                                                }
+                                                onClick={() =>
+                                                    handleSelectChange(index)
+                                                }>
+                                                {Icon && <Icon />}
+                                                {menuItem.name}
+                                            </MenuItem>
+                                        );
+                                    })}
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>

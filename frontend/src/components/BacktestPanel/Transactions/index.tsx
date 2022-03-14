@@ -17,6 +17,11 @@ const cellStyle = {
     borderBottom: '1px solid #9ba4ad',
 };
 
+const splitCellStyle = {
+    ...cellStyle,
+    padding: 0,
+};
+
 const Transactions: React.FC = () => {
     const { chartSize, backtestRes } = useBacktest();
 
@@ -51,77 +56,121 @@ const Transactions: React.FC = () => {
                     </TableHead>
                     <TableBody>
                         {backtestRes &&
-                            backtestRes.trades.map((trade, id) =>
-                                trade.trades.map((transaction, index) => (
-                                    <TableRow
-                                        hover
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        key={`row_${trade.ref}_${index}`}>
-                                        <TableCell
-                                            key="id"
-                                            style={{
-                                                ...cellStyle,
-                                                borderBottom:
-                                                    index === 0 &&
-                                                    trade.trades.length === 2
-                                                        ? '1px solid #131722'
-                                                        : '1px solid #9ba4ad',
-                                            }}>
-                                            {index === 0 ? id + 1 : ''}
-                                        </TableCell>
-                                        <TableCell
-                                            key={`date_${trade.ref}_${index}`}
-                                            style={cellStyle}>
-                                            {transaction.date.slice(0, 10)}
-                                        </TableCell>
-                                        <TableCell
-                                            key={`type_${trade.ref}_${index}`}
-                                            style={cellStyle}>
-                                            {transaction.action}
-                                        </TableCell>
-                                        <TableCell
-                                            key={`price_${trade.ref}_${index}`}
-                                            align="right"
-                                            style={cellStyle}>
-                                            {transaction.price.toFixed(2)}
-                                        </TableCell>
-                                        <TableCell
-                                            key={`size_${trade.ref}_${index}`}
-                                            align="right"
-                                            style={cellStyle}>
-                                            {transaction.size.toFixed(2)}
-                                        </TableCell>
-                                        <TableCell
-                                            key={`pnl_${trade.ref}_${index}`}
-                                            align="right"
-                                            style={{
-                                                ...cellStyle,
-                                                borderBottom:
-                                                    index === 0 &&
-                                                    trade.trades.length === 2
-                                                        ? '1px solid #131722'
-                                                        : '1px solid #9ba4ad',
-                                            }}>
-                                            {index === 0
-                                                ? `${
-                                                      trade.trades[1]
-                                                          ? trade.trades[1].pnl.toFixed(
-                                                                2,
-                                                            )
-                                                          : ''
-                                                  }`
-                                                : `(${
-                                                      trade.trades[1].pnlpct
-                                                          ? trade.trades[1].pnlpct.toFixed(
-                                                                2,
-                                                            )
-                                                          : 0
-                                                  }%)`}
-                                        </TableCell>
-                                    </TableRow>
-                                )),
-                            )}
+                            backtestRes.trades.map((trade, id) => (
+                                <TableRow
+                                    hover
+                                    role="checkbox"
+                                    tabIndex={-1}
+                                    key={`row_${trade.ref}_${id}`}>
+                                    <TableCell
+                                        key={`id_${trade.ref}_${id}`}
+                                        style={cellStyle}>
+                                        {id + 1}
+                                    </TableCell>
+                                    <TableCell
+                                        key={`date_${trade.ref}_${id}`}
+                                        style={splitCellStyle}>
+                                        {trade.trades.map(
+                                            (transaction, index2) => (
+                                                <div
+                                                    key={`date_${trade.ref}_${id}_${index2}`}
+                                                    style={{
+                                                        borderBottom:
+                                                            index2 === 0 &&
+                                                            trade.trades
+                                                                .length === 2
+                                                                ? '1px solid #9ba4ad'
+                                                                : '1px solid #131722',
+                                                        padding: '6px 16px',
+                                                    }}>
+                                                    {transaction['date'].slice(
+                                                        0,
+                                                        10,
+                                                    )}
+                                                </div>
+                                            ),
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        key={`type_${trade.ref}_${id}`}
+                                        style={splitCellStyle}>
+                                        {trade.trades.map(
+                                            (transaction, index2) => (
+                                                <div
+                                                    key={`type_${trade.ref}_${id}_${index2}`}
+                                                    style={{
+                                                        borderBottom:
+                                                            index2 === 0 &&
+                                                            trade.trades
+                                                                .length === 2
+                                                                ? '1px solid #9ba4ad'
+                                                                : '1px solid #131722',
+                                                        padding: '6px 16px',
+                                                    }}>
+                                                    {transaction['action']}
+                                                </div>
+                                            ),
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        key={`price_${trade.ref}_${id}`}
+                                        style={splitCellStyle}>
+                                        {trade.trades.map(
+                                            (transaction, index2) => (
+                                                <div
+                                                    key={`price_${trade.ref}_${id}_${index2}`}
+                                                    style={{
+                                                        borderBottom:
+                                                            index2 === 0 &&
+                                                            trade.trades
+                                                                .length === 2
+                                                                ? '1px solid #9ba4ad'
+                                                                : '1px solid #131722',
+                                                        padding: '6px 16px',
+                                                        textAlign: 'right',
+                                                    }}>
+                                                    {transaction[
+                                                        'price'
+                                                    ].toFixed(2)}
+                                                </div>
+                                            ),
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        key={`size_${trade.ref}_${id}`}
+                                        style={splitCellStyle}>
+                                        {trade.trades.map(
+                                            (transaction, index2) => (
+                                                <div
+                                                    key={`size_${trade.ref}_${id}_${index2}`}
+                                                    style={{
+                                                        borderBottom:
+                                                            index2 === 0 &&
+                                                            trade.trades
+                                                                .length === 2
+                                                                ? '1px solid #9ba4ad'
+                                                                : '1px solid #131722',
+                                                        padding: '6px 16px',
+                                                        textAlign: 'right',
+                                                    }}>
+                                                    {transaction['size']}
+                                                </div>
+                                            ),
+                                        )}
+                                    </TableCell>
+
+                                    <TableCell
+                                        key={`pnl_${trade.ref}_${id}`}
+                                        align="right"
+                                        style={cellStyle}>
+                                        {`${trade.trades[1].pnl.toFixed(2)}`}
+                                        <br />
+                                        {`(${trade.trades[1].pnlpct.toFixed(
+                                            2,
+                                        )}%)`}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                     </TableBody>
                 </Table>
             </TableContainer>

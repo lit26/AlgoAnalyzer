@@ -10,9 +10,9 @@ const TimeframeSelect: React.FC = () => {
     const timeframeList =
         currentTicker && stockDataList
             ? stockDataList.reduce(
-                  (acc: string[], stock: StockDataInfo) =>
+                  (acc: { name: string }[], stock: StockDataInfo) =>
                       stock.ticker === currentTicker.ticker
-                          ? acc.concat(stock.timeframe)
+                          ? acc.concat({ name: stock.timeframe })
                           : acc,
                   [],
               )
@@ -24,7 +24,7 @@ const TimeframeSelect: React.FC = () => {
             stockDataList.find(
                 stockData =>
                     stockData.ticker === currentTicker.ticker &&
-                    stockData.timeframe === timeframeList[index],
+                    stockData.timeframe === timeframeList[index].name,
             );
         if (findTicker) {
             setCurrentTicker(findTicker);
@@ -33,7 +33,7 @@ const TimeframeSelect: React.FC = () => {
 
     useEffect(() => {
         const timeFrameIndex = timeframeList.findIndex(
-            timeframe => timeframe === currentTicker?.timeframe,
+            timeframe => timeframe.name === currentTicker?.timeframe,
         );
         if (timeFrameIndex >= 0) {
             setSelectedIndex(timeFrameIndex);

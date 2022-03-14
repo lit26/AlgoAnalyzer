@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useManager } from '../../../context/ManagerContext';
 import TopbarSelect from '../TopbarSelect';
+import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
+import ShowChartIcon from '@mui/icons-material/ShowChart';
 
-const chartList = ['candlestick', 'line'];
+const chartList = [
+    {
+        name: 'candlestick',
+        Icon: CandlestickChartIcon,
+    },
+    { name: 'line', Icon: ShowChartIcon },
+];
 
 const ChartSelect: React.FC = () => {
     const { chartType, setChartType } = useManager();
@@ -10,11 +18,13 @@ const ChartSelect: React.FC = () => {
     const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
     const handleChange = (index: number) => {
-        setChartType(chartList[index]);
+        setChartType(chartList[index].name);
     };
 
     useEffect(() => {
-        const chartIndex = chartList.findIndex(chart => chart === chartType);
+        const chartIndex = chartList.findIndex(
+            chart => chart.name === chartType,
+        );
         if (chartIndex >= 0) {
             setSelectedIndex(chartIndex);
         }
