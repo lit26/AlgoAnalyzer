@@ -27,14 +27,14 @@ class StockDataView(views.APIView):
 class SingleStockDataView(views.APIView):
     serializer_class = SingleStockDataSerializer
 
-    def get(self, request, ticker, timeframe):
+    def get(self, request, ticker, timeframe, plotkind):
         serializer = self.serializer_class(
             data={"ticker": ticker, "timeframe": timeframe}
         )
         if serializer.is_valid():
             df = read_data(ticker, timeframe)
             df["Date"] = pd.to_datetime(df["Date"])
-            bfp = Stockplot(df)
+            bfp = Stockplot(df, kind=plotkind)
             json_item, p_scale = bfp.get_component()
             plot = {"plotdata": json.dumps(json_item), "pscale": p_scale}
             return Response(plot, status=status.HTTP_200_OK)

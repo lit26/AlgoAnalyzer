@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Topbar/TimeframeSelect/index.tsx(24,21)\n      TS2552: Cannot find name 'TIMEFRAME'. Did you mean 'TIMEFRAMES'?"
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Chart/index.tsx(41,17)\n      TS2554: Expected 3 arguments, but got 2."
 }

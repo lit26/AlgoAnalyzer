@@ -41,6 +41,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                 getStockDataRequest(
                     currentTicker.ticker,
                     currentTicker.timeframe,
+                    chartType,
                 )
                     .then(res => {
                         setLoading(false);

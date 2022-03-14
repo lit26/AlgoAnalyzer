@@ -3,10 +3,14 @@ import { API_URL, apiRequest } from './util';
 import { StockDataInfo } from '../types/data';
 import { BokehPlotRes } from '../types/response';
 
-export const getStockDataRequest = (ticker: string, timeframe: string) => {
+export const getStockDataRequest = (
+    ticker: string,
+    timeframe: string,
+    plotkind: string,
+) => {
     return new Promise<BokehPlotRes>((resolve, reject) => {
         apiRequest(
-            `${API_URL}/api/v1/stockdata/ticker=${ticker}&timeframe=${timeframe}`,
+            `${API_URL}/api/v1/stockdata/ticker=${ticker}&timeframe=${timeframe}&plotkind=${plotkind}`,
             'GET',
         )
             .then((res: any) => {
