@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework import views, status
 from rest_framework.response import Response
-from .serializers import StockDataSerializer, SingleStockDataSerializer
-from .models import StockData
+from .serializers import StockDataSerializer, SingleStockDataSerializer, NotesSerializer
+from .models import StockData, Notes
 from .stock_data.grab_data import *
 from .manager import *
 from .plot.plot import Stockplot
@@ -88,7 +89,7 @@ class SingleStockDataView(views.APIView):
                 queryset.delete()
                 delete_data(ticker, timeframe)
                 return Response(
-                    {"msg": ["Delete successfully"]}, status=status.HTTP_200_OK
+                    {"msg": ["Delete successfully"]}, status=status.HTTP_204_NO_CONTENT
                 )
             except:
                 return Response(
@@ -138,3 +139,48 @@ class StrategyView(views.APIView):
         analysis_result["timeframe"] = timeframe
         analysis_result["strategy"] = strategy
         return Response(analysis_result, status=status.HTTP_200_OK)
+
+class NotesListView(views.APIView):
+    def get(self, request):
+        notes = Notes.objects.all()
+        paginator = Paginator(notes, 3)  # 3 posts in each page
+        page = request.GET.get('page')
+        try:
+            note_list = paginator.page(page)
+        except PageNotAnInteger:
+            note_list = paginator.page(1)
+        except EmptyPage:
+            note_list = []
+        serializer = NotesSerializer(note_list, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        new_note = Notes(title="Untitled Note", content="", relate_stock="", relate_strategy="")
+        new_note.save()
+        serializer = NotesSerializer(new_note)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class NotesDetailView(views.APIView):
+    def get_object(self, pk):
+        try:
+            return Notes.objects.get(pk=pk)
+        except Notes.DoesNotExist:
+            raise Http404
+
+    def put(self, request, pk):
+        note = self.get_object(pk)
+        serializer = NotesSerializer(data=request.data)
+        if serializer.is_valid() and note:
+            note.title = serializer.data.get('title')
+            note.content = serializer.data.get('content')
+            note.relate_stock = serializer.data.get('relate_stock')
+            note.relate_strategy = serializer.data.get('relate_strategy')
+            note.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        note = self.get_object(pk)
+        note.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    

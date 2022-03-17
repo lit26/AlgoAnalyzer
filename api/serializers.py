@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockData
+from .models import StockData, Notes
 
 INTRADAY_TIMEFRAME = [
     "1m",
@@ -24,7 +24,7 @@ SWING_TIMEFRAME = [
 class StockDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = StockData
-        fields = ("id", "ticker", "timeframe", "start_time", "end_time", "updated_at")
+        fields = "__all__"
 
 
 class SingleStockDataSerializer(serializers.ModelSerializer):
@@ -44,3 +44,17 @@ class SingleStockDataSerializer(serializers.ModelSerializer):
                 {"msg": f"Invalid timeframe. Timeframe: {timeframe}"}
             )
         return data
+
+
+class NotesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Notes
+        fields = '__all__'
+        extra_kwargs = {
+            "created_at": {"required": False},
+            "updated_at": {"required": False},
+        }
+
+    def create(self, validated_data):
+        return Notes.objects.create(**validated_data)
+
