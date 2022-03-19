@@ -13,15 +13,13 @@ export const getStockDataRequest = (
             `${API_URL}/api/v1/stockdata/ticker=${ticker}&timeframe=${timeframe}&plotkind=${plotkind}`,
             'GET',
         )
-            .then((res: any) => {
+            .then((res: any) =>
                 resolve({
                     ...res,
                     plotdata: JSON.parse(res.plotdata),
-                });
-            })
-            .catch(err => {
-                reject(err);
-            });
+                }),
+            )
+            .catch(err => reject(err));
     });
 };
 

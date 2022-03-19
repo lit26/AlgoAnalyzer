@@ -1,0 +1,14 @@
+@import "../../../../util";
+
+.NoteItem{
+    padding: 10px 8px;
+    margin: 4px 2px;
+    border-bottom: 1px solid $grayColor;
+    cursor: pointer;
+    &:hover{
+        background-color: #172036;
+    }
+    &.active{
+        border-bottom-width: 3px;
+    }
+}

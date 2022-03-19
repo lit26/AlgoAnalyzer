@@ -22,3 +22,13 @@ export type BokehPlotRes = {
     plotdata: BokehEmbedPlot;
     pscale: number[];
 };
+
+export type NoteRes = {
+    id: number;
+    title: string;
+    content: string;
+    relate_stock: string;
+    relate_strategy: string;
+    created_at?: string;
+    updated_at?: string;
+};

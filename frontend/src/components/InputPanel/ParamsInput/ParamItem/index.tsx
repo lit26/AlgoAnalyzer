@@ -16,14 +16,14 @@ const ParamItem: React.FC<ParamItemProps> = ({
     value,
     onChange,
 }) => {
-    const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange(name, event.target.checked);
+    const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange(name, e.target.checked);
     };
 
     const handleTextChange = (
-        event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+        e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     ) => {
-        onChange(name, event.target.value);
+        onChange(name, e.target.value);
     };
 
     return (

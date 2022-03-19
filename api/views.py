@@ -176,7 +176,7 @@ class NotesDetailView(views.APIView):
             note.relate_stock = serializer.data.get('relate_stock')
             note.relate_strategy = serializer.data.get('relate_strategy')
             note.save()
-            return Response(serializer.data)
+            return Response(NotesSerializer(note).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

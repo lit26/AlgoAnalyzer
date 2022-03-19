@@ -64,3 +64,13 @@ export type Sizer = {
     type: 'fix' | 'percentage';
     amount: number;
 };
+
+export type Note = {
+    id: number;
+    title: string;
+    content: string;
+    relateStock: string;
+    relateStrategy: string;
+    createdAt?: string;
+    updatedAt?: string;
+};

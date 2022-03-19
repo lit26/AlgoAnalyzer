@@ -1,0 +1,27 @@
+@import '../../../util';
+.NotesNav{
+    display: flex;
+    flex-direction: column;
+}
+.NotesNav__search{
+    padding: 6px 8px;
+    border-bottom: 1px solid $grayColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    svg{
+        cursor: pointer;
+    }
+}
+.NotesItems__wrapper{
+    flex: 1;
+    position: relative;
+    .NotesItems{
+        position: absolute;
+        overflow-y: auto;
+        left: 0; 
+        top: 0; 
+        right: 0; 
+        bottom: 0;
+    }
+}

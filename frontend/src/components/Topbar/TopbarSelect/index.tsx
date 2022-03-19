@@ -34,10 +34,10 @@ const TopbarSelect: React.FC<TopbarSelect> = ({
 }) => {
     const [open, setOpen] = useState<boolean>(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
-    const handleClose = (event: Event | React.SyntheticEvent) => {
+    const handleClose = (e: Event | React.SyntheticEvent) => {
         if (
             anchorRef.current &&
-            anchorRef.current.contains(event.target as HTMLElement)
+            anchorRef.current.contains(e.target as HTMLElement)
         ) {
             return;
         }
@@ -54,22 +54,28 @@ const TopbarSelect: React.FC<TopbarSelect> = ({
         setOpen(prevOpen => !prevOpen);
     };
 
-    const handleListKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key === 'Tab') {
-            event.preventDefault();
+    const handleListKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Tab') {
+            e.preventDefault();
             setOpen(false);
-        } else if (event.key === 'Escape') {
+        } else if (e.key === 'Escape') {
             setOpen(false);
         }
     };
+
+    const SelectIcon = menuList[selectedIndex] && menuList[selectedIndex].Icon;
 
     return (
         <>
             <div className="CustomButton">
                 <Button ref={anchorRef} onClick={handleToggle}>
-                    {menuList[selectedIndex]
-                        ? menuList[selectedIndex].name
-                        : ''}
+                    {SelectIcon ? (
+                        <SelectIcon />
+                    ) : menuList[selectedIndex] ? (
+                        menuList[selectedIndex].name
+                    ) : (
+                        ''
+                    )}
                 </Button>
             </div>
             <Popper
@@ -105,7 +111,13 @@ const TopbarSelect: React.FC<TopbarSelect> = ({
                                                 onClick={() =>
                                                     handleSelectChange(index)
                                                 }>
-                                                {Icon && <Icon />}
+                                                {Icon && (
+                                                    <Icon
+                                                        style={{
+                                                            marginRight: '8px',
+                                                        }}
+                                                    />
+                                                )}
                                                 {menuItem.name}
                                             </MenuItem>
                                         );

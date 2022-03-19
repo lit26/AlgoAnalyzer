@@ -10,7 +10,5 @@
     "main": [
       "main.js"
     ]
-  },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Chart/index.tsx(41,17)\n      TS2554: Expected 3 arguments, but got 2."
+  }
 }

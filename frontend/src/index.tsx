@@ -5,6 +5,7 @@ import './index.scss';
 import { ManagerProvider } from './context/ManagerContext';
 import { BacktestProvider } from './context/BacktestContext';
 import { NotificationProvider } from './context/NotificationContext';
+import { NotesProvider } from './context/NotesContext';
 
 declare global {
     interface Window {
@@ -13,12 +14,14 @@ declare global {
 }
 
 render(
-    <NotificationProvider>
-        <ManagerProvider>
-            <BacktestProvider>
-                <App />
-            </BacktestProvider>
-        </ManagerProvider>
-    </NotificationProvider>,
+    <NotesProvider>
+        <NotificationProvider>
+            <ManagerProvider>
+                <BacktestProvider>
+                    <App />
+                </BacktestProvider>
+            </ManagerProvider>
+        </NotificationProvider>
+    </NotesProvider>,
     document.getElementById('root'),
 );

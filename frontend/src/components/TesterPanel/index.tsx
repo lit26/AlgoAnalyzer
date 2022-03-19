@@ -3,11 +3,12 @@ import './TesterPanel.scss';
 import CustomButton from '../CustomButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BacktestPanel from '../BacktestPanel';
+import NotesPanel from '../NotesPanel';
 import OptimizePanel from '../OptimizePanel';
 import SettingsModal from './SettingsModal';
 
 const TesterPanel: React.FC = () => {
-    const [curTab, setCurTab] = useState<string>('backtest');
+    const [curTab, setCurTab] = useState<string>('notes');
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
     const handleChange = (tab: string) => {
@@ -29,6 +30,10 @@ const TesterPanel: React.FC = () => {
                     text="Optimize"
                     onClick={() => handleChange('optimize')}
                 /> */}
+                <CustomButton
+                    text="Notes"
+                    onClick={() => handleChange('notes')}
+                />
                 <SettingsIcon
                     onClick={() => setSettingsOpen(true)}
                     style={{ padding: '0 6px', cursor: 'pointer' }}
@@ -41,6 +46,7 @@ const TesterPanel: React.FC = () => {
             <hr className="subDivider" />
             <div className="TesterPanel__content">
                 {curTab === 'backtest' && <BacktestPanel />}
+                {curTab === 'notes' && <NotesPanel />}
                 {curTab === 'optimize' && <OptimizePanel />}
             </div>
         </div>
