@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_URL, apiRequest } from './util';
 import { PlatformRes } from '../types/response';
+import { API_URL, apiRequest } from './util';
 
 export const getGeneralInfoRequest = () => {
     return new Promise<PlatformRes>((resolve, reject) => {

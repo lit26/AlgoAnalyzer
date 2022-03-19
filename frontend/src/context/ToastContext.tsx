@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { v4 } from 'uuid';
+
 import { ProviderProps } from '../types/provider';
 import { Toast, ToastType } from '../types/util';
-import { v4 } from 'uuid';
 
 interface ToastContextProps {
     toasts: Toast[];

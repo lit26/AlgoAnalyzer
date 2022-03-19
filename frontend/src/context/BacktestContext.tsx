@@ -1,13 +1,14 @@
-import React, { useState, useContext } from 'react';
-import { ProviderProps } from '../types/provider';
-import { BacktestRes, BokehPlotRes } from '../types/response';
+import React, { useContext, useState } from 'react';
+
+import { backtestStrategy } from '../apis/strategy';
 import { Sizer, StockDataInfo, StrategyParam } from '../types/data';
 import {
     BokehEmbedPlot,
     BokehEmbedPlotReference,
     ChartSize,
 } from '../types/plot';
-import { backtestStrategy } from '../apis/strategy';
+import { ProviderProps } from '../types/provider';
+import { BacktestRes, BokehPlotRes } from '../types/response';
 
 interface BacktestContextProps {
     defaultCash: number;

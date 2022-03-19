@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import Searchbar from '../../Searchbar';
-import './NotesNav.scss';
 import AddIcon from '@mui/icons-material/Add';
-import NoteItem from './NoteItem';
+import React, { useState } from 'react';
+
 import { useNotes } from '../../../context/NotesContext';
+import Searchbar from '../../Searchbar';
+import NoteItem from './NoteItem';
+import './NotesNav.scss';
 
 const NotesNav: React.FC = () => {
     const { notes, selectedNote } = useNotes();

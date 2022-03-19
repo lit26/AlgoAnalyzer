@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { getStockDataRequest } from '../../apis/stockData';
-import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
-import { useBacktest } from '../../context/BacktestContext';
-import { useToast } from '../../context/ToastContext';
-import { useManager } from '../../context/ManagerContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import React, { useEffect, useRef, useState } from 'react';
+
+import { getStockDataRequest } from '../../apis/stockData';
+import { useBacktest } from '../../context/BacktestContext';
+import { useManager } from '../../context/ManagerContext';
+import { useToast } from '../../context/ToastContext';
+import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
 import './Chart.scss';
 
 interface ChartProps {

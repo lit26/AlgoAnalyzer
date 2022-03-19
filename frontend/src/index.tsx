@@ -1,11 +1,12 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { render } from 'react-dom';
+
 import App from './App';
-import './index.scss';
-import { ManagerProvider } from './context/ManagerContext';
 import { BacktestProvider } from './context/BacktestContext';
-import { ToastProvider } from './context/ToastContext';
+import { ManagerProvider } from './context/ManagerContext';
 import { NotesProvider } from './context/NotesContext';
+import { ToastProvider } from './context/ToastContext';
+import './index.scss';
 
 declare global {
     interface Window {

@@ -1,8 +1,9 @@
 import React from 'react';
-import StockdataManager from './StockdataManager';
-import TimeframeSelect from './TimeframeSelect';
-import StrategyManager from './StrategyManager';
+
 import ChartSelect from './ChartSelect';
+import StockdataManager from './StockdataManager';
+import StrategyManager from './StrategyManager';
+import TimeframeSelect from './TimeframeSelect';
 import './Topbar.scss';
 
 const Topbar: React.FC = () => {

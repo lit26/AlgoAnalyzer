@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_URL, apiRequest } from './util';
 import { StockDataInfo } from '../types/data';
 import { BokehPlotRes } from '../types/response';
+import { API_URL, apiRequest } from './util';
 
 export const getStockDataRequest = (
     ticker: string,

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import './TopbarSelect.scss';
-
 import {
     Button,
     ClickAwayListener,
     Grow,
-    Paper,
-    Popper,
     MenuItem,
     MenuList,
+    Paper,
+    Popper,
     SvgIconTypeMap,
 } from '@mui/material/';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import React, { useState } from 'react';
+
+import './TopbarSelect.scss';
 
 interface TopbarSelect {
     name: string;

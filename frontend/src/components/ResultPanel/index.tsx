@@ -1,10 +1,11 @@
-import React from 'react';
-import { useBacktest } from '../../context/BacktestContext';
-import StatRow from './StatRow';
-import './ResultPanel.scss';
-import { statRowsLabels, drawdownLabels, Row } from './Row';
-import { StrategyStat, Drawdown } from '../../types/data';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import React from 'react';
+
+import { useBacktest } from '../../context/BacktestContext';
+import { Drawdown, StrategyStat } from '../../types/data';
+import './ResultPanel.scss';
+import { Row, drawdownLabels, statRowsLabels } from './Row';
+import StatRow from './StatRow';
 
 const ResultPanel: React.FC = () => {
     const { backtestRes } = useBacktest();

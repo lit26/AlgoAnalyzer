@@ -1,6 +1,7 @@
-import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
+import React from 'react';
+
 import './Searchbar.scss';
 
 interface Searchbar {

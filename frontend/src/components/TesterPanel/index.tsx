@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import './TesterPanel.scss';
-import CustomButton from '../CustomButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import React, { useState } from 'react';
+
 import BacktestPanel from '../BacktestPanel';
+import CustomButton from '../CustomButton';
 import NotesPanel from '../NotesPanel';
 import OptimizePanel from '../OptimizePanel';
 import SettingsModal from './SettingsModal';
+import './TesterPanel.scss';
 
 const TesterPanel: React.FC = () => {
     const [curTab, setCurTab] = useState<string>('notes');

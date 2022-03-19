@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import { TIMEFRAMES } from '../../../constants';
 import { useManager } from '../../../context/ManagerContext';
 import { StockDataInfo } from '../../../types/data';
 import TopbarSelect from '../TopbarSelect';
-import { TIMEFRAMES } from '../../../constants';
 
 const TimeframeSelect: React.FC = () => {
     const { currentTicker, stockDataList, setCurrentTicker } = useManager();

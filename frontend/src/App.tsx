@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+
 import './App.scss';
-import Layout from './components/Layout';
 import { getGeneralInfoRequest } from './apis/';
+import Layout from './components/Layout';
+import Toasts from './components/Toasts';
 import { useManager } from './context/ManagerContext';
 import { useToast } from './context/ToastContext';
-import Toasts from './components/Toasts';
 import { PlatformRes } from './types/response';
 
 const App: React.FC = () => {

@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import Split from 'react-split';
-import './NotesPanel.scss';
-import NotesNav from './NotesNav';
-import NoteContent from './NoteContent';
+
 import { getAllNotes } from '../../apis/notes';
 import { useNotes } from '../../context/NotesContext';
+import NoteContent from './NoteContent';
+import NotesNav from './NotesNav';
+import './NotesPanel.scss';
 
 const NotesPanel: React.FC = () => {
     const { setNotes, setSelectedNote } = useNotes();

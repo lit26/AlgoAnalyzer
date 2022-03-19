@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { StockDataInfo, Strategy, Trade, StrategyStat, Drawdown } from './data';
+import { Drawdown, StockDataInfo, Strategy, StrategyStat, Trade } from './data';
 import { BokehEmbedPlot } from './plot';
 
 export type PlatformRes = {

@@ -1,5 +1,3 @@
-import React from 'react';
-import { useBacktest } from '../../../context/BacktestContext';
 import {
     Paper,
     Table,
@@ -9,8 +7,11 @@ import {
     TableHead,
     TableRow,
 } from '@mui/material';
-import { columns } from './Column';
+import React from 'react';
+
+import { useBacktest } from '../../../context/BacktestContext';
 import { Trade } from '../../../types/data';
+import { columns } from './Column';
 
 const cellStyle = {
     backgroundColor: '#131722',

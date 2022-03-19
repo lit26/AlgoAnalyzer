@@ -1,14 +1,15 @@
-import React from 'react';
-import { StockDataInfo } from '../../../../../types/data';
-import { useManager } from '../../../../../context/ManagerContext';
-import { useToast } from '../../../../../context/ToastContext';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import React from 'react';
+
 import {
-    updateStockDataRequest,
     deleteStockDataRequest,
+    updateStockDataRequest,
 } from '../../../../../apis/stockData';
+import { useManager } from '../../../../../context/ManagerContext';
+import { useToast } from '../../../../../context/ToastContext';
+import { StockDataInfo } from '../../../../../types/data';
 
 interface StockdataItemProps {
     stockInfo: StockDataInfo;

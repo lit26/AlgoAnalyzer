@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import CustomButton from '../../CustomButton';
-import Searchbar from '../../Searchbar';
-import './StockdataManager.scss';
-import { Modal, Backdrop, MenuItem, FormControl } from '@mui/material/';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { TreeItem, TreeView } from '@mui/lab';
+import { Backdrop, FormControl, MenuItem, Modal } from '@mui/material/';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React, { useEffect, useState } from 'react';
+
+import { updateStockDataRequest } from '../../../apis/stockData';
+import { TIMEFRAMES } from '../../../constants';
 import { useManager } from '../../../context/ManagerContext';
 import { useToast } from '../../../context/ToastContext';
+import CustomButton from '../../CustomButton';
+import Searchbar from '../../Searchbar';
 import StockdataItems from './StockdataItems';
-import { TIMEFRAMES } from '../../../constants';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { updateStockDataRequest } from '../../../apis/stockData';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import './StockdataManager.scss';
 
 const StockdataManager: React.FC = () => {
     const [stockList, setStockList] = useState<string[]>([]);

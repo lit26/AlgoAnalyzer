@@ -1,7 +1,8 @@
-import React from 'react';
 import Button from '@mui/material/Button';
-import { useManager } from '../../../context/ManagerContext';
+import React from 'react';
+
 import { useBacktest } from '../../../context/BacktestContext';
+import { useManager } from '../../../context/ManagerContext';
 import { useToast } from '../../../context/ToastContext';
 import ParamItem from './ParamItem';
 import './ParamsInput.scss';

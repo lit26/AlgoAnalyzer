@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ProviderProps } from '../types/provider';
+import React, { useContext, useEffect, useState } from 'react';
+
 import { StockDataInfo, Strategy } from '../types/data';
+import { ProviderProps } from '../types/provider';
 
 interface ManagerContextProps {
     currentTicker: StockDataInfo | undefined;

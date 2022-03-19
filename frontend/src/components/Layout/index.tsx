@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import Split from 'react-split';
+
 import { useBacktest } from '../../context/BacktestContext';
-import Topbar from '../Topbar';
 import Chart from '../Chart';
 import InputPanel from '../InputPanel';
 import ResultPanel from '../ResultPanel';
 import TesterPanel from '../TesterPanel';
+import Topbar from '../Topbar';
 import './Layout.scss';
 
 const Layout: React.FC = () => {

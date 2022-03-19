@@ -1,6 +1,7 @@
-import React, { useState, useContext } from 'react';
-import { ProviderProps } from '../types/provider';
+import React, { useContext, useState } from 'react';
+
 import { Note } from '../types/data';
+import { ProviderProps } from '../types/provider';
 
 interface NotesContextProps {
     notes: Note[];

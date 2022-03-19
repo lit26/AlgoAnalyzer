@@ -1,6 +1,7 @@
 import React from 'react';
-import './NoteItem.scss';
+
 import { useNotes } from '../../../../context/NotesContext';
+import './NoteItem.scss';
 
 interface NoteItemProps {
     id: number;

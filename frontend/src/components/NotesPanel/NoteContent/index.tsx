@@ -1,10 +1,11 @@
-import React from 'react';
-import './NoteContent.scss';
-import { useNotes } from '../../../context/NotesContext';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import { updateNote, deleteNote } from '../../../apis/notes';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import React from 'react';
+
+import { deleteNote, updateNote } from '../../../apis/notes';
+import { useNotes } from '../../../context/NotesContext';
 import { Note } from '../../../types/data';
+import './NoteContent.scss';
 
 const NoteContent: React.FC = () => {
     const { selectedNote, setSelectedNote, notes, setNotes } = useNotes();

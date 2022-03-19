@@ -1,6 +1,6 @@
-import { API_URL, apiRequest } from './util';
 import { Note } from '../types/data';
 import { NoteRes } from '../types/response';
+import { API_URL, apiRequest } from './util';
 
 const formatRes = (note: NoteRes) => ({
     id: note.id,

@@ -1,7 +1,8 @@
 import React from 'react';
+
 import { useManager } from '../../context/ManagerContext';
-import ParamsInput from './ParamsInput';
 import './InputPanel.scss';
+import ParamsInput from './ParamsInput';
 
 const InputPanel: React.FC = () => {
     const { currentStrategy } = useManager();

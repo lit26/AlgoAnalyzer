@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
+
 import { useBacktest } from '../../../context/BacktestContext';
-import './Performance.scss';
 import { BokehEmbedPlotReference } from '../../../types/plot';
+import './Performance.scss';
 
 const Performance: React.FC = () => {
     const performanceChartRef = useRef<HTMLDivElement>(null);

@@ -1,7 +1,8 @@
-import React from 'react';
-import Checkbox from '@mui/material/Checkbox';
-import './ParamItem.scss';
 import { InputBase } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import React from 'react';
+
+import './ParamItem.scss';
 
 interface ParamItemProps {
     name: string;

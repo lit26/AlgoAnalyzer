@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import StockdataItem from './StockdataItem';
-import { StockDataInfo } from '../../../../types/data';
+import React, { useEffect, useState } from 'react';
+
 import { useManager } from '../../../../context/ManagerContext';
+import { StockDataInfo } from '../../../../types/data';
+import StockdataItem from './StockdataItem';
 import './StockdataItems.scss';
 
 interface StockdataItemsProps {

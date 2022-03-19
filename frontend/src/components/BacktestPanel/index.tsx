@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import Transactions from './Transactions';
-import Performance from './Performance';
-import './BacktestPanel.scss';
-import { useBacktest } from '../../context/BacktestContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import React, { useState } from 'react';
+
+import { useBacktest } from '../../context/BacktestContext';
+import './BacktestPanel.scss';
+import Performance from './Performance';
+import Transactions from './Transactions';
 
 const backtestTabs = ['Transactions', 'Performance'];
 

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import CustomButton from '../../CustomButton';
-import './StrategyManager.scss';
-import Searchbar from '../../Searchbar';
-import StrategyManagerItem from './StrategyManagerItem';
-import { Modal, Backdrop } from '@mui/material/';
+import { Backdrop, Modal } from '@mui/material/';
+import React, { useEffect, useState } from 'react';
+
+import { getStrategyParams } from '../../../apis/strategy';
 import { useManager } from '../../../context/ManagerContext';
 import { useToast } from '../../../context/ToastContext';
-import { getStrategyParams } from '../../../apis/strategy';
+import CustomButton from '../../CustomButton';
+import Searchbar from '../../Searchbar';
+import './StrategyManager.scss';
+import StrategyManagerItem from './StrategyManagerItem';
 
 const StrategyManager: React.FC = () => {
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =

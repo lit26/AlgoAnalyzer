@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
 import {
-    Modal,
     Backdrop,
-    InputBase,
     Button,
-    MenuItem,
     FormControl,
+    InputBase,
+    MenuItem,
+    Modal,
 } from '@mui/material/';
-import './SettingsModal.scss';
-import { useManager } from '../../../context/ManagerContext';
-import { useBacktest } from '../../../context/BacktestContext';
-import { useToast } from '../../../context/ToastContext';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import React, { useEffect, useState } from 'react';
+
+import { useBacktest } from '../../../context/BacktestContext';
+import { useManager } from '../../../context/ManagerContext';
+import { useToast } from '../../../context/ToastContext';
 import { Sizer } from '../../../types/data';
+import './SettingsModal.scss';
 
 interface SettingsModalProps {
     open: boolean;

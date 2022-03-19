@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useManager } from '../../../context/ManagerContext';
-import TopbarSelect from '../TopbarSelect';
 import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
+import React, { useEffect, useState } from 'react';
+
+import { useManager } from '../../../context/ManagerContext';
+import TopbarSelect from '../TopbarSelect';
 
 const chartList = [
     {
