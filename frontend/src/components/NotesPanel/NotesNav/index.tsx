@@ -1,5 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { useNotes } from '../../../context/NotesContext';
 import Searchbar from '../../Searchbar';
@@ -7,13 +7,17 @@ import NoteItem from './NoteItem';
 import './NotesNav.scss';
 
 const NotesNav: React.FC = () => {
-    const { notes, selectedNote } = useNotes();
-    const [search, setSearch] = useState<string>('');
+    const { displayNotes, selectedNote, addNewNote, search, setSearch } =
+        useNotes();
 
     const handleSearchChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
     ) => {
         setSearch(e.target.value);
+    };
+
+    const handleAddNote = () => {
+        addNewNote(false);
     };
 
     return (
@@ -25,12 +29,12 @@ const NotesNav: React.FC = () => {
                     onChange={handleSearchChange}
                 />
                 <div>
-                    <AddIcon />
+                    <AddIcon onClick={handleAddNote} />
                 </div>
             </div>
             <div className="NotesItems__wrapper">
                 <div className="NotesItems">
-                    {notes.map(note => (
+                    {displayNotes.map(note => (
                         <NoteItem
                             key={`note_${note.id}`}
                             id={note.id}

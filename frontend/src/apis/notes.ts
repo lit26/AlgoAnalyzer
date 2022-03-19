@@ -21,7 +21,7 @@ export const getAllNotes = () => {
 };
 
 export const createNote = (note: Note) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<Note>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/notes/`, 'POST', {
             ...note,
             relate_stock: note.relateStock,

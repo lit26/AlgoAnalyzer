@@ -8,13 +8,17 @@ import NotesNav from './NotesNav';
 import './NotesPanel.scss';
 
 const NotesPanel: React.FC = () => {
-    const { setNotes, setSelectedNote } = useNotes();
+    const { setNotes, setSelectedNote, addNewNote } = useNotes();
 
     useEffect(() => {
         getAllNotes()
             .then(res => {
-                setNotes(res);
-                setSelectedNote(res[0]);
+                if (res.length > 0) {
+                    setNotes(res);
+                    setSelectedNote(res[0]);
+                } else {
+                    addNewNote(true);
+                }
             })
             .catch(err => console.error(err));
     }, []);

@@ -11,6 +11,6 @@
       "main.js"
     ]
   },
-  "error": "ModuleNotFoundError",
-  "message": "Module not found: Error: Can't resolve './Toasts.scss' in '/Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Toasts'"
+  "error": "ModuleParseError",
+  "message": "Module parse failed: Unexpected token (22:46)\nFile was processed with these loaders:\n * ./node_modules/ts-loader/index.js\nYou may need an additional loader to handle the result of these loaders.\n|         }\n|         else {\n>             setDisplayNotes(notes.map(note => ));\n|         }\n|     }, [notes, search]);"
 }

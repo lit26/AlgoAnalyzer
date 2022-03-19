@@ -141,24 +141,36 @@ class StrategyView(views.APIView):
         return Response(analysis_result, status=status.HTTP_200_OK)
 
 class NotesListView(views.APIView):
+    serializer_class = NotesSerializer
+
     def get(self, request):
         notes = Notes.objects.all()
-        paginator = Paginator(notes, 3)  # 3 posts in each page
-        page = request.GET.get('page')
-        try:
-            note_list = paginator.page(page)
-        except PageNotAnInteger:
-            note_list = paginator.page(1)
-        except EmptyPage:
-            note_list = []
-        serializer = NotesSerializer(note_list, many=True)
+        # paginator = Paginator(notes, 3)  # 3 posts in each page
+        # page = request.GET.get('page')
+        # try:
+        #     note_list = paginator.page(page)
+        # except PageNotAnInteger:
+        #     note_list = paginator.page(1)
+        # except EmptyPage:
+        #     note_list = []
+        serializer = self.serializer_class(notes, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        new_note = Notes(title="Untitled Note", content="", relate_stock="", relate_strategy="")
-        new_note.save()
-        serializer = NotesSerializer(new_note)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            title = serializer.data.get("title")
+            content = serializer.data.get("content")
+            relate_stock = serializer.data.get("relate_stock")
+            relate_strategy = serializer.data.get("relate_strategy")
+            new_note = Notes(title=title, content=content, relate_stock=relate_stock, relate_strategy=relate_strategy)
+            new_note.save()
+            return Response(
+                self.serializer_class(new_note).data,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
 
 class NotesDetailView(views.APIView):
     def get_object(self, pk):

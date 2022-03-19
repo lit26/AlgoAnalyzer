@@ -2,13 +2,14 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import React from 'react';
 
-import { deleteNote, updateNote } from '../../../apis/notes';
+import { createNote, deleteNote, updateNote } from '../../../apis/notes';
 import { useNotes } from '../../../context/NotesContext';
 import { Note } from '../../../types/data';
 import './NoteContent.scss';
 
 const NoteContent: React.FC = () => {
-    const { selectedNote, setSelectedNote, notes, setNotes } = useNotes();
+    const { selectedNote, setSelectedNote, notes, setNotes, addNewNote } =
+        useNotes();
 
     const createdTime =
         selectedNote && selectedNote.createdAt
@@ -32,44 +33,51 @@ const NoteContent: React.FC = () => {
     };
 
     const handleSave = () => {
+        const updateNotes = (resNote: Note, id: number | string) => {
+            setNotes(notes.map(note => (note.id === id ? resNote : note)));
+            setSelectedNote(resNote);
+        };
         if (selectedNote) {
-            updateNote(selectedNote)
-                .then(resNote => {
-                    setNotes(
-                        notes.map(note =>
-                            note.id === resNote.id ? resNote : note,
-                        ),
-                    );
-                    setSelectedNote(resNote);
-                })
-                .catch(err => console.log(err));
+            if (typeof selectedNote.id === 'number') {
+                updateNote(selectedNote)
+                    .then(resNote => updateNotes(resNote, resNote.id))
+                    .catch(err => console.log(err));
+            } else {
+                createNote(selectedNote)
+                    .then(resNote => updateNotes(resNote, selectedNote.id))
+                    .catch(err => console.log(err));
+            }
         }
     };
 
     const handleDelete = () => {
         if (selectedNote) {
-            deleteNote(selectedNote.id)
-                .then(() => {
-                    const newNotes = notes.filter(
-                        note => note.id !== selectedNote.id,
-                    );
+            if (typeof selectedNote.id === 'number') {
+                deleteNote(selectedNote.id)
+                    .then(() => {
+                        const newNotes = notes.filter(
+                            note => note.id !== selectedNote.id,
+                        );
 
-                    if (newNotes.length === 0) {
-                        const newSelectedNote: Note = {
-                            id: -1,
-                            title: 'Untitled',
-                            content: '',
-                            relateStock: '',
-                            relateStrategy: '',
-                        };
-                        newNotes.push(newSelectedNote);
-                        setSelectedNote(newSelectedNote);
-                    } else {
-                        setSelectedNote(newNotes[0]);
-                    }
+                        if (newNotes.length === 0) {
+                            addNewNote(true);
+                        } else {
+                            setSelectedNote(newNotes[0]);
+                            setNotes(newNotes);
+                        }
+                    })
+                    .catch(err => console.log(err));
+            } else {
+                const newNotes = notes.filter(
+                    note => note.id !== selectedNote.id,
+                );
+                if (newNotes.length === 0) {
+                    addNewNote(true);
+                } else {
+                    setSelectedNote(newNotes[0]);
                     setNotes(newNotes);
-                })
-                .catch(err => console.log(err));
+                }
+            }
         }
     };
 

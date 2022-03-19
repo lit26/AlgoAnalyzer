@@ -6,9 +6,8 @@ import {
     MenuList,
     Paper,
     Popper,
-    SvgIconTypeMap,
+    SvgIcon,
 } from '@mui/material/';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
 import React, { useState } from 'react';
 
 import './TopbarSelect.scss';
@@ -19,10 +18,7 @@ interface TopbarSelect {
     handleChange: (index: number) => void;
     menuList: {
         name: string;
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        Icon?: OverridableComponent<SvgIconTypeMap<{}, 'svg'>> & {
-            muiName: string;
-        };
+        Icon?: typeof SvgIcon;
     }[];
 }
 

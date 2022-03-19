@@ -43,6 +43,9 @@
                     width: 20px;
                     height: 20px;
                 }
+                &:hover{
+                    outline: 1px solid $grayColor;
+                }
             }
         }
     }

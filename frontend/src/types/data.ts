@@ -66,7 +66,7 @@ export type Sizer = {
 };
 
 export type Note = {
-    id: number;
+    id: number | string;
     title: string;
     content: string;
     relateStock: string;

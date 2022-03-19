@@ -4,7 +4,7 @@ import { useNotes } from '../../../../context/NotesContext';
 import './NoteItem.scss';
 
 interface NoteItemProps {
-    id: number;
+    id: number | string;
     title: string;
     active: boolean;
 }
