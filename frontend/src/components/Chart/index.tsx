@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { getStockDataRequest } from '../../apis/stockData';
 import { BokehEmbedPlotReference, ChartSize } from '../../types/plot';
 import { useBacktest } from '../../context/BacktestContext';
-import { useNotification } from '../../context/NotificationContext';
+import { useToast } from '../../context/ToastContext';
 import { useManager } from '../../context/ManagerContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import './Chart.scss';
@@ -16,7 +16,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const { currentTicker, currentStrategy, chartType } = useManager();
     const { plotData, handlePlot, plotScales, runStrategy, backtestRunning } =
         useBacktest();
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                     .then(() => setLoading(false))
                     .catch(err => {
                         setLoading(false);
-                        addNotifications(err.msg, 'error');
+                        addToasts(err.msg, 'error');
                     });
             } else {
                 getStockDataRequest(
@@ -49,7 +49,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                     })
                     .catch(() => {
                         setLoading(false);
-                        addNotifications('Fail to plot chart.', 'error');
+                        addToasts('Fail to plot chart.', 'error');
                     });
             }
         }

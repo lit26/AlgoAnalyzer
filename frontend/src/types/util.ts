@@ -1,7 +1,7 @@
-export type Notification = {
+export type Toast = {
     id: string;
     msg: string;
-    notifyType: NotificationType;
+    notifyType: ToastType;
 };
 
-export type NotificationType = 'success' | 'warning' | 'error';
+export type ToastType = 'success' | 'warning' | 'error';

@@ -1,13 +1,13 @@
 $transitionTime: 0.4s;
 
-.Notifications{
+.Toasts{
     position: fixed;
     top: 10px;
     width: 300px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1301;
-    .Notification{
+    .Toast{
         box-shadow: 0 0 10px rgba(0,0,0, 0.3);
         border-radius: 10px;
         overflow: hidden;
@@ -16,10 +16,10 @@ $transitionTime: 0.4s;
         animation-fill-mode: forwards;
         background-color: #fff;
         color: black;
-        .Notification__content{
+        .Toast__content{
             padding: 10px;
         }
-        .Notificatio__bar{
+        .Toast__bar{
             height: 3px;
             &.error{
                 background-color: red;

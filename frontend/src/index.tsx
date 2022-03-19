@@ -4,7 +4,7 @@ import App from './App';
 import './index.scss';
 import { ManagerProvider } from './context/ManagerContext';
 import { BacktestProvider } from './context/BacktestContext';
-import { NotificationProvider } from './context/NotificationContext';
+import { ToastProvider } from './context/ToastContext';
 import { NotesProvider } from './context/NotesContext';
 
 declare global {
@@ -15,13 +15,13 @@ declare global {
 
 render(
     <NotesProvider>
-        <NotificationProvider>
+        <ToastProvider>
             <ManagerProvider>
                 <BacktestProvider>
                     <App />
                 </BacktestProvider>
             </ManagerProvider>
-        </NotificationProvider>
+        </ToastProvider>
     </NotesProvider>,
     document.getElementById('root'),
 );

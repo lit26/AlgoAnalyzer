@@ -1,7 +1,7 @@
 import React from 'react';
 import { StockDataInfo } from '../../../../../types/data';
 import { useManager } from '../../../../../context/ManagerContext';
-import { useNotification } from '../../../../../context/NotificationContext';
+import { useToast } from '../../../../../context/ToastContext';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -20,7 +20,7 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     handleCloseModal,
 }) => {
     const { updateStockData, deleteStockData, setCurrentTicker } = useManager();
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
 
     const handleStockSelect = () => {
         setCurrentTicker(stockInfo);
@@ -30,13 +30,13 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     const handleStockUpdate = () => {
         updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(res => updateStockData(res))
-            .catch(err => addNotifications(err.response.data.msg, 'error'));
+            .catch(err => addToasts(err.response.data.msg, 'error'));
     };
 
     const handleStockDelete = () => {
         deleteStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(() => deleteStockData(stockInfo.id))
-            .catch(err => addNotifications(err.response.data.msg, 'error'));
+            .catch(err => addToasts(err.response.data.msg, 'error'));
     };
 
     return (

@@ -10,7 +10,7 @@ import {
 import './SettingsModal.scss';
 import { useManager } from '../../../context/ManagerContext';
 import { useBacktest } from '../../../context/BacktestContext';
-import { useNotification } from '../../../context/NotificationContext';
+import { useToast } from '../../../context/ToastContext';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Sizer } from '../../../types/data';
 
@@ -26,7 +26,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
         amount: 0,
     });
 
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
     const { currentStrategy, currentTicker, chartType } = useManager();
     const {
         defaultCash,
@@ -82,7 +82,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                 curCash,
                 curSizer,
             ).catch(err => {
-                addNotifications(err.msg, 'error');
+                addToasts(err.msg, 'error');
             });
         }
     };

@@ -5,7 +5,7 @@ import Searchbar from '../../Searchbar';
 import StrategyManagerItem from './StrategyManagerItem';
 import { Modal, Backdrop } from '@mui/material/';
 import { useManager } from '../../../context/ManagerContext';
-import { useNotification } from '../../../context/NotificationContext';
+import { useToast } from '../../../context/ToastContext';
 import { getStrategyParams } from '../../../apis/strategy';
 
 const StrategyManager: React.FC = () => {
@@ -14,7 +14,7 @@ const StrategyManager: React.FC = () => {
     const [search, setSearch] = useState<string>('');
     const { strategyList, selectCurrentStrategy, updateCurrentStrategy } =
         useManager();
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
 
     useEffect(() => {
         if (!strategyManagerModalOpen) {
@@ -55,7 +55,7 @@ const StrategyManager: React.FC = () => {
                         params: res.params,
                     }),
                 )
-                .catch(err => addNotifications(err.response.data.msg, 'error'));
+                .catch(err => addToasts(err.response.data.msg, 'error'));
         }
 
         setStrategyManagerModalOpen(false);

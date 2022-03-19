@@ -10,5 +10,7 @@
     "main": [
       "main.js"
     ]
-  }
+  },
+  "error": "ModuleNotFoundError",
+  "message": "Module not found: Error: Can't resolve './Toasts.scss' in '/Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/Toasts'"
 }

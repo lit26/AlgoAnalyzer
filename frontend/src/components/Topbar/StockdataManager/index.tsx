@@ -6,7 +6,7 @@ import { Modal, Backdrop, MenuItem, FormControl } from '@mui/material/';
 import { TreeItem, TreeView } from '@mui/lab';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useManager } from '../../../context/ManagerContext';
-import { useNotification } from '../../../context/NotificationContext';
+import { useToast } from '../../../context/ToastContext';
 import StockdataItems from './StockdataItems';
 import { TIMEFRAMES } from '../../../constants';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -22,7 +22,7 @@ const StockdataManager: React.FC = () => {
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { currentTicker, stockDataList, addStockData } = useManager();
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
 
     useEffect(() => {
         if (!stockDataManagerModalOpen) {
@@ -50,13 +50,13 @@ const StockdataManager: React.FC = () => {
 
     const validateInput = (validateFull: boolean) => {
         if (search === '' && timeframe === '') {
-            addNotifications('Please add a stock and timeframe.', 'error');
+            addToasts('Please add a stock and timeframe.', 'error');
             return false;
         } else if (search === '') {
-            addNotifications('Please add a stock.', 'error');
+            addToasts('Please add a stock.', 'error');
             return false;
         } else if (validateFull && timeframe === '') {
-            addNotifications('Please select a timeframe.', 'error');
+            addToasts('Please select a timeframe.', 'error');
             return false;
         } else {
             return true;
@@ -67,9 +67,7 @@ const StockdataManager: React.FC = () => {
         if (validateInput(true)) {
             updateStockDataRequest(search, timeframe)
                 .then(res => addStockData(res))
-                .catch(() =>
-                    addNotifications('Fail to add stock data.', 'error'),
-                );
+                .catch(() => addToasts('Fail to add stock data.', 'error'));
         }
     };
 

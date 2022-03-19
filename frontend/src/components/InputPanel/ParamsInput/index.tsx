@@ -2,14 +2,14 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import { useManager } from '../../../context/ManagerContext';
 import { useBacktest } from '../../../context/BacktestContext';
-import { useNotification } from '../../../context/NotificationContext';
+import { useToast } from '../../../context/ToastContext';
 import ParamItem from './ParamItem';
 import './ParamsInput.scss';
 
 const ParamsInput: React.FC = () => {
     const { currentStrategy, setCurrentStrategy, currentTicker, chartType } =
         useManager();
-    const { addNotifications } = useNotification();
+    const { addToasts } = useToast();
     const { setBacktestRunning, runStrategy } = useBacktest();
 
     const resetParams = () => {
@@ -62,7 +62,7 @@ const ParamsInput: React.FC = () => {
             currentTicker,
             currentStrategy.params,
         ).catch(err => {
-            addNotifications(err.msg, 'error');
+            addToasts(err.msg, 'error');
         });
     };
 
