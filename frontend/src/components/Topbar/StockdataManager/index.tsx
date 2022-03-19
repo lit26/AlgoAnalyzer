@@ -23,7 +23,7 @@ const StockdataManager: React.FC = () => {
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
     const { currentTicker, stockDataList, addStockData } = useManager();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
 
     useEffect(() => {
         if (!stockDataManagerModalOpen) {
@@ -51,13 +51,13 @@ const StockdataManager: React.FC = () => {
 
     const validateInput = (validateFull: boolean) => {
         if (search === '' && timeframe === '') {
-            addToasts('Please add a stock and timeframe.', 'error');
+            addToast('Please add a stock and timeframe.', 'error');
             return false;
         } else if (search === '') {
-            addToasts('Please add a stock.', 'error');
+            addToast('Please add a stock.', 'error');
             return false;
         } else if (validateFull && timeframe === '') {
-            addToasts('Please select a timeframe.', 'error');
+            addToast('Please select a timeframe.', 'error');
             return false;
         } else {
             return true;
@@ -68,7 +68,7 @@ const StockdataManager: React.FC = () => {
         if (validateInput(true)) {
             updateStockDataRequest(search, timeframe)
                 .then(res => addStockData(res))
-                .catch(() => addToasts('Fail to add stock data.', 'error'));
+                .catch(() => addToast('Fail to add stock data.', 'error'));
         }
     };
 

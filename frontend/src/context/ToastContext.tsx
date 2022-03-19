@@ -7,8 +7,8 @@ import { Toast, ToastType } from '../types/util';
 interface ToastContextProps {
     toasts: Toast[];
     setToasts: React.Dispatch<React.SetStateAction<Toast[]>>;
-    addToasts: (msg: string, notifyType: ToastType) => void;
-    removeToasts: (deleteId: string) => void;
+    addToast: (msg: string, notifyType: ToastType) => void;
+    removeToast: (deleteId: string) => void;
 }
 
 const ToastContext = React.createContext<ToastContextProps | undefined>(
@@ -26,7 +26,7 @@ export function useToast() {
 export const ToastProvider: React.FC<ProviderProps> = ({ children }) => {
     const [toasts, setToasts] = useState<Toast[]>([]);
 
-    const addToasts = (msg: string, notifyType: ToastType) => {
+    const addToast = (msg: string, notifyType: ToastType) => {
         setToasts([
             ...toasts,
             {
@@ -37,15 +37,15 @@ export const ToastProvider: React.FC<ProviderProps> = ({ children }) => {
         ]);
     };
 
-    const removeToasts = (deleteId: string) => {
+    const removeToast = (deleteId: string) => {
         setToasts(toasts.filter(toast => toast.id !== deleteId));
     };
 
     const value = {
         toasts,
         setToasts,
-        addToasts,
-        removeToasts,
+        addToast,
+        removeToast,
     };
 
     return (

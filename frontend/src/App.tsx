@@ -10,7 +10,7 @@ import { PlatformRes } from './types/response';
 
 const App: React.FC = () => {
     const { setStockDataList, setStrategyList } = useManager();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
 
     useEffect(() => {
         getGeneralInfoRequest()
@@ -20,7 +20,7 @@ const App: React.FC = () => {
             })
             .catch(err => {
                 console.error(err);
-                addToasts('Fail to get general information', 'error');
+                addToast('Fail to get general information', 'error');
             });
     }, []);
 

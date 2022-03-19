@@ -15,7 +15,7 @@ const Toast: React.FC<ToastProps> = ({ toast }) => {
     const [width, setWidth] = useState<number>(100);
     const [exit, setExit] = useState<boolean>(false);
     const intervalRef: { current: NodeJS.Timeout | null } = useRef(null);
-    const { removeToasts } = useToast();
+    const { removeToast } = useToast();
 
     const handleCloseToast = () => {
         setExit(true);
@@ -23,7 +23,7 @@ const Toast: React.FC<ToastProps> = ({ toast }) => {
             clearInterval(intervalRef.current);
         }
         setTimeout(() => {
-            removeToasts(toast.id);
+            removeToast(toast.id);
         }, 400);
     };
 

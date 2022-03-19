@@ -17,7 +17,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
     const { currentTicker, currentStrategy, chartType } = useManager();
     const { plotData, handlePlot, plotScales, runStrategy, backtestRunning } =
         useBacktest();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -36,7 +36,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                     .then(() => setLoading(false))
                     .catch(err => {
                         setLoading(false);
-                        addToasts(err.msg, 'error');
+                        addToast(err.msg, 'error');
                     });
             } else {
                 getStockDataRequest(
@@ -50,7 +50,7 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
                     })
                     .catch(() => {
                         setLoading(false);
-                        addToasts('Fail to plot chart.', 'error');
+                        addToast('Fail to plot chart.', 'error');
                     });
             }
         }

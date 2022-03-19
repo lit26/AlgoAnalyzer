@@ -21,7 +21,7 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     handleCloseModal,
 }) => {
     const { updateStockData, deleteStockData, setCurrentTicker } = useManager();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
 
     const handleStockSelect = () => {
         setCurrentTicker(stockInfo);
@@ -31,13 +31,13 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     const handleStockUpdate = () => {
         updateStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(res => updateStockData(res))
-            .catch(err => addToasts(err.response.data.msg, 'error'));
+            .catch(err => addToast(err.response.data.msg, 'error'));
     };
 
     const handleStockDelete = () => {
         deleteStockDataRequest(stockInfo.ticker, stockInfo.timeframe)
             .then(() => deleteStockData(stockInfo.id))
-            .catch(err => addToasts(err.response.data.msg, 'error'));
+            .catch(err => addToast(err.response.data.msg, 'error'));
     };
 
     return (

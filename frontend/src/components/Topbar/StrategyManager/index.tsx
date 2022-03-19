@@ -15,7 +15,7 @@ const StrategyManager: React.FC = () => {
     const [search, setSearch] = useState<string>('');
     const { strategyList, selectCurrentStrategy, updateCurrentStrategy } =
         useManager();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
 
     useEffect(() => {
         if (!strategyManagerModalOpen) {
@@ -56,7 +56,7 @@ const StrategyManager: React.FC = () => {
                         params: res.params,
                     }),
                 )
-                .catch(err => addToasts(err.response.data.msg, 'error'));
+                .catch(err => addToast(err.response.data.msg, 'error'));
         }
 
         setStrategyManagerModalOpen(false);

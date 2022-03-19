@@ -4,12 +4,14 @@ import React from 'react';
 
 import { createNote, deleteNote, updateNote } from '../../../apis/notes';
 import { useNotes } from '../../../context/NotesContext';
+import { useToast } from '../../../context/ToastContext';
 import { Note } from '../../../types/data';
 import './NoteContent.scss';
 
 const NoteContent: React.FC = () => {
     const { selectedNote, setSelectedNote, notes, setNotes, addNewNote } =
         useNotes();
+    const { addToast } = useToast();
 
     const createdTime =
         selectedNote && selectedNote.createdAt
@@ -41,42 +43,39 @@ const NoteContent: React.FC = () => {
             if (typeof selectedNote.id === 'number') {
                 updateNote(selectedNote)
                     .then(resNote => updateNotes(resNote, resNote.id))
-                    .catch(err => console.log(err));
+                    .catch(() => addToast('Fail to update note.', 'error'));
             } else {
                 createNote(selectedNote)
                     .then(resNote => updateNotes(resNote, selectedNote.id))
-                    .catch(err => console.log(err));
+                    .catch(() => addToast('Fail to create note.', 'error'));
             }
         }
     };
 
     const handleDelete = () => {
-        if (selectedNote) {
-            if (typeof selectedNote.id === 'number') {
-                deleteNote(selectedNote.id)
-                    .then(() => {
-                        const newNotes = notes.filter(
-                            note => note.id !== selectedNote.id,
-                        );
-
-                        if (newNotes.length === 0) {
-                            addNewNote(true);
-                        } else {
-                            setSelectedNote(newNotes[0]);
-                            setNotes(newNotes);
-                        }
-                    })
-                    .catch(err => console.log(err));
-            } else {
+        const updateNotes = () => {
+            if (selectedNote) {
                 const newNotes = notes.filter(
                     note => note.id !== selectedNote.id,
                 );
+
                 if (newNotes.length === 0) {
                     addNewNote(true);
                 } else {
                     setSelectedNote(newNotes[0]);
                     setNotes(newNotes);
                 }
+            }
+        };
+        if (selectedNote) {
+            if (typeof selectedNote.id === 'number') {
+                deleteNote(selectedNote.id)
+                    .then(() => {
+                        updateNotes();
+                    })
+                    .catch(() => addToast('Fail to delete note.', 'error'));
+            } else {
+                updateNotes();
             }
         }
     };

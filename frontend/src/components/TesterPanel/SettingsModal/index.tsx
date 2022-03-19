@@ -27,7 +27,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
         amount: 0,
     });
 
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
     const { currentStrategy, currentTicker, chartType } = useManager();
     const {
         defaultCash,
@@ -83,7 +83,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                 curCash,
                 curSizer,
             ).catch(err => {
-                addToasts(err.msg, 'error');
+                addToast(err.msg, 'error');
             });
         }
     };

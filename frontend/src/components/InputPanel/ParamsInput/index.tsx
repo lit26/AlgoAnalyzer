@@ -10,7 +10,7 @@ import './ParamsInput.scss';
 const ParamsInput: React.FC = () => {
     const { currentStrategy, setCurrentStrategy, currentTicker, chartType } =
         useManager();
-    const { addToasts } = useToast();
+    const { addToast } = useToast();
     const { setBacktestRunning, runStrategy } = useBacktest();
 
     const resetParams = () => {
@@ -63,7 +63,7 @@ const ParamsInput: React.FC = () => {
             currentTicker,
             currentStrategy.params,
         ).catch(err => {
-            addToasts(err.msg, 'error');
+            addToast(err.msg, 'error');
         });
     };
 
