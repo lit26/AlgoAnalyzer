@@ -23,12 +23,25 @@ def main_view(request):
 
 class StockDataView(views.APIView):
     def get(self, request):
-        queryset = StockData.objects.all()
-        serializer = StockDataSerializer(queryset, many=True)
+        stockdata_list = StockData.objects.all()
+        stockdata_serializer = StockDataSerializer(stockdata_list, many=True)
+        saved_strategy_list = SavedStrategies.objects.all()
+        saved_strategy_serializer = SavedStrategiesSerializer(
+            saved_strategy_list, many=True
+        )
         return Response(
             {
-                "history_data": serializer.data,
+                "history_data": stockdata_serializer.data,
                 "strategies": STRATEGIES.keys(),
+                "saved_strategies": [
+                    {
+                        "id": i["id"],
+                        "ticker": i["ticker"],
+                        "timeframe": i["timeframe"],
+                        "strategy": i["strategy"],
+                    }
+                    for i in saved_strategy_serializer.data
+                ],
                 "csrf": csrf.get_token(request),
             },
             status=status.HTTP_200_OK,
