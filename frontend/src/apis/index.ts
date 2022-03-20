@@ -5,7 +5,7 @@ import { API_URL, apiRequest } from './util';
 export const getGeneralInfoRequest = () => {
     return new Promise<PlatformRes>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/data`, 'GET')
-            .then((res: any) =>
+            .then((res: any) => {
                 resolve({
                     historyData: res.history_data.map((stockDataInfo: any) => ({
                         id: stockDataInfo.id,
@@ -17,8 +17,9 @@ export const getGeneralInfoRequest = () => {
                     strategies: res.strategies.map((strategy: string) => ({
                         name: strategy,
                     })),
-                }),
-            )
+                });
+                localStorage.setItem('csrf', res.csrf);
+            })
             .catch(err => reject(err));
     });
 };

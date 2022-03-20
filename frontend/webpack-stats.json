@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/NotesPanel/NoteContent/index.tsx(57,63)\n      TS2532: Object is possibly 'undefined'."
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/apis/util.ts(14,13)\n      TS1136: Property assignment expected."
 }

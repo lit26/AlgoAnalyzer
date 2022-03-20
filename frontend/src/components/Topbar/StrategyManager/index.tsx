@@ -10,6 +10,7 @@ import './StrategyManager.scss';
 import StrategyManagerItem from './StrategyManagerItem';
 
 const StrategyManager: React.FC = () => {
+    const [strategyNav, setStrategyNav] = useState<string>('strategies');
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
@@ -93,7 +94,22 @@ const StrategyManager: React.FC = () => {
 
                     <hr className="subDivider" />
                     <div className="StrategyManagerList">
-                        <div className="StrategyManagerList__nav">nav</div>
+                        <div className="StrategyManagerList__nav">
+                            <div
+                                className={`${
+                                    strategyNav === 'strategies' ? 'active' : ''
+                                }`}
+                                onClick={() => setStrategyNav('strategies')}>
+                                Strategies
+                            </div>
+                            {/* <div
+                                className={`${
+                                    strategyNav === 'saved' ? 'active' : ''
+                                }`}
+                                onClick={() => setStrategyNav('saved')}>
+                                Saved strategies
+                            </div> */}
+                        </div>
                         <div className="StrategyManagerItems">
                             {strategyDisplayList.map((strategy, index) => (
                                 <StrategyManagerItem
