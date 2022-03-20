@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockData, Notes
+from .models import StockData, Notes, SavedStrategies
 
 INTRADAY_TIMEFRAME = [
     "1m",
@@ -27,7 +27,7 @@ class StockDataSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class SingleStockDataSerializer(serializers.ModelSerializer):
+class StockDataDetailSerializer(serializers.ModelSerializer):
     intraday = serializers.SerializerMethodField("is_intraday")
 
     class Meta:
@@ -46,15 +46,20 @@ class SingleStockDataSerializer(serializers.ModelSerializer):
         return data
 
 
+class SavedStrategiesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SavedStrategies
+        fields = "__all__"
+        extra_kwargs = {
+            "created_at": {"required": False},
+        }
+
+
 class NotesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notes
-        fields = '__all__'
+        fields = "__all__"
         extra_kwargs = {
             "created_at": {"required": False},
             "updated_at": {"required": False},
         }
-
-    def create(self, validated_data):
-        return Notes.objects.create(**validated_data)
-

@@ -1,10 +1,16 @@
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
+from django.middleware import csrf
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework import views, status
 from rest_framework.response import Response
-from .serializers import StockDataSerializer, SingleStockDataSerializer, NotesSerializer
-from .models import StockData, Notes
+from .serializers import (
+    StockDataSerializer,
+    StockDataDetailSerializer,
+    NotesSerializer,
+    SavedStrategiesSerializer,
+)
+from .models import StockData, Notes, SavedStrategies
 from .stock_data.grab_data import *
 from .manager import *
 from .plot.plot import Stockplot
@@ -20,13 +26,17 @@ class StockDataView(views.APIView):
         queryset = StockData.objects.all()
         serializer = StockDataSerializer(queryset, many=True)
         return Response(
-            {"history_data": serializer.data, "strategies": STRATEGIES.keys()},
+            {
+                "history_data": serializer.data,
+                "strategies": STRATEGIES.keys(),
+                "csrf": csrf.get_token(request),
+            },
             status=status.HTTP_200_OK,
         )
 
 
-class SingleStockDataView(views.APIView):
-    serializer_class = SingleStockDataSerializer
+class StockDataDetailView(views.APIView):
+    serializer_class = StockDataDetailSerializer
 
     def get(self, request, ticker, timeframe, plotkind):
         serializer = self.serializer_class(
@@ -140,6 +150,74 @@ class StrategyView(views.APIView):
         analysis_result["strategy"] = strategy
         return Response(analysis_result, status=status.HTTP_200_OK)
 
+
+class SavedStrategiesListView(views.APIView):
+    serializer_class = SavedStrategiesSerializer
+
+    def post(self, request):
+        params = request.data["params"]
+        request.data["parameters"] = json.dumps(params)
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+
+            ticker = serializer.data.get("ticker")
+            timeframe = serializer.data.get("timeframe")
+            strategy = serializer.data.get("strategy")
+            parameters = serializer.data.get("parameters")
+            new_strategy = SavedStrategies(
+                ticker=ticker,
+                timeframe=timeframe,
+                strategy=strategy,
+                parameters=parameters,
+            )
+            new_strategy.save()
+            new_serializer = self.serializer_class(new_strategy).data
+            new_serializer["parameters"] = json.loads(new_serializer["parameters"])
+            return Response(
+                new_serializer,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SavedStrategiesDetailView(views.APIView):
+    serializer_class = SavedStrategiesSerializer
+
+    def get_object(self, strategy_id):
+        try:
+            return SavedStrategies.objects.get(pk=strategy_id)
+        except SavedStrategies.DoesNotExist:
+            raise Http404
+
+    def get(self, request, strategy_id):
+        saved_strategy = self.get_object(strategy_id)
+        serializer = SavedStrategiesSerializer(saved_strategy)
+        serializer_data = serializer.data
+        serializer_data["parameters"] = json.loads(serializer_data["parameters"])
+        return Response(serializer_data, status=status.HTTP_200_OK)
+
+    def put(self, request, strategy_id):
+        saved_strategy = self.get_object(strategy_id)
+        params = request.data["params"]
+        request.data["parameters"] = json.dumps(params)
+        serializer = SavedStrategiesSerializer(data=request.data)
+        if serializer.is_valid() and saved_strategy:
+            saved_strategy.parameters = serializer.data.get("parameters")
+            saved_strategy.save()
+            new_serializer = self.serializer_class(saved_strategy).data
+            new_serializer["parameters"] = json.loads(new_serializer["parameters"])
+            return Response(
+                new_serializer,
+                status=status.HTTP_201_CREATED,
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, strategy_id):
+        saved_strategy = self.get_object(strategy_id)
+        saved_strategy.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class NotesListView(views.APIView):
     serializer_class = NotesSerializer
 
@@ -164,13 +242,19 @@ class NotesListView(views.APIView):
             content = serializer.data.get("content")
             relate_stock = serializer.data.get("relate_stock")
             relate_strategy = serializer.data.get("relate_strategy")
-            new_note = Notes(title=title, content=content, relate_stock=relate_stock, relate_strategy=relate_strategy)
+            new_note = Notes(
+                title=title,
+                content=content,
+                relate_stock=relate_stock,
+                relate_strategy=relate_strategy,
+            )
             new_note.save()
             return Response(
                 self.serializer_class(new_note).data,
                 status=status.HTTP_201_CREATED,
             )
         return Response({"msg": "Invalid data..."}, status=status.HTTP_400_BAD_REQUEST)
+
 
 class NotesDetailView(views.APIView):
     def get_object(self, pk):
@@ -183,10 +267,10 @@ class NotesDetailView(views.APIView):
         note = self.get_object(pk)
         serializer = NotesSerializer(data=request.data)
         if serializer.is_valid() and note:
-            note.title = serializer.data.get('title')
-            note.content = serializer.data.get('content')
-            note.relate_stock = serializer.data.get('relate_stock')
-            note.relate_strategy = serializer.data.get('relate_strategy')
+            note.title = serializer.data.get("title")
+            note.content = serializer.data.get("content")
+            note.relate_stock = serializer.data.get("relate_stock")
+            note.relate_strategy = serializer.data.get("relate_strategy")
             note.save()
             return Response(NotesSerializer(note).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -195,4 +279,3 @@ class NotesDetailView(views.APIView):
         note = self.get_object(pk)
         note.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    

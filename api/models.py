@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 
 # Create your models here.
 class StockData(models.Model):
@@ -8,13 +9,25 @@ class StockData(models.Model):
     end_time = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    last_used = models.DateTimeField()
+    last_used = models.DateTimeField(default=now)
 
     class Meta:
-        ordering = ['-last_used']
+        ordering = ["-last_used"]
 
     def __str__(self):
-        return f'{self.ticker}_{self.timeframe}'
+        return f"{self.ticker}_{self.timeframe}"
+
+
+class SavedStrategies(models.Model):
+    ticker = models.CharField(max_length=8)
+    timeframe = models.CharField(max_length=3)
+    strategy = models.TextField()
+    parameters = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
 
 class Notes(models.Model):
     title = models.CharField(max_length=100)
@@ -25,7 +38,7 @@ class Notes(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-updated_at']
-    
+        ordering = ["-updated_at"]
+
     def __str__(self):
         return self.title

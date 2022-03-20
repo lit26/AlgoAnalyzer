@@ -53,6 +53,7 @@ class StrategiesManager:
         cash=DEFAULT_CASH,
     ):
         cerebro = bt.Cerebro()
+        print(params)
 
         # add strategy
         cerebro.addstrategy(self._strategies[strategy_name], **params)
