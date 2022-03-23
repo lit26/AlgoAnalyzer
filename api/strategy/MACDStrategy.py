@@ -1,6 +1,4 @@
-from tkinter import TRUE
 import backtrader as bt
-
 
 class MACDStrategy(bt.Strategy):
     params = (

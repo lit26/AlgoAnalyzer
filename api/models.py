@@ -18,18 +18,21 @@ class StockData(models.Model):
         return f"{self.ticker}_{self.timeframe}"
 
 
-class SavedStrategies(models.Model):
-    ticker = models.CharField(max_length=8)
+class SavedStrategy(models.Model):
     timeframe = models.CharField(max_length=3)
+    name = models.CharField(max_length=100, blank=False, default="Unnamed")
     strategy = models.TextField()
     parameters = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ["-created_at"]
+    
+    def __str__(self):
+        return self.name
 
 
-class Notes(models.Model):
+class Note(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField(blank=True)
     relate_stock = models.TextField(blank=True)

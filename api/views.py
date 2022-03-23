@@ -7,10 +7,10 @@ from rest_framework.response import Response
 from .serializers import (
     StockDataSerializer,
     StockDataDetailSerializer,
-    NotesSerializer,
-    SavedStrategiesSerializer,
+    NoteSerializer,
+    SavedStrategySerializer,
 )
-from .models import StockData, Notes, SavedStrategies
+from .models import StockData, Note, SavedStrategy
 from .stock_data.grab_data import *
 from .manager import *
 from .plot.plot import Stockplot
@@ -25,8 +25,8 @@ class StockDataView(views.APIView):
     def get(self, request):
         stockdata_list = StockData.objects.all()
         stockdata_serializer = StockDataSerializer(stockdata_list, many=True)
-        saved_strategy_list = SavedStrategies.objects.all()
-        saved_strategy_serializer = SavedStrategiesSerializer(
+        saved_strategy_list = SavedStrategy.objects.all()
+        saved_strategy_serializer = SavedStrategySerializer(
             saved_strategy_list, many=True
         )
         return Response(
@@ -36,7 +36,7 @@ class StockDataView(views.APIView):
                 "saved_strategies": [
                     {
                         "id": i["id"],
-                        "ticker": i["ticker"],
+                        "name": i["name"],
                         "timeframe": i["timeframe"],
                         "strategy": i["strategy"],
                     }
@@ -165,20 +165,19 @@ class StrategyView(views.APIView):
 
 
 class SavedStrategiesListView(views.APIView):
-    serializer_class = SavedStrategiesSerializer
+    serializer_class = SavedStrategySerializer
 
     def post(self, request):
         params = request.data["params"]
         request.data["parameters"] = json.dumps(params)
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-
-            ticker = serializer.data.get("ticker")
+            name = serializer.data.get("name")
             timeframe = serializer.data.get("timeframe")
             strategy = serializer.data.get("strategy")
             parameters = serializer.data.get("parameters")
-            new_strategy = SavedStrategies(
-                ticker=ticker,
+            new_strategy = SavedStrategy(
+                name=name,
                 timeframe=timeframe,
                 strategy=strategy,
                 parameters=parameters,
@@ -194,17 +193,17 @@ class SavedStrategiesListView(views.APIView):
 
 
 class SavedStrategiesDetailView(views.APIView):
-    serializer_class = SavedStrategiesSerializer
+    serializer_class = SavedStrategySerializer
 
     def get_object(self, strategy_id):
         try:
-            return SavedStrategies.objects.get(pk=strategy_id)
-        except SavedStrategies.DoesNotExist:
+            return SavedStrategy.objects.get(pk=strategy_id)
+        except SavedStrategy.DoesNotExist:
             raise Http404
 
     def get(self, request, strategy_id):
         saved_strategy = self.get_object(strategy_id)
-        serializer = SavedStrategiesSerializer(saved_strategy)
+        serializer = SavedStrategySerializer(saved_strategy)
         serializer_data = serializer.data
         serializer_data["parameters"] = json.loads(serializer_data["parameters"])
         return Response(serializer_data, status=status.HTTP_200_OK)
@@ -213,7 +212,7 @@ class SavedStrategiesDetailView(views.APIView):
         saved_strategy = self.get_object(strategy_id)
         params = request.data["params"]
         request.data["parameters"] = json.dumps(params)
-        serializer = SavedStrategiesSerializer(data=request.data)
+        serializer = SavedStrategySerializer(data=request.data)
         if serializer.is_valid() and saved_strategy:
             saved_strategy.parameters = serializer.data.get("parameters")
             saved_strategy.save()
@@ -232,10 +231,10 @@ class SavedStrategiesDetailView(views.APIView):
 
 
 class NotesListView(views.APIView):
-    serializer_class = NotesSerializer
+    serializer_class = NoteSerializer
 
     def get(self, request):
-        notes = Notes.objects.all()
+        notes = Note.objects.all()
         # paginator = Paginator(notes, 3)  # 3 posts in each page
         # page = request.GET.get('page')
         # try:
@@ -255,7 +254,7 @@ class NotesListView(views.APIView):
             content = serializer.data.get("content")
             relate_stock = serializer.data.get("relate_stock")
             relate_strategy = serializer.data.get("relate_strategy")
-            new_note = Notes(
+            new_note = Note(
                 title=title,
                 content=content,
                 relate_stock=relate_stock,
@@ -272,20 +271,20 @@ class NotesListView(views.APIView):
 class NotesDetailView(views.APIView):
     def get_object(self, pk):
         try:
-            return Notes.objects.get(pk=pk)
-        except Notes.DoesNotExist:
+            return Note.objects.get(pk=pk)
+        except Note.DoesNotExist:
             raise Http404
 
     def put(self, request, pk):
         note = self.get_object(pk)
-        serializer = NotesSerializer(data=request.data)
+        serializer = NoteSerializer(data=request.data)
         if serializer.is_valid() and note:
             note.title = serializer.data.get("title")
             note.content = serializer.data.get("content")
             note.relate_stock = serializer.data.get("relate_stock")
             note.relate_strategy = serializer.data.get("relate_strategy")
             note.save()
-            return Response(NotesSerializer(note).data, status=status.HTTP_200_OK)
+            return Response(NoteSerializer(note).data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):

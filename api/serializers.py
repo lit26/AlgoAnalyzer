@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import StockData, Notes, SavedStrategies
+from .models import StockData, Note, SavedStrategy
 
 INTRADAY_TIMEFRAME = [
     "1m",
@@ -46,18 +46,18 @@ class StockDataDetailSerializer(serializers.ModelSerializer):
         return data
 
 
-class SavedStrategiesSerializer(serializers.ModelSerializer):
+class SavedStrategySerializer(serializers.ModelSerializer):
     class Meta:
-        model = SavedStrategies
+        model = SavedStrategy
         fields = "__all__"
         extra_kwargs = {
             "created_at": {"required": False},
         }
 
 
-class NotesSerializer(serializers.ModelSerializer):
+class NoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Notes
+        model = Note
         fields = "__all__"
         extra_kwargs = {
             "created_at": {"required": False},
