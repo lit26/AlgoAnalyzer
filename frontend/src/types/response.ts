@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Drawdown, StockDataInfo, Strategy, StrategyStat, Trade } from './data';
+import {
+    Drawdown,
+    StockDataInfo,
+    Strategy,
+    StrategyParam,
+    StrategyStat,
+    Trade,
+} from './data';
 import { BokehEmbedPlot } from './plot';
 
 export type PlatformRes = {
     historyData: StockDataInfo[];
     strategies: Strategy[];
+    savedStrategies: Strategy[];
 };
 
 export type BacktestRes = {
@@ -31,4 +39,12 @@ export type NoteRes = {
     relate_strategy: string;
     created_at?: string;
     updated_at?: string;
+};
+
+export type SavedStrategyRes = {
+    id: number;
+    timeframe: string;
+    name: string;
+    strategy: string;
+    parameters: StrategyParam[];
 };

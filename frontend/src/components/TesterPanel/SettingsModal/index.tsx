@@ -112,7 +112,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                     {/* initial cash */}
                     <div className="SettingsRow">
                         <div className="SettingsRow__label">Initial cash</div>
-                        <div className="SettingsRow__sizer">
+                        <div className="SettingsRow__input">
                             <InputBase
                                 type="number"
                                 value={curCash}
@@ -123,7 +123,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                     {/* sizer */}
                     <div className="SettingsRow">
                         <div className="SettingsRow__label">Sizer</div>
-                        <div className="SettingsRow__sizer">
+                        <div className="SettingsRow__input">
                             <InputBase
                                 type="number"
                                 value={curSizer.amount}

@@ -1,9 +1,14 @@
 import { Backdrop, Modal } from '@mui/material/';
 import React, { useEffect, useState } from 'react';
 
-import { getStrategyParams } from '../../../apis/strategy';
+import {
+    deleteSavedStrategyParams,
+    getSavedStrategyParams,
+    getStrategyParams,
+} from '../../../apis/strategy';
 import { useManager } from '../../../context/ManagerContext';
 import { useToast } from '../../../context/ToastContext';
+import { Strategy } from '../../../types/data';
 import CustomButton from '../../CustomButton';
 import Searchbar from '../../Searchbar';
 import './StrategyManager.scss';
@@ -14,8 +19,12 @@ const StrategyManager: React.FC = () => {
     const [strategyManagerModalOpen, setStrategyManagerModalOpen] =
         useState<boolean>(false);
     const [search, setSearch] = useState<string>('');
-    const { strategyList, selectCurrentStrategy, updateCurrentStrategy } =
-        useManager();
+    const {
+        strategyList,
+        savedStrategyList,
+        updateCurrentStrategy,
+        deleteSavedStrategy,
+    } = useManager();
     const { addToast } = useToast();
 
     useEffect(() => {
@@ -24,16 +33,15 @@ const StrategyManager: React.FC = () => {
         }
     }, [strategyManagerModalOpen]);
 
+    const chooseStrategyList =
+        strategyNav === 'strategies' ? strategyList : savedStrategyList;
+
     const strategyDisplayList =
         search !== ''
-            ? strategyList.filter(strategy =>
+            ? chooseStrategyList.filter(strategy =>
                   strategy.name.toLowerCase().includes(search.toLowerCase()),
               )
-            : strategyList;
-
-    const handleCloseStrategyManager = () => {
-        setStrategyManagerModalOpen(false);
-    };
+            : chooseStrategyList;
 
     const handleSearchChange = (
         e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -41,26 +49,37 @@ const StrategyManager: React.FC = () => {
         setSearch(e.target.value);
     };
 
-    const handleSelectStrategy = (selectStrategyName: string) => {
-        // check strategy params exist
-        const selectStrategy = strategyList.find(
-            strategy => strategy.name === selectStrategyName,
-        );
-        if (selectStrategy?.params) {
-            selectCurrentStrategy(selectStrategy);
-        } else {
-            getStrategyParams(selectStrategyName)
+    const handleSelectStrategy = (selectStrategy: Strategy) => {
+        if (!selectStrategy.id) {
+            getStrategyParams(selectStrategy.name)
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .then((res: any) =>
                     updateCurrentStrategy({
-                        name: selectStrategyName,
+                        ...selectStrategy,
                         params: res.params,
                     }),
                 )
                 .catch(err => addToast(err.response.data.msg, 'error'));
+        } else {
+            getSavedStrategyParams(selectStrategy.id)
+                .then(res => {
+                    updateCurrentStrategy({
+                        ...selectStrategy,
+                        params: res.params,
+                    });
+                })
+                .catch(err => addToast(err.response.data.msg, 'error'));
         }
 
         setStrategyManagerModalOpen(false);
+    };
+
+    const handleDelete = (selectStrategyId?: number) => {
+        if (selectStrategyId) {
+            deleteSavedStrategyParams(selectStrategyId)
+                .then(() => deleteSavedStrategy(selectStrategyId))
+                .catch(() => addToast('Fail to delete strategy.', 'error'));
+        }
     };
 
     return (
@@ -72,7 +91,7 @@ const StrategyManager: React.FC = () => {
 
             <Modal
                 open={strategyManagerModalOpen}
-                onClose={handleCloseStrategyManager}
+                onClose={() => setStrategyManagerModalOpen(false)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
                 closeAfterTransition
@@ -102,20 +121,21 @@ const StrategyManager: React.FC = () => {
                                 onClick={() => setStrategyNav('strategies')}>
                                 Strategies
                             </div>
-                            {/* <div
+                            <div
                                 className={`${
                                     strategyNav === 'saved' ? 'active' : ''
                                 }`}
                                 onClick={() => setStrategyNav('saved')}>
                                 Saved strategies
-                            </div> */}
+                            </div>
                         </div>
                         <div className="StrategyManagerItems">
                             {strategyDisplayList.map((strategy, index) => (
                                 <StrategyManagerItem
                                     key={`strategyDisplay_${index}`}
-                                    strategy={strategy.name}
+                                    strategy={strategy}
                                     selectStrategy={handleSelectStrategy}
+                                    handleDelete={handleDelete}
                                 />
                             ))}
                         </div>

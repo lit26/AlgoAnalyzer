@@ -16,12 +16,15 @@ interface ManagerContextProps {
     setStockDataList: React.Dispatch<React.SetStateAction<StockDataInfo[]>>;
     strategyList: Strategy[];
     setStrategyList: React.Dispatch<React.SetStateAction<Strategy[]>>;
+    savedStrategyList: Strategy[];
+    setSavedStrategyList: React.Dispatch<React.SetStateAction<Strategy[]>>;
     addStockData: (stockData: StockDataInfo) => void;
     updateStockData: (updateData: StockDataInfo) => void;
     deleteStockData: (deleteStockDataId: number) => void;
     deleteMultipleStockData: (deleteStockDataIds: number[]) => void;
     selectCurrentStrategy: (selectStrategy: Strategy) => void;
     updateCurrentStrategy: (selectStrategy: Strategy) => void;
+    deleteSavedStrategy: (selectStrategyId: number) => void;
 }
 
 const ManagerContext = React.createContext<ManagerContextProps | undefined>(
@@ -46,6 +49,7 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
     const [chartType, setChartType] = useState<string>('candlestick');
     const [stockDataList, setStockDataList] = useState<StockDataInfo[]>([]);
     const [strategyList, setStrategyList] = useState<Strategy[]>([]);
+    const [savedStrategyList, setSavedStrategyList] = useState<Strategy[]>([]);
 
     // save manager strategy input information
     useEffect(() => {
@@ -90,6 +94,7 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
             setStockDataList([stockData, ...stockDataList]);
         }
     };
+
     const updateStockData = (updateData: StockDataInfo) => {
         setStockDataList(
             stockDataList.map(stockData =>
@@ -118,24 +123,45 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
     const selectCurrentStrategy = (selectStrategy: Strategy) => {
         if (selectStrategy.params) {
             setCurrentStrategy({
+                ...selectStrategy,
                 name: selectStrategy.name,
                 params: selectStrategy.params.map(param => ({
                     ...param,
-                    current: param.default,
+                    current: param.current ? param.current : param.default,
                 })),
             });
         }
     };
 
     const updateCurrentStrategy = (selectStrategy: Strategy) => {
+        if (!selectStrategy.id) {
+            setStrategyList(
+                strategyList.map(strategy =>
+                    strategy.name === selectStrategy.name
+                        ? selectStrategy
+                        : strategy,
+                ),
+            );
+        } else {
+            setSavedStrategyList(
+                savedStrategyList.map(strategy =>
+                    strategy.id === selectStrategy.id
+                        ? selectStrategy
+                        : strategy,
+                ),
+            );
+        }
         selectCurrentStrategy(selectStrategy);
-        setStrategyList(
-            strategyList.map(strategy =>
-                strategy.name === selectStrategy.name
-                    ? selectStrategy
-                    : strategy,
-            ),
+    };
+
+    const deleteSavedStrategy = (selectStrategyId: number) => {
+        const newSavedStrategyList = savedStrategyList.filter(
+            strategy => strategy.id !== selectStrategyId,
         );
+        if (currentStrategy.id && currentStrategy.id === selectStrategyId) {
+            setCurrentStrategy({ name: '' });
+        }
+        setSavedStrategyList(newSavedStrategyList);
     };
 
     const value = {
@@ -149,12 +175,15 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
         setStockDataList,
         strategyList,
         setStrategyList,
+        savedStrategyList,
+        setSavedStrategyList,
         addStockData,
         updateStockData,
         deleteStockData,
         deleteMultipleStockData,
         selectCurrentStrategy,
         updateCurrentStrategy,
+        deleteSavedStrategy,
     };
 
     return (

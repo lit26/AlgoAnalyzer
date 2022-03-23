@@ -1,9 +1,70 @@
-import { Sizer } from '../types/data';
-import { BacktestRes } from '../types/response';
+import { Sizer, Strategy } from '../types/data';
+import { BacktestRes, SavedStrategyRes } from '../types/response';
 import { API_URL, apiRequest } from './util';
 
 export const getStrategyParams = (strategy: string) => {
     return apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'GET');
+};
+
+export const getSavedStrategyParams = (strategyId: number) => {
+    return new Promise<Strategy>((resolve, reject) => {
+        apiRequest(`${API_URL}/api/v1/savedstrategy/${strategyId}`, 'GET')
+            .then((res: SavedStrategyRes) =>
+                resolve({
+                    id: res.id,
+                    display: res.name,
+                    timeframe: res.timeframe,
+                    name: res.strategy,
+                    params: res.parameters,
+                }),
+            )
+            .catch(err => reject(err));
+    });
+};
+
+export const saveSavedStrategyParams = (strategy: Strategy) => {
+    return new Promise<Strategy>((resolve, reject) => {
+        apiRequest(
+            `${API_URL}/api/v1/savedstrategy/${strategy.id}`,
+            'POST',
+            strategy,
+        )
+            .then((res: SavedStrategyRes) =>
+                resolve({
+                    id: res.id,
+                    timeframe: res.timeframe,
+                    name: res.strategy,
+                    params: res.parameters,
+                }),
+            )
+            .catch(err => reject(err));
+    });
+};
+
+export const updateSavedStrategyParams = (strategy: Strategy) => {
+    return new Promise<Strategy>((resolve, reject) => {
+        apiRequest(
+            `${API_URL}/api/v1/savedstrategy/${strategy.id}`,
+            'PUT',
+            strategy,
+        )
+            .then((res: SavedStrategyRes) =>
+                resolve({
+                    id: res.id,
+                    timeframe: res.timeframe,
+                    name: res.strategy,
+                    params: res.parameters,
+                }),
+            )
+            .catch(err => reject(err));
+    });
+};
+
+export const deleteSavedStrategyParams = (strategyId: number) => {
+    return apiRequest(
+        `${API_URL}/api/v1/savedstrategy/${strategyId}`,
+        'DELETE',
+    );
 };
 
 export const backtestStrategy = (

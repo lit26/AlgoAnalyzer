@@ -1,0 +1,35 @@
+@import '../../../util';
+
+.SaveStrategy{
+    max-width: 400px !important;
+    max-height: 300px !important;
+    display: flex;
+    flex-direction: column;
+    .SaveStrategy__info{
+        padding: 1rem;
+        flex-grow: 1;
+        overflow-y: auto;
+    }
+    .SaveStrategy__Row{
+        display: flex;
+        flex-wrap: wrap;
+        input[type="text"], input[type='number']{
+            margin: 9px 11px 9px 0px;
+            padding: 5px;
+            color: $textColor;
+            border-radius: 4px;
+            border: 1px solid $textColor;
+        }
+        .SaveStrategy__label{
+            flex: 0.3;
+            min-width: 90px;
+            line-height: 53px;
+        }
+        .SaveStrategy__input{
+            flex: 0.7;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+}

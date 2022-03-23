@@ -12,6 +12,9 @@ export type Timeframe = {
 };
 
 export type Strategy = {
+    id?: number;
+    timeframe?: string;
+    display?: string;
     name: string;
     params?: StrategyParam[];
 };

@@ -9,7 +9,8 @@ import { useToast } from './context/ToastContext';
 import { PlatformRes } from './types/response';
 
 const App: React.FC = () => {
-    const { setStockDataList, setStrategyList } = useManager();
+    const { setStockDataList, setStrategyList, setSavedStrategyList } =
+        useManager();
     const { addToast } = useToast();
 
     useEffect(() => {
@@ -17,6 +18,7 @@ const App: React.FC = () => {
             .then((res: PlatformRes) => {
                 setStockDataList(res.historyData);
                 setStrategyList(res.strategies);
+                setSavedStrategyList(res.savedStrategies);
             })
             .catch(err => {
                 console.error(err);

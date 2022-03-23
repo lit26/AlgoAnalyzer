@@ -10,7 +10,5 @@
     "main": [
       "main.js"
     ]
-  },
-  "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/apis/util.ts(14,13)\n      TS1136: Property assignment expected."
+  }
 }
