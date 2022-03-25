@@ -9,7 +9,7 @@ import SettingsModal from './SettingsModal';
 import './TesterPanel.scss';
 
 const TesterPanel: React.FC = () => {
-    const [curTab, setCurTab] = useState<string>('notes');
+    const [curTab, setCurTab] = useState<string>('backtest');
     const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
     const handleChange = (tab: string) => {

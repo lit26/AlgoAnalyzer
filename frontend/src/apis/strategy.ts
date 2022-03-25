@@ -6,56 +6,52 @@ export const getStrategyParams = (strategy: string) => {
     return apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'GET');
 };
 
+const formatRes = (res: SavedStrategyRes) => {
+    return {
+        id: res.id,
+        display: res.name,
+        timeframe: res.timeframe,
+        name: res.strategy,
+        params: res.parameters,
+    };
+};
+
 export const getSavedStrategyParams = (strategyId: number) => {
     return new Promise<Strategy>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/savedstrategy/${strategyId}`, 'GET')
-            .then((res: SavedStrategyRes) =>
-                resolve({
-                    id: res.id,
-                    display: res.name,
-                    timeframe: res.timeframe,
-                    name: res.strategy,
-                    params: res.parameters,
-                }),
-            )
+            .then((res: SavedStrategyRes) => resolve(formatRes(res)))
             .catch(err => reject(err));
     });
 };
 
-export const saveSavedStrategyParams = (strategy: Strategy) => {
+export const saveSavedStrategyParams = (
+    strategy: Strategy,
+    timeframe: string,
+) => {
     return new Promise<Strategy>((resolve, reject) => {
-        apiRequest(
-            `${API_URL}/api/v1/savedstrategy/${strategy.id}`,
-            'POST',
-            strategy,
-        )
-            .then((res: SavedStrategyRes) =>
-                resolve({
-                    id: res.id,
-                    timeframe: res.timeframe,
-                    name: res.strategy,
-                    params: res.parameters,
-                }),
-            )
+        apiRequest(`${API_URL}/api/v1/savedstrategy`, 'POST', {
+            strategy: strategy.name,
+            timeframe,
+            name: strategy.display,
+            params: strategy.params,
+        })
+            .then((res: SavedStrategyRes) => resolve(formatRes(res)))
             .catch(err => reject(err));
     });
 };
 
-export const updateSavedStrategyParams = (strategy: Strategy) => {
+export const updateSavedStrategyParams = (
+    strategy: Strategy,
+    timeframe: string,
+) => {
     return new Promise<Strategy>((resolve, reject) => {
-        apiRequest(
-            `${API_URL}/api/v1/savedstrategy/${strategy.id}`,
-            'PUT',
-            strategy,
-        )
-            .then((res: SavedStrategyRes) =>
-                resolve({
-                    id: res.id,
-                    timeframe: res.timeframe,
-                    name: res.strategy,
-                    params: res.parameters,
-                }),
-            )
+        apiRequest(`${API_URL}/api/v1/savedstrategy/${strategy.id}`, 'PUT', {
+            strategy: strategy.name,
+            timeframe,
+            name: strategy.display,
+            params: strategy.params,
+        })
+            .then((res: SavedStrategyRes) => resolve(formatRes(res)))
             .catch(err => reject(err));
     });
 };

@@ -6,7 +6,6 @@ export const getGeneralInfoRequest = () => {
     return new Promise<PlatformRes>((resolve, reject) => {
         apiRequest(`${API_URL}/api/v1/data`, 'GET')
             .then((res: any) => {
-                console.log(res.sa);
                 resolve({
                     historyData: res.history_data.map((stockDataInfo: any) => ({
                         id: stockDataInfo.id,

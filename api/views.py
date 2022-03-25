@@ -214,6 +214,8 @@ class SavedStrategiesDetailView(views.APIView):
         request.data["parameters"] = json.dumps(params)
         serializer = SavedStrategySerializer(data=request.data)
         if serializer.is_valid() and saved_strategy:
+            saved_strategy.name = serializer.data.get("name")
+            saved_strategy.timeframe = serializer.data.get("timeframe")
             saved_strategy.parameters = serializer.data.get("parameters")
             saved_strategy.save()
             new_serializer = self.serializer_class(saved_strategy).data

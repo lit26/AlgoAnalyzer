@@ -24,6 +24,8 @@ interface ManagerContextProps {
     deleteMultipleStockData: (deleteStockDataIds: number[]) => void;
     selectCurrentStrategy: (selectStrategy: Strategy) => void;
     updateCurrentStrategy: (selectStrategy: Strategy) => void;
+    addSavedStrategy: (strategy: Strategy) => void;
+    updateSavedStrategy: (strategy: Strategy) => void;
     deleteSavedStrategy: (selectStrategyId: number) => void;
 }
 
@@ -154,6 +156,20 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
         selectCurrentStrategy(selectStrategy);
     };
 
+    const addSavedStrategy = (strategy: Strategy) => {
+        setSavedStrategyList([...savedStrategyList, strategy]);
+        setCurrentStrategy(strategy);
+    };
+
+    const updateSavedStrategy = (newStrategy: Strategy) => {
+        setSavedStrategyList(
+            savedStrategyList.map(strategy =>
+                strategy.id === newStrategy.id ? newStrategy : strategy,
+            ),
+        );
+        setCurrentStrategy(newStrategy);
+    };
+
     const deleteSavedStrategy = (selectStrategyId: number) => {
         const newSavedStrategyList = savedStrategyList.filter(
             strategy => strategy.id !== selectStrategyId,
@@ -183,6 +199,8 @@ export const ManagerProvider: React.FC<ProviderProps> = ({ children }) => {
         deleteMultipleStockData,
         selectCurrentStrategy,
         updateCurrentStrategy,
+        addSavedStrategy,
+        updateSavedStrategy,
         deleteSavedStrategy,
     };
 
