@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     Drawdown,
+    Sizer,
     StockDataInfo,
     Strategy,
     StrategyParam,
@@ -13,6 +14,10 @@ export type PlatformRes = {
     historyData: StockDataInfo[];
     strategies: Strategy[];
     savedStrategies: Strategy[];
+    settings: {
+        cash: number;
+        sizer: Sizer;
+    };
 };
 
 export type BacktestRes = {

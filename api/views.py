@@ -13,6 +13,7 @@ from .serializers import (
 from .models import StockData, Note, SavedStrategy
 from .stock_data.grab_data import *
 from .manager import *
+from .config import *
 from .plot.plot import Stockplot
 import json
 
@@ -42,6 +43,13 @@ class StockDataView(views.APIView):
                     }
                     for i in saved_strategy_serializer.data
                 ],
+                "settings": {
+                    "cash": DEFAULT_CASH,
+                    "sizer": {
+                        "type": DEFAULT_SIZER,
+                        "amount": DEFAULT_SIZER_AMOUNT,
+                    },
+                },
                 "csrf": csrf.get_token(request),
             },
             status=status.HTTP_200_OK,

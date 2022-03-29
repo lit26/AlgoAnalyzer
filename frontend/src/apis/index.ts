@@ -25,6 +25,7 @@ export const getGeneralInfoRequest = () => {
                             name: strategy.strategy,
                         }),
                     ),
+                    settings: res.settings,
                 });
                 localStorage.setItem('csrf', res.csrf);
             })

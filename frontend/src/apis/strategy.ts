@@ -6,15 +6,20 @@ export const getStrategyParams = (strategy: string) => {
     return apiRequest(`${API_URL}/api/v1/strategy/${strategy}`, 'GET');
 };
 
-const formatRes = (res: SavedStrategyRes) => {
-    return {
-        id: res.id,
-        display: res.name,
-        timeframe: res.timeframe,
-        name: res.strategy,
-        params: res.parameters,
-    };
-};
+const formatReq = (strategy: Strategy, timeframe: string) => ({
+    strategy: strategy.name,
+    timeframe,
+    name: strategy.display,
+    params: strategy.params,
+});
+
+const formatRes = (res: SavedStrategyRes) => ({
+    id: res.id,
+    display: res.name,
+    timeframe: res.timeframe,
+    name: res.strategy,
+    params: res.parameters,
+});
 
 export const getSavedStrategyParams = (strategyId: number) => {
     return new Promise<Strategy>((resolve, reject) => {
@@ -29,12 +34,11 @@ export const saveSavedStrategyParams = (
     timeframe: string,
 ) => {
     return new Promise<Strategy>((resolve, reject) => {
-        apiRequest(`${API_URL}/api/v1/savedstrategy`, 'POST', {
-            strategy: strategy.name,
-            timeframe,
-            name: strategy.display,
-            params: strategy.params,
-        })
+        apiRequest(
+            `${API_URL}/api/v1/savedstrategy`,
+            'POST',
+            formatReq(strategy, timeframe),
+        )
             .then((res: SavedStrategyRes) => resolve(formatRes(res)))
             .catch(err => reject(err));
     });
@@ -45,12 +49,11 @@ export const updateSavedStrategyParams = (
     timeframe: string,
 ) => {
     return new Promise<Strategy>((resolve, reject) => {
-        apiRequest(`${API_URL}/api/v1/savedstrategy/${strategy.id}`, 'PUT', {
-            strategy: strategy.name,
-            timeframe,
-            name: strategy.display,
-            params: strategy.params,
-        })
+        apiRequest(
+            `${API_URL}/api/v1/savedstrategy/${strategy.id}`,
+            'PUT',
+            formatReq(strategy, timeframe),
+        )
             .then((res: SavedStrategyRes) => resolve(formatRes(res)))
             .catch(err => reject(err));
     });

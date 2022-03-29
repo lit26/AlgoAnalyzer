@@ -1,17 +1,8 @@
 import backtrader as bt
 import backtrader.analyzers as btanalyzers
-from .strategy.MaCrossStrategy import MaCrossStrategy
-from .strategy.MACDStrategy import MACDStrategy
 from .analysis.trades import Trades
 from .analysis.result import *
-
-DEFAULT_CASH = 1000000
-DEFAULT_SIZER_AMOUNT = 10
-
-STRATEGIES = {
-    "MA Cross Strategy": MaCrossStrategy,
-    "MACD Strategy": MACDStrategy,
-}
+from .config import *
 
 BASE_STOCK_DATA = "api/stock_data/data"
 
@@ -48,12 +39,11 @@ class StrategiesManager:
         timeframe,
         plotkind,
         params,
-        sizer,
+        sizer=DEFAULT_SIZER,
         sizer_amount=DEFAULT_SIZER_AMOUNT,
         cash=DEFAULT_CASH,
     ):
         cerebro = bt.Cerebro()
-        print(params)
 
         # add strategy
         cerebro.addstrategy(self._strategies[strategy_name], **params)

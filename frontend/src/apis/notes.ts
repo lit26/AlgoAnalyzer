@@ -14,7 +14,7 @@ const formatRes = (note: NoteRes) => ({
 
 export const getAllNotes = () => {
     return new Promise<Note[]>((resolve, reject) => {
-        apiRequest(`${API_URL}/api/v1/notes/?page=1`, 'GET')
+        apiRequest(`${API_URL}/api/v1/notes/`, 'GET')
             .then((res: NoteRes[]) => resolve(res.map(note => formatRes(note))))
             .catch(err => reject(err));
     });

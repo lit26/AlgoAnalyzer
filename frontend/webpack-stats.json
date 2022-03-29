@@ -12,5 +12,5 @@
     ]
   },
   "error": "unknown-error",
-  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/components/InputPanel/SaveStrategy/index.tsx(19,9)\n      TS2339: Property 'updateSavedStrategy' does not exist on type 'ManagerContextProps'."
+  "message": "[tsl] ERROR in /Users/tianningli/Documents/GitHub/AlgoAnalyzer/frontend/src/apis/index.ts(20,63)\n      TS7006: Parameter 'strategy' implicitly has an 'any' type."
 }

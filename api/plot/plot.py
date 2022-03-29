@@ -17,6 +17,7 @@ from .util import (
     _AUTOSCALE_JS_CALLBACK,
     _POSITION_AUTOSCALE_JS_CALLBACK,
 )
+from ..config import UP_COLOR, DOWN_COLOR
 
 
 INDEX_COL = "index1"
@@ -163,13 +164,13 @@ class Stockplot:
             )
 
             t1 = p.vbar(
-                fill_color="green",
-                line_color="green",
+                fill_color=UP_COLOR,
+                line_color=UP_COLOR,
                 view=self._view_inc,
                 **vbar_options,
             )
             t2 = p.vbar(
-                fill_color="red", line_color="red", view=self._view_dec, **vbar_options
+                fill_color=DOWN_COLOR, line_color=DOWN_COLOR, view=self._view_dec, **vbar_options
             )
 
             p.add_tools(
@@ -250,10 +251,10 @@ class Stockplot:
         )
 
         t1 = p.vbar(
-            fill_color="green", line_color="green", view=self._view_inc, **vbar_options
+            fill_color=UP_COLOR, line_color=UP_COLOR, view=self._view_inc, **vbar_options
         )
         t2 = p.vbar(
-            fill_color="red", line_color="red", view=self._view_dec, **vbar_options
+            fill_color=DOWN_COLOR, line_color=DOWN_COLOR, view=self._view_dec, **vbar_options
         )
 
         ind_tooltip = self._add_mainplot(p)

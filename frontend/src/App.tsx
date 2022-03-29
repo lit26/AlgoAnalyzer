@@ -4,6 +4,7 @@ import './App.scss';
 import { getGeneralInfoRequest } from './apis/';
 import Layout from './components/Layout';
 import Toasts from './components/Toasts';
+import { useBacktest } from './context/BacktestContext';
 import { useManager } from './context/ManagerContext';
 import { useToast } from './context/ToastContext';
 import { PlatformRes } from './types/response';
@@ -11,6 +12,7 @@ import { PlatformRes } from './types/response';
 const App: React.FC = () => {
     const { setStockDataList, setStrategyList, setSavedStrategyList } =
         useManager();
+    const { setDefaultCash, setDefaultSizer } = useBacktest();
     const { addToast } = useToast();
 
     useEffect(() => {
@@ -19,6 +21,8 @@ const App: React.FC = () => {
                 setStockDataList(res.historyData);
                 setStrategyList(res.strategies);
                 setSavedStrategyList(res.savedStrategies);
+                setDefaultCash(res.settings.cash);
+                setDefaultSizer(res.settings.sizer);
             })
             .catch(err => {
                 console.error(err);
