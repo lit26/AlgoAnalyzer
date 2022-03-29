@@ -105,14 +105,16 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
             BackdropProps={{
                 timeout: 500,
             }}>
-            <div className="AlgoModal Settings">
+            <div className="AlgoModal Settings flex flex-col">
                 <h1>Trade settings</h1>
                 <hr />
-                <div className="Settings__settings">
+                <div className="Settings__settings flex-grow-1">
                     {/* initial cash */}
-                    <div className="SettingsRow">
-                        <div className="SettingsRow__label">Initial cash</div>
-                        <div className="SettingsRow__input">
+                    <div className="SettingsRow flex flex-wrap">
+                        <div className="SettingsRow__label flex-30p">
+                            Initial cash
+                        </div>
+                        <div className="SettingsRow__input flex flex-70p items-center flex-wrap">
                             <InputBase
                                 type="number"
                                 value={curCash}
@@ -121,9 +123,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                         </div>
                     </div>
                     {/* sizer */}
-                    <div className="SettingsRow">
-                        <div className="SettingsRow__label">Sizer</div>
-                        <div className="SettingsRow__input">
+                    <div className="SettingsRow flex flex-wrap overflow-y-auto">
+                        <div className="SettingsRow__label flex-30p">Sizer</div>
+                        <div className="SettingsRow__input flex flex-70p items-center flex-wrap">
                             <InputBase
                                 type="number"
                                 value={curSizer.amount}
@@ -153,7 +155,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, handleClose }) => {
                         </div>
                     </div>
                 </div>
-                <div className="Settings__action">
+                <div className="Settings__action flex justify-end">
                     <Button
                         size="small"
                         variant="outlined"

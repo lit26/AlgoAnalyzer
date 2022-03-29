@@ -47,7 +47,7 @@ const Toast: React.FC<ToastProps> = ({ toast }) => {
     }, [width]);
 
     return (
-        <div className={`Toast ${exit ? 'exit' : ''}`}>
+        <div className={`Toast overflow-hidden ${exit ? 'exit' : ''}`}>
             <div className="Toast__content">
                 <p>{toast.msg}</p>
             </div>

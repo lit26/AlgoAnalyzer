@@ -12,7 +12,7 @@ const isFloat = (n: number) => (typeof n === 'number' ? n % 1 !== 0 : false);
 
 const StatRow: React.FC<StatRowProps> = ({ label, num, pct }) => {
     return (
-        <div className="StatRow">
+        <div className="StatRow flex justify-between items-center">
             <div>{label}</div>
             <div>
                 {num ? (isFloat(num) ? num.toFixed(2) : num) : '0'}

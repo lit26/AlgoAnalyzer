@@ -1,12 +1,3 @@
-.ParamsInput__inputs{
-    flex-grow: 1;
+.ParamsInput__inputs, .ParamsInput__buttons{
     padding: 6px 8px;
-    overflow-y: auto;
-}
-
-.ParamsInput__buttons{
-    padding: 6px 8px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
 }

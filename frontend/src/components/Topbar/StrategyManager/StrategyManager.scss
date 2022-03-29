@@ -1,21 +1,10 @@
 @import "../../../util";
 
 .StrategyManager{
-    display: flex;
-    flex-direction: column;
     .StrategyManager__input{
-        display: flex;
-        align-items: center;
         padding: 1rem;
-        justify-content: space-between;
-    }
-    .StrategyManagerList{
-        display: flex;
-        flex-grow: 1;
-        position: relative;
     }
     .StrategyManagerList__nav{
-        flex: 0.3;
         padding: 5px;
         border-right: 1px solid $grayColor;
         div{
@@ -23,22 +12,16 @@
             margin-top: 0.1rem;
             margin-bottom: 0.1rem;
             cursor: pointer;
-            &:hover{
-                background-color: $thirdColor;
-            }
-            &.active{
+            &:hover, &.active{
                 background-color: $thirdColor;
             }
         }
     }
     .StrategyManagerItems{
-        flex: 0.7;
         padding: 5px;
-        position: absolute;
         top: 0;
         left: calc(30% + 7px);
         bottom: 7px;
         right: 0px;
-        overflow-y: auto;
     }
 }

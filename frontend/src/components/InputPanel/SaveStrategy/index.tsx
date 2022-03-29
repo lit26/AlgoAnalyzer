@@ -92,14 +92,16 @@ const SaveStrategy: React.FC = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}>
-                <div className="AlgoModal SaveStrategy">
+                <div className="AlgoModal SaveStrategy flex flex-col">
                     <h1>Save strategy</h1>
                     <hr />
-                    <div className="SaveStrategy__info">
+                    <div className="SaveStrategy__info flex-grow-1 overflow-y-auto">
                         {/* Display name */}
-                        <div className="SaveStrategy__Row">
-                            <div className="SaveStrategy__label">Name</div>
-                            <div className="SaveStrategy__input">
+                        <div className="SaveStrategy__Row flex flex-wrap">
+                            <div className="SaveStrategy__label flex-30p">
+                                Name
+                            </div>
+                            <div className="SaveStrategy__input flex flex-70p items-center flex-wrap">
                                 <InputBase
                                     type="text"
                                     value={saveStrategyName}
@@ -108,9 +110,11 @@ const SaveStrategy: React.FC = () => {
                             </div>
                         </div>
                         {/* Timeframe */}
-                        <div className="SaveStrategy__Row">
-                            <div className="SaveStrategy__label">Timeframe</div>
-                            <div className="SaveStrategy__input">
+                        <div className="SaveStrategy__Row flex flex-wrap">
+                            <div className="SaveStrategy__label flex-30p">
+                                Timeframe
+                            </div>
+                            <div className="SaveStrategy__input flex flex-70p items-center flex-wrap">
                                 <InputBase
                                     type="text"
                                     value={saveStrategyTimeframe}
@@ -119,9 +123,9 @@ const SaveStrategy: React.FC = () => {
                             </div>
                         </div>
                         {/* Strategy */}
-                        <div className="SaveStrategy__Row">
+                        <div className="SaveStrategy__Row flex">
                             <div className="SaveStrategy__label">Strategy</div>
-                            <div className="SaveStrategy__input">
+                            <div className="SaveStrategy__input flex items-center">
                                 <InputBase
                                     type="text"
                                     value={currentStrategy.name}
@@ -129,7 +133,7 @@ const SaveStrategy: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="Settings__action">
+                    <div className="Settings__action flex justify-end">
                         {currentStrategy.id && (
                             <Button
                                 size="small"

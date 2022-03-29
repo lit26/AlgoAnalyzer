@@ -10,7 +10,6 @@ $transitionTime: 0.4s;
     .Toast{
         box-shadow: 0 0 10px rgba(0,0,0, 0.3);
         border-radius: 10px;
-        overflow: hidden;
         margin-bottom: 10px;
         animation: SlideDown $transitionTime;
         animation-fill-mode: forwards;

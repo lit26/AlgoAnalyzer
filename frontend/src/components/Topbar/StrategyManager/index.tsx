@@ -99,11 +99,11 @@ const StrategyManager: React.FC = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}>
-                <div className="AlgoModal StrategyManager">
+                <div className="AlgoModal StrategyManager flex flex-col">
                     <h1>Strategies</h1>
                     <hr />
                     {/* Search bar */}
-                    <div className="StrategyManager__input">
+                    <div className="StrategyManager__input flex justify-center items-center">
                         <Searchbar
                             search={search}
                             onChange={handleSearchChange}
@@ -112,8 +112,8 @@ const StrategyManager: React.FC = () => {
                     </div>
 
                     <hr className="subDivider" />
-                    <div className="StrategyManagerList">
-                        <div className="StrategyManagerList__nav">
+                    <div className="StrategyManagerList flex flex-grow-1 relative">
+                        <div className="StrategyManagerList__nav flex-30p">
                             <div
                                 className={`${
                                     strategyNav === 'strategies' ? 'active' : ''
@@ -129,7 +129,7 @@ const StrategyManager: React.FC = () => {
                                 Saved strategies
                             </div>
                         </div>
-                        <div className="StrategyManagerItems">
+                        <div className="StrategyManagerItems flex-70p absolute overflow-y-auto">
                             {strategyDisplayList.map((strategy, index) => (
                                 <StrategyManagerItem
                                     key={`strategyDisplay_${index}`}

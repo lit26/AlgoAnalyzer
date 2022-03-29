@@ -21,19 +21,22 @@ const NotesNav: React.FC = () => {
     };
 
     return (
-        <div className="NotesNav">
-            <div className="NotesNav__search">
+        <div className="NotesNav flex flex-col">
+            <div className="NotesNav__search flex justify-center items-center">
                 <Searchbar
                     search={search}
                     placeholder="Search"
                     onChange={handleSearchChange}
                 />
                 <div>
-                    <AddIcon onClick={handleAddNote} />
+                    <AddIcon
+                        onClick={handleAddNote}
+                        className="cursor-pointer"
+                    />
                 </div>
             </div>
-            <div className="NotesItems__wrapper">
-                <div className="NotesItems">
+            <div className="NotesItems__wrapper flex-1 relative">
+                <div className="NotesItems absolute overflow-y-auto">
                     {displayNotes.map(note => (
                         <NoteItem
                             key={`note_${note.id}`}

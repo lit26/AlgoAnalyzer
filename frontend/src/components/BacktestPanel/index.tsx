@@ -15,12 +15,12 @@ const BacktestPanel: React.FC = () => {
     const { backtestRes, backtestRunning } = useBacktest();
 
     return (
-        <div className="BacktestPanel">
-            <div className="BacktestPanel__header">
+        <div className="BacktestPanel flex flex-col flex-1">
+            <div className="BacktestPanel__header flex justify-end items-center">
                 {backtestTabs.map((backtestTab, index) => (
                     <div
                         key={`backtestTab__${index}`}
-                        className={`BacktestPanel__nav ${
+                        className={`BacktestPanel__nav cursor-pointer ${
                             curBacktestTab === backtestTab ? 'active' : ''
                         }`}
                         onClick={() => setCurBacktestTab(backtestTab)}>
@@ -28,7 +28,7 @@ const BacktestPanel: React.FC = () => {
                     </div>
                 ))}
             </div>
-            <div className="BacktestPanel__content">
+            <div className="BacktestPanel__content flex flex-col flex-1">
                 {backtestRes && !backtestRunning ? (
                     <>
                         {curBacktestTab === 'Transactions' && <Transactions />}
@@ -37,7 +37,7 @@ const BacktestPanel: React.FC = () => {
                 ) : (
                     <div className="placeholder">
                         {backtestRunning ? (
-                            <div className="BacktestPanel__running">
+                            <div className="BacktestPanel__running flex items-center">
                                 <CircularProgress
                                     style={{
                                         width: '26px',

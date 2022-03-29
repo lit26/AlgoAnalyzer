@@ -5,3 +5,66 @@
     background-color: $primaryColor;
     color: $textColor;
 }
+
+.flex{
+    display: flex;
+}
+
+.flex-col{
+    flex-direction: column;
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+.flex-30p{
+    flex: 0.3;
+}
+.flex-70p{
+    flex: 0.7;
+}
+
+.flex-1{
+    flex: 1
+}
+
+.flex-grow-1{
+    flex-grow: 1;
+}
+
+.justify-center{
+    justify-content: center;
+}
+.justify-between{
+    justify-content: space-between;
+}
+.justify-end{
+    justify-content: flex-end;
+}
+
+.items-center{
+    align-items: center;
+}
+
+.cursor-pointer{
+    cursor: pointer;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.relative{
+    position: relative;
+}
+.overflow-hidden{
+    overflow: hidden;
+}
+.overflow-y-auto{
+    overflow-y: auto;
+}
+
+.rounded{
+    border-radius: 0.25rem
+}

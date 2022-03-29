@@ -41,7 +41,7 @@ const StockdataItem: React.FC<StockdataItemProps> = ({
     };
 
     return (
-        <div className="StockdataItems__item">
+        <div className="StockdataItems__item flex justify-between items-center cursor-pointer">
             <div>{stockInfo.timeframe}</div>
             <div>{`${stockInfo.startTime} - ${stockInfo.endTime}`}</div>
             <div className="StockdataItems__itemActions">

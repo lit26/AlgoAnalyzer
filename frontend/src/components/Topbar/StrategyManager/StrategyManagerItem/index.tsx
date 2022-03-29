@@ -18,7 +18,7 @@ const StrategyManagerItem: React.FC<StrategyManagerItemProps> = ({
     const saved = strategy.id ? true : false;
 
     return (
-        <div className="StrategyManagerItem">
+        <div className="StrategyManagerItem flex justify-between items-center cursor-pointer">
             <div
                 className="StrategyManagerItem__content"
                 onClick={() => selectStrategy(strategy)}>
