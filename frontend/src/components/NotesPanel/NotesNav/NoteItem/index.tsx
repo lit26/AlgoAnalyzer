@@ -14,7 +14,7 @@ const NoteItem: React.FC<NoteItemProps> = ({ id, title, active }) => {
 
     return (
         <div
-            className={`NoteItem ${active ? 'active' : ''}`}
+            className={`NoteItem cursor-pointer ${active ? 'active' : ''}`}
             onClick={() => clickHandler(id)}>
             {title}
         </div>

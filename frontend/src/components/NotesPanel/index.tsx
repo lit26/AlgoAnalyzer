@@ -25,7 +25,7 @@ const NotesPanel: React.FC = () => {
 
     return (
         <Split
-            className="NotesPanel"
+            className="NotesPanel flex flex-grow-1"
             sizes={[20, 80]}
             // minSize={[300, 200]}
             expandToMin={false}

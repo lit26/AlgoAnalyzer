@@ -1,19 +1,8 @@
 @import "../../util";
 
-.TesterPanel{
-    display: flex;
-    flex-direction: column;
-}
 .TesterPanel__header{
-    display: flex;
-    align-items: center;
     svg{
         fill: $secondaryTextColor;
         height: 20px;
     }
-}
-.TesterPanel__content{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
 }

@@ -9,8 +9,8 @@ const InputPanel: React.FC = () => {
     const { currentStrategy } = useManager();
 
     return (
-        <div className="InputPanel">
-            <div className="InputPanel__header">
+        <div className="InputPanel flex flex-col">
+            <div className="InputPanel__header flex justify-between items-center">
                 <h3>Inputs</h3>
                 {currentStrategy.name !== '' && <SaveStrategy />}
             </div>

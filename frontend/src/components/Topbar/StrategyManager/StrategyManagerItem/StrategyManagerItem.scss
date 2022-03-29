@@ -1,14 +1,10 @@
 @import '../../../../util';
 
 .StrategyManagerItem{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding: 0px 16px;
     border-bottom: 1px solid $grayColor;
     margin-top: 0.1rem;
     margin-bottom: 0.1rem;
-    cursor: pointer;
     &:hover{
         background-color: $thirdColor;
     }

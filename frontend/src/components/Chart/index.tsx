@@ -97,13 +97,13 @@ const Chart: React.FC<ChartProps> = ({ chartSize }) => {
             <div id="BokehPlot" ref={chartRef}></div>
             {loading && (
                 <div
-                    className="Chart__loadingWrapper"
+                    className="Chart__loadingWrapper absolute"
                     style={{
                         width: chartSize?.width,
                         height: chartSize?.height,
                         backgroundColor: plotData && '#00000033',
                     }}>
-                    <div className="Chart__loading">
+                    <div className="Chart__loading flex justify-center items-center">
                         <CircularProgress
                             style={{
                                 width: '26px',

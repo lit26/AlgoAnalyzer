@@ -70,7 +70,7 @@ const ParamsInput: React.FC = () => {
     return (
         <>
             {/* Params input */}
-            <div className="ParamsInput__inputs">
+            <div className="ParamsInput__inputs flex-grow-1 overflow-y-auto">
                 {currentStrategy.params &&
                     currentStrategy.params.map((param, index) => (
                         <ParamItem
@@ -86,7 +86,7 @@ const ParamsInput: React.FC = () => {
             <hr className="subDivider" />
 
             {/* Change buttons */}
-            <div className="ParamsInput__buttons">
+            <div className="ParamsInput__buttons flex justify-between items-center">
                 <Button size="small" variant="outlined" onClick={resetParams}>
                     Default
                 </Button>

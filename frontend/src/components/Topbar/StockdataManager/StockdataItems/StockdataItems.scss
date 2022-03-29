@@ -1,12 +1,8 @@
 @import "../../../../util";
 
 .StockdataItems__item{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 8px;
     padding: 0.25rem;
-    cursor: pointer;
     div{
         flex:0.3;
     }

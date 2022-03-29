@@ -105,7 +105,7 @@ const StockdataManager: React.FC = () => {
                     <h1>Stock data</h1>
                     <hr />
                     {/* Search bar */}
-                    <div className="StockdataManager__input">
+                    <div className="StockdataManager__input flex justify-between items-center">
                         <Searchbar
                             search={search}
                             onChange={handleSearchChange}
@@ -145,7 +145,7 @@ const StockdataManager: React.FC = () => {
                         <div>
                             <AddCircleOutlineIcon
                                 onClick={handleAddTicker}
-                                className="StockdataManager__stockIcon"
+                                className="StockdataManager__stockIcon cursor-pointer"
                             />
                             <HighlightOffIcon
                                 onClick={() => setSearch('')}
@@ -155,7 +155,7 @@ const StockdataManager: React.FC = () => {
                     </div>
                     <hr className="subDivider" />
                     {/* Stock data */}
-                    <div className="StockdataManager__stockData">
+                    <div className="StockdataManager__stockData overflow-y-auto">
                         <TreeView
                             aria-label="file system navigator"
                             defaultCollapseIcon={<ExpandMoreIcon />}

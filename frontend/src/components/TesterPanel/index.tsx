@@ -21,8 +21,8 @@ const TesterPanel: React.FC = () => {
     };
 
     return (
-        <div className="TesterPanel">
-            <div className="TesterPanel__header">
+        <div className="TesterPanel flex flex-col">
+            <div className="TesterPanel__header flex items-center">
                 <CustomButton
                     text="Backtest"
                     onClick={() => handleChange('backtest')}
@@ -45,7 +45,7 @@ const TesterPanel: React.FC = () => {
                 />
             </div>
             <hr className="subDivider" />
-            <div className="TesterPanel__content">
+            <div className="TesterPanel__content flex flex-col flex-1">
                 {curTab === 'backtest' && <BacktestPanel />}
                 {curTab === 'notes' && <NotesPanel />}
                 {curTab === 'optimize' && <OptimizePanel />}

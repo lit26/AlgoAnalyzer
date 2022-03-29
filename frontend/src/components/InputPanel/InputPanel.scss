@@ -1,16 +1,5 @@
 .InputPanel{
-    display: flex;
-    flex-direction: column;
     .InputPanel__header{
         padding: 6px 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .InputPanel__placeholder{
-        flex-grow: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 }

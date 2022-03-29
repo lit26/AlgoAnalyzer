@@ -81,11 +81,11 @@ const NoteContent: React.FC = () => {
     };
 
     return (
-        <div className="NoteContent">
+        <div className="NoteContent flex flex-col">
             {selectedNote && (
                 <>
-                    <div className="NoteContent__infoWrapper">
-                        <div className="NoteContent__info">
+                    <div className="NoteContent__infoWrapper flex justify-between items-center">
+                        <div className="NoteContent__info overflow-hidden">
                             <input
                                 className="NoteContent__title"
                                 name="title"
@@ -96,11 +96,11 @@ const NoteContent: React.FC = () => {
                                 <div className="NoteContent__infoTime">{`Created: ${createdTime}. Updated: ${updatedTime}`}</div>
                             )}
                         </div>
-                        <div className="NoteContent__icons">
-                            <div className="NoteContent__icon">
+                        <div className="NoteContent__icons flex">
+                            <div className="NoteContent__icon flex justify-center items-center cursor-pointer">
                                 <SaveOutlinedIcon onClick={handleSave} />
                             </div>
-                            <div className="NoteContent__icon">
+                            <div className="NoteContent__icon flex justify-center items-center cursor-pointer">
                                 <DeleteOutlineOutlinedIcon
                                     onClick={handleDelete}
                                 />
@@ -109,7 +109,7 @@ const NoteContent: React.FC = () => {
                     </div>
                     <hr className="subDivider" />
                     <textarea
-                        className="NoteContent__content"
+                        className="NoteContent__content flex-grow-1"
                         name="content"
                         value={selectedNote.content}
                         onChange={handleChange}

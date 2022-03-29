@@ -54,7 +54,7 @@ const Layout: React.FC = () => {
         <div>
             <Topbar />
             <Split
-                className="Layout__cols"
+                className="Layout__cols flex"
                 gutterSize={5}
                 sizes={[70, 30]}
                 minSize={[220, 200]}

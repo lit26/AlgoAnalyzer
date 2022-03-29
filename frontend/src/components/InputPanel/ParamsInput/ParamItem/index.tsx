@@ -28,9 +28,9 @@ const ParamItem: React.FC<ParamItemProps> = ({
     };
 
     return (
-        <div className="ParamItem">
+        <div className="ParamItem flex justify-between items-center">
             <div>{name}</div>
-            <div className="ParamItem__input">
+            <div className="ParamItem__input flex justify-end">
                 {typeof value === 'boolean' && (
                     <Checkbox checked={value} onChange={handleNumberChange} />
                 )}

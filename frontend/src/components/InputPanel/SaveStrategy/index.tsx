@@ -74,6 +74,23 @@ const SaveStrategy: React.FC = () => {
             .catch(err => console.log(err));
     };
 
+    const inputs = [
+        {
+            name: 'Name',
+            value: saveStrategyName,
+            onChange: handleSaveStrategyName,
+        },
+        {
+            name: 'Timeframe',
+            value: saveStrategyTimeframe,
+            onChange: handleSaveStrategyTimeframe,
+        },
+        {
+            name: 'Strategy',
+            value: currentStrategy.name,
+        },
+    ];
+
     return (
         <>
             <Button
@@ -92,44 +109,28 @@ const SaveStrategy: React.FC = () => {
                 BackdropProps={{
                     timeout: 500,
                 }}>
-                <div className="AlgoModal SaveStrategy">
+                <div className="AlgoModal SaveStrategy flex flex-col">
                     <h1>Save strategy</h1>
                     <hr />
-                    <div className="SaveStrategy__info">
-                        {/* Display name */}
-                        <div className="SaveStrategy__Row">
-                            <div className="SaveStrategy__label">Name</div>
-                            <div className="SaveStrategy__input">
-                                <InputBase
-                                    type="text"
-                                    value={saveStrategyName}
-                                    onChange={handleSaveStrategyName}
-                                />
+                    <div className="SaveStrategy__info flex-grow-1 overflow-y-auto">
+                        {inputs.map(input => (
+                            <div
+                                key={`inputs_${input.name}`}
+                                className="SaveStrategy__Row flex flex-wrap">
+                                <div className="SaveStrategy__label flex-30p">
+                                    {input.name}
+                                </div>
+                                <div className="SaveStrategy__input flex flex-70p items-center flex-wrap">
+                                    <InputBase
+                                        type="text"
+                                        value={input.value}
+                                        onChange={input.onChange}
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        {/* Timeframe */}
-                        <div className="SaveStrategy__Row">
-                            <div className="SaveStrategy__label">Timeframe</div>
-                            <div className="SaveStrategy__input">
-                                <InputBase
-                                    type="text"
-                                    value={saveStrategyTimeframe}
-                                    onChange={handleSaveStrategyTimeframe}
-                                />
-                            </div>
-                        </div>
-                        {/* Strategy */}
-                        <div className="SaveStrategy__Row">
-                            <div className="SaveStrategy__label">Strategy</div>
-                            <div className="SaveStrategy__input">
-                                <InputBase
-                                    type="text"
-                                    value={currentStrategy.name}
-                                />
-                            </div>
-                        </div>
+                        ))}
                     </div>
-                    <div className="Settings__action">
+                    <div className="Settings__action flex justify-end">
                         {currentStrategy.id && (
                             <Button
                                 size="small"

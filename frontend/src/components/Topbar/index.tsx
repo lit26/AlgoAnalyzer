@@ -8,7 +8,7 @@ import './Topbar.scss';
 
 const Topbar: React.FC = () => {
     return (
-        <div className="Topbar">
+        <div className="Topbar flex">
             <StockdataManager />
             <TimeframeSelect />
             <StrategyManager />

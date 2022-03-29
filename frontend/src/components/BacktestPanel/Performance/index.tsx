@@ -47,7 +47,12 @@ const Performance: React.FC = () => {
             }
         }
     }, [portfolioPlotData, chartSize]);
-    return <div id="BokehPerformancePlot" ref={performanceChartRef}></div>;
+    return (
+        <div
+            id="BokehPerformancePlot"
+            className="relative"
+            ref={performanceChartRef}></div>
+    );
 };
 
 export default Performance;

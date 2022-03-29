@@ -1,21 +1,16 @@
 @import '../../../util';
 
 .StockdataManager__input{
-    display: flex;
-    align-items: center;
     padding: 1rem;
-    justify-content: space-between;
 }
 .TimeframeSelect{
     color: $textColor !important;
 }
 .StockdataManager__stockData{
     height: 71%;
-    overflow-y: auto;
     margin: 5px;
 }
 .StockdataManager__stockIcon:hover{
-    cursor: pointer;
     color: $grayColor !important;
 }
 

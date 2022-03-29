@@ -14,7 +14,7 @@ interface Searchbar {
 
 const Searchbar: React.FC<Searchbar> = ({ search, onChange, placeholder }) => {
     return (
-        <div className="Searchbar">
+        <div className="Searchbar flex flex-1 items-center">
             <div className="Searchbar__iconWrapper">
                 <SearchIcon />
             </div>

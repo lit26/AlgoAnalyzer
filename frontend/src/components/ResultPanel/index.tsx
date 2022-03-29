@@ -36,13 +36,13 @@ const ResultPanel: React.FC = () => {
         : [];
 
     return (
-        <div className="ResultPanel">
+        <div className="ResultPanel overflow-y-auto">
             {backtestRes && (
                 <>
                     {/* basic info */}
                     <h3>{backtestRes.strategy}</h3>
                     {/* stat */}
-                    <div className="ResultPanel__row">
+                    <div className="ResultPanel__row flex items-center">
                         <div>{backtestRes.ticker}</div>
                         <FiberManualRecordIcon style={{ fontSize: '0.5rem' }} />
                         <div>{backtestRes.timeframe}</div>

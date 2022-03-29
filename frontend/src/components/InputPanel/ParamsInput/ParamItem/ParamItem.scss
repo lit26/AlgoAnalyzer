@@ -1,18 +1,15 @@
 @import "../../../../util";
 
 .ParamItem{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
     .ParamItem__input{
         width:85px;
     }
     input[type="text"], input[type='number']{
         width: 55px;
-        margin: 9px 11px;
-        padding: 3px;
+        margin: 9px 0px 9px 11px;
+        padding: 5px;
         color: $textColor;
-        border-radius: 4px;
+        border-radius: 0.25rem;
         border: 1px solid $textColor;
     }
     .css-i4bv87-MuiSvgIcon-root{
