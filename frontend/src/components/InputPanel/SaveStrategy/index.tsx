@@ -43,6 +43,10 @@ const SaveStrategy: React.FC = () => {
     };
 
     const handleSaveStrategy = () => {
+        if (saveStrategyName === '') {
+            addToast('Strategy name cannot be empty.', 'error');
+            return;
+        }
         saveSavedStrategyParams(
             {
                 ...currentStrategy,
@@ -59,6 +63,10 @@ const SaveStrategy: React.FC = () => {
     };
 
     const handleUpdateStrategy = () => {
+        if (saveStrategyName === '') {
+            addToast('Strategy name cannot be empty.', 'error');
+            return;
+        }
         updateSavedStrategyParams(
             {
                 ...currentStrategy,
