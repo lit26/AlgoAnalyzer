@@ -16,6 +16,7 @@ from .manager import *
 from .config import *
 from .plot.plot import Stockplot
 import json
+from datetime import datetime
 
 # Create your views here.
 def main_view(request):
@@ -166,6 +167,12 @@ class StrategyView(views.APIView):
             sizer["amount"],
             cash,
         )
+        queryset = StockData.objects.filter(ticker=ticker, timeframe=timeframe)
+        if queryset.exists():
+            single_stock_data = queryset[0]
+            single_stock_data.last_used = datetime.now()
+            single_stock_data.save()
+
         analysis_result["ticker"] = ticker
         analysis_result["timeframe"] = timeframe
         analysis_result["strategy"] = strategy
